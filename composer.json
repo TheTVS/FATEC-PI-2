@@ -1,0 +1,12 @@
+{
+    "Name":"/xampp/htdocs/2Pi-Fatec-Itatiba",
+    "autoload":{
+        "psr-4":{
+            "App\\":"app/"
+        }
+    },
+    
+    "require": {
+        "dompdf/dompdf": "*"
+    }
+}

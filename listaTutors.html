@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resource/styles/admin.css">
+    <script type="module" src="resource/scripts/Javascript/tutor.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <button onclick="window.location.href = `admin.php?user='root'&senha='root0101'`" class="btn">Voltar</button>
+        <section id="section">
+            <div>
+                <h2>Consulta responsáveis</h2>
+                
+                <input type="text" name="" id="searchBar" placeholder="Informe o CPF">
+                <button id="search" onclick="buscaTutor()" class="btn">Pesquisar</button>
+            </div>
+            <table>
+                <thead>
+                    <td>Cod.</td>
+                    <td onclick="ordenaTutor('tutorNome')">Nome</td>
+                    <td onclick="ordenaTutor('tutorCPF')">CPF</td>
+                    <td onclick="ordenaTutor('tutorRG')">RG</td>
+                    <td onclick="ordenaTutor('tutorEmail1')">Email</td>
+                    <td onclick="ordenaTutor('tutorTel1')">Telefone</td>
+                </thead>
+                <tbody id="list">
+    
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

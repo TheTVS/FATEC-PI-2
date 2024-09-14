@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resource/styles/admin.css">
+    <script type="module" src="resource/scripts/Javascript/insc.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <button onclick="window.location.href = `admin.php?user='root'&senha='root0101'`" class="btn">Voltar</button>
+        <section id="section" data-value="0">
+            <div>
+                <h2>Consulta inscrições</h2>
+            </div>
+            <table>
+                <thead>
+                    <td>Cod.</td>
+                    <td onclick="ordenaInsc('insc_campId')">Campista</td>
+                    <td onclick="ordenaInsc('insc_tutorCPF')">Tutor</td>
+                    <td onclick="ordenaInsc('inscData')">Data da inscrição</td>
+                    <td onclick="ordenaInsc('inscPagamento')">Pagamento</td>
+                </thead>
+                <tbody id="list">
+    
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

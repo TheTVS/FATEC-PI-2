@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resource/styles/admin.css">
+    <script type="module" src="resource/scripts/Javascript/camps.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <button onclick="window.location.href = `admin.php?user='root'&senha='root0101'`" class="btn">Voltar</button>
+        <section id="section">
+            <div>
+                <h2>Consulta campistas</h2>
+                
+                <input type="text" name="" id="searchBar" placeholder="Informe apenas o primeiro nome">
+                <button id="search" onclick="buscaCamp()" class="btn">Pesquisar</button>
+            </div>
+            <table>
+                <thead>
+                    <td>Cod.</td>
+                    <td onclick="ordenaCamp('campNome')">Nome</td>
+                    <td onclick="ordenaCamp('campRG')">RG</td>
+                    <td onclick="ordenaCamp('campDataNasci')">Data da Nascimento</td>
+                    <td onclick="ordenaCamp('campIdade')">Idade</td>
+                    <td onclick="ordenaCamp('campSexo')">Sexo</td>
+                    <td onclick="ordenaCamp('campCamiseta')">Tamanho da camiseta</td>
+                </thead>
+                <tbody id="list">
+    
+                </tbody>
+            </table>
+        </section>
+    </main>
+</body>
+</html>

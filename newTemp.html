@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="resource/styles/admin.css">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <section>
+            <button onclick="window.location.href = `admin.php?user='root'&senha='root0101'`" class="btn">Voltar</button>
+            <form id="form"> 
+                <label for="temp_name">Nome da temporada: </label>
+                <input type="text" name="" id="temp_name">
+                
+                <label for="temp_init">Data de início: </label>
+                <input type="date" name="" id="temp_init">
+                
+                <label for="temp_end">Data de término: </label>
+                <input type="date" name="" id="temp_end">
+                
+                <label for="temp_val">Valor da inscrição (Inteira)</label>
+                <input type="number" step="0.01" name="" id="temp_val">
+                
+                <label for="temp_parc">Numero maximo de parcelas aceitas: </label>
+                <input type="number" name="" id="temp_parc">
+
+                <input type="submit" class="btn">
+            </form>
+        </section>
+    </main>
+    <script type="module">
+        import {Temporada} from "./resource/scripts/Javascript/objects.js";
+        import {addTemp} from "./resource/scripts/Javascript/admin.js";
+        
+        const form = document.getElementById("form");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const temp = new Temporada(
+                document.getElementById("temp_name").value,
+                document.getElementById("temp_init").value,
+                document.getElementById("temp_end").value,
+                document.getElementById("temp_parc").value,
+                document.getElementById("temp_val").value
+            );
+
+            await addTemp(temp);
+        });
+    </script>
+</body>
+</html>

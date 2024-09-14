@@ -20,3 +20,4 @@ Para instalar o PHPMailer, rode o seguinte comando na pasta script:
 ```
 composer require phpmailer/phpmailer
 ```
+testando

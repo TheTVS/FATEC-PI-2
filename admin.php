@@ -12,14 +12,15 @@
     <div class="conteudo">
         <div class="area">
             <div class="titulo">TEMPORADA <span class="material-symbols-outlined">menu</span></div>
-            <button onclick="window.location.href = 'listaCamps.html'" class="btn">Consultar campistas</button><br>
-            <button onclick="window.location.href = 'listaTutors.html'" class="btn">Consultar responsáveis</button>
+            <button onclick="window.location.href = 'newTemp.php'" class="btn">Iniciar nova temporada</button>
+            <button onclick="window.location.href = 'newTemp.html'" class="btn">Alterar Temporada Atual</button>
         </div>
         <br>
         <div class="area">
             <div class="titulo">INSCRITOS <span class="material-symbols-outlined">menu</span></div>
             <button onclick="window.location.href = 'listaInscs.html'" class="btn">Consultar inscrições</button><br>
-            <button onclick="window.location.href = 'newTemp.html'" class="btn">Iniciar nova temporada</button>
+            <button onclick="window.location.href = 'listaCamps.html'" class="btn">Consultar campistas</button><br>
+            <button onclick="window.location.href = 'listaTutors.html'" class="btn">Consultar responsáveis</button>
         </div>
         <img src="resource\img\image\loginlogo.png" alt="logologin" class="logo">
     </div>

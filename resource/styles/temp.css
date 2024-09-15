@@ -23,4 +23,23 @@ div.navbar img{
 div.conteudo{
     position: relative;
     top: 100px;
+    padding-left: 300px;
+    padding-right: 300px;
+}
+table{
+    position: relative;
+    top:30px;
+    text-align: center;
+    width: 100%;
+    background-color: lightgrey;
+    
+}
+td{
+    position: relative;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: solid 1px black;
+}
+h1{
+    text-align: center;
 }

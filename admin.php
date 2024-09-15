@@ -13,7 +13,7 @@
         <div class="area">
             <div class="titulo">TEMPORADA <span class="material-symbols-outlined">menu</span></div>
             <button onclick="window.location.href = 'newTemp.php'" class="btn">Iniciar nova temporada</button>
-            <button onclick="window.location.href = 'newTemp.html'" class="btn">Alterar Temporada Atual</button>
+            <button onclick="window.location.href = 'altTemp.php'" class="btn">Alterar Temporada Atual</button>
         </div>
         <br>
         <div class="area">

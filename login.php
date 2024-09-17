@@ -8,24 +8,32 @@
 </head>
 <body>
         <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo"></div>
-        <div class="conteudo">
-            <div class="conteinerlogin">
-                <p class="bold">LOGIN</p>
-                <p class="golden">ADMIN</p>
-                <form action="" method="post">
-                    <label for="user">Usuário:</label>
-                    <br><br>
-                    <input type="text" name="user" id="user">
-                    <br><br>
-                    <label for="senha">Senha: </label>
-                    <br><br>
-                    <input type="password" name="senha" id="senha">
-                    <br><br><br>
-                    <input type="submit" class="botao">
-                </form>
-            </div>
-            <img src="resource\img\image\loginlogo.png" alt="logologin" class="logo">
-        </div>
+    <table>
+        <tr>
+            <td style="width: 50%;padding-left: 20px;">
+                <div class="conteinerlogin">
+                    <br>
+                    <p class="bold">LOGIN</p>
+                    <p class="golden">ADMIN</p>
+                    <form action="" method="post">
+                        <label for="user">Usuário:</label>
+                        <br><br>
+                        <input type="text" name="user" id="user">
+                        <br><br>
+                        <label for="senha">Senha: </label>
+                        <br><br>
+                        <input type="password" name="senha" id="senha">
+                        <br><br><br>
+                        <input type="submit" class="botao">
+                        <br><br><br>
+                    </form>
+                </div>
+                </td>
+                <td>
+                    <img src="resource\img\image\loginlogo.png" alt="logologin" class="logo">
+                </td>
+        </tr>
+    </table>
 </body>
 </html>
 <?php

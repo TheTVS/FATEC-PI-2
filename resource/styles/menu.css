@@ -5,9 +5,10 @@ body{
     font-weight: 300;
     line-height: 32.68px;
     text-align: left;
+    margin: 0px;
 }
 div.navbar{
-    position: fixed;
+    position: relative;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -20,22 +21,16 @@ div.navbar img{
     width: 100px;
     padding-left: 50px;
 }
-div.conteudo{
-    position: relative;
-    top: 100px;
-}
 div.area{
     position: relative;
     background-color: #020331;
-    width: 45%;
-    padding-right: 3px;
     padding-top: 5px;
     left: 50px;
     top: 30px;
+    text-align: center;
 }
 button{
     position: relative;
-    left: 5px;
     width: 99%;
     height: 100px;
     border: 2px solid white;
@@ -65,9 +60,7 @@ div.titulo{
     padding-bottom: 20px;
 }
 img.logo{
-    position: fixed;
-    top: 200px;
-    right: 200px;
+    position: relative;
     height: 700px;
     width: 600px;
 }
@@ -77,4 +70,9 @@ img.logo{
   'wght' 400,
   'GRAD' 0,
   'opsz' 24
+}
+table{
+    position: relative;
+    width: 100%;
+    text-align: center
 }

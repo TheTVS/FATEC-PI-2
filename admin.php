@@ -9,21 +9,27 @@
 </head>
 <body>
     <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo"></div>
-    <div class="conteudo">
-        <div class="area">
-            <div class="titulo">TEMPORADA <span class="material-symbols-outlined">menu</span></div>
-            <button onclick="window.location.href = 'newTemp.php'" class="btn">Iniciar nova temporada</button>
-            <button onclick="window.location.href = 'altTemp.php'" class="btn">Alterar Temporada Atual</button>
-        </div>
-        <br>
-        <div class="area">
-            <div class="titulo">INSCRITOS <span class="material-symbols-outlined">menu</span></div>
-            <button onclick="window.location.href = 'listaInscs.html'" class="btn">Consultar inscrições</button><br>
-            <button onclick="window.location.href = 'listaCamps.html'" class="btn">Consultar campistas</button><br>
-            <button onclick="window.location.href = 'listaTutors.html'" class="btn">Consultar responsáveis</button>
-        </div>
-        <img src="resource\img\image\loginlogo.png" alt="logologin" class="logo">
-    </div>
+    <table>
+        <tr>
+            <td style="width: 50%;">
+                <div class="area">
+                    <div class="titulo">TEMPORADA <span class="material-symbols-outlined">menu</span></div>
+                    <button onclick="window.location.href = 'newTemp.php'" class="btn">Iniciar nova temporada</button>
+                    <button onclick="window.location.href = 'altTemp.php'" class="btn">Alterar Temporada Atual</button>
+                </div>
+                <br>
+                <div class="area">
+                    <div class="titulo">INSCRITOS <span class="material-symbols-outlined">menu</span></div>
+                    <button onclick="window.location.href = 'listaInscs.html'" class="btn">Consultar inscrições</button><br>
+                    <button onclick="window.location.href = 'listaCamps.html'" class="btn">Consultar campistas</button><br>
+                    <button onclick="window.location.href = 'listaTutors.html'" class="btn">Consultar responsáveis</button>
+                </div>
+            </td>
+            <td>
+                <img src="resource\img\image\loginlogo.png" alt="logologin" class="logo">
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
 

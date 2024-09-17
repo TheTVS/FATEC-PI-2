@@ -56,6 +56,7 @@ p.golden{
 }
 img.logo{
     position: relative;
+    top: 30px;
     height: 700px;
     width: 600px;
 }

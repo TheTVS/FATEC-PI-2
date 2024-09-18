@@ -11,45 +11,55 @@
     <a href="admin.php">voltar</a>
     </div>
     <div class="conteudo">
-        <h1>Alterar Temporada Atual</h1>
+        <div class="tablescroll">
+        
         <table>
             <tr>
-                <td>
-                        Nome da temporada a ser alterada ""
+                <td colspan="2">
+                    <h1>Nova Temporada</h1>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    Nome da temporada:
                 </td>
             </tr>
             <tr>   
-                <td>
-                        Data de início da temporada: <br>
-                        Data de término da temporada: <br>
+                <td style="width: 50%;">
+                    Data de início:
+                </td>
+                <td style="width: 50%;">
+                    Data de término:
                 </td>
             </tr>
-                <td>
-                    <form id="form"> 
-                        <label for="temp_val">Novo Valor da inscrição (Inteira)</label>
-                        <input type="number" step="0.01" name="" id="temp_val">
-                        <br>
-                </td>
             <tr>
-                <td>
+                <td colspan="2">
+                        <label for="temp_val">Novo Valor da inscrição (Inteira)</label><br>
+                        <input type="number" step="0.01" name="" id="temp_val"><br><br>  
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
                         <label for="temp_parc">Novo Numero maximo de parcelas aceitas: </label>
                         <input type="number" name="" id="temp_parc">
-                        <br>
+                        <br><br>
                 </td>
             </tr>
             <tr>
-                <td>
-                        <label for="temp_festas">Adicionar alguma Festas da temporada: </lable><br>
+                <td colspan="2"> 
+                        <label for="temp_festas">Festas da temporada: </lable><br>
                         <textarea id="temp_festas" name="story" rows="5" cols="33" maxlength="200"></textarea>
-                        <br>
+                        <br><br>
                 </td>
             <tr>
-                <td>
+                <td colspan="2">
                         <input type="submit" class="btn">
+                        <br><br>
                 </td>
             </tr>
-                    </form>
+            </form>
         </table>
+        </div>
     </div>
 </body>
 </html>

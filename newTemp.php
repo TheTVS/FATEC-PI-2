@@ -11,50 +11,60 @@
     <a href="admin.php">voltar</a>
     </div>
     <div class="conteudo">
-        <h1>Nova Temporada</h1>
+        <div class="tablescroll">
+        
         <table>
             <tr>
-                <td>
+                <td colspan="2">
+                    <h1>Nova Temporada</h1>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
                     <form id="form"> 
-                        <label for="temp_name">Nome da temporada: </label>
-                        <input type="text" name="" id="temp_name">
-                        <br>
+                        <label for="temp_name">Nome da temporada: </label><br>
+                        <input type="text" name="" id="temp_name"><br><br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                        <label for="temp_val">Valor da inscrição (Inteira)</label><br>
+                        <input type="number" step="0.01" name="" id="temp_val"><br><br>
+                        
                 </td>
             </tr>
             <tr>   
-                <td>
-                        <label for="temp_init">Data de início: </label>
-                        <input type="date" name="" id="temp_init"> 
-                        <label for="temp_end"> Data de término: </label>
-                        <input type="date" name="" id="temp_end">
-                        <br>
+                <td style="width: 50%;">
+                        <label for="temp_init">Data de início: </label><br>
+                        <input type="date" name="" id="temp_init"><br><br>
+                </td>
+                <td style="width: 50%;">
+                        <label for="temp_end"> Data de término: </label><br>
+                        <input type="date" name="" id="temp_end"><br><br>
                 </td>
             </tr>
-                <td>
-                        <label for="temp_val">Valor da inscrição (Inteira)</label>
-                        <input type="number" step="0.01" name="" id="temp_val">
-                        <br>
-                </td>
             <tr>
-                <td>
+                <td colspan="2">
                         <label for="temp_parc">Numero maximo de parcelas aceitas: </label>
                         <input type="number" name="" id="temp_parc">
-                        <br>
+                        <br><br>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td colspan="2"> 
                         <label for="temp_festas">Festas da temporada: </lable><br>
                         <textarea id="temp_festas" name="story" rows="5" cols="33" maxlength="200"></textarea>
-                        <br>
+                        <br><br>
                 </td>
             <tr>
-                <td>
+                <td colspan="2">
                         <input type="submit" class="btn">
+                        <br><br>
                 </td>
             </tr>
             </form>
         </table>
+        </div>
     </div>
 </body>
 </html>

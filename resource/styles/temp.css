@@ -5,9 +5,10 @@ body{
     font-weight: 300;
     line-height: 32.68px;
     text-align: left;
+    margin: 0px;
 }
 div.navbar{
-    position: fixed;
+    position: relative;
     top: 0px;
     left: 0px;
     width: 100%;
@@ -20,26 +21,48 @@ div.navbar img{
     width: 100px;
     padding-left: 50px;
 }
-div.conteudo{
-    position: relative;
-    top: 100px;
-    padding-left: 300px;
-    padding-right: 300px;
-}
 table{
     position: relative;
     top:30px;
     text-align: center;
-    width: 100%;
-    background-color: lightgrey;
-    
+    width: 771px;
+    background-color: #DEDEDE;
 }
-td{
+div.tablescroll{
+    top: 30px;
+    overflow-y: scroll;
     position: relative;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border: solid 1px black;
+    max-height: 760px;
+    min-height: 760px;
+    width: 43%;
+    background-color: #DEDEDE;
+    left: 29%;
+}
+tr{
+    position: relative;
+    margin-bottom: 5px;
 }
 h1{
+    color: #020331;
+    font-family: "Lato", sans-serif;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 48px;
+    text-align: left;
     text-align: center;
+}
+input{
+    position: relative;
+    width: 60%;
+    height: 30px;
+    border: 1px solid #4F4F4F;
+    border-radius: 3px;
+}
+input.btn{
+    background-color: #020331;
+    color: #FFFFFF;
+    border: 0;
+    border-radius: 3px;
+    height: 40px;
+    width: 20%;
 }

@@ -91,7 +91,7 @@ if (isset($_GET['texto'])) {
                 </td>
                 <td style="width: 50%;">
                     <label for="temp_end">Data de término: </label><br>
-                    <input type="date" name="temp_end" id="temp_end" required><br><br>
+                    <input type="date" name="temp_end" id="temp_end" max="254" required><br><br>
                 </td>
             </tr>
             <tr>

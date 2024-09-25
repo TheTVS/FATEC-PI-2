@@ -24,11 +24,13 @@ div.navbar img{
 table{
     position: relative;
     top:30px;
+    left: 40px;
     text-align: center;
-    width: 771px;
+    width: fit-content;
     background-color: #DEDEDE;
 }
 div.tablescroll{
+    text-align: center;
     top: 30px;
     overflow-y: scroll;
     position: relative;

@@ -36,8 +36,10 @@ CREATE TABLE temporada (
     temp_id INT PRIMARY KEY AUTO_INCREMENT,
     temp_data_inicio DATE NOT NULL,
     temp_data_fim DATE NOT NULL,
-    temp_masc_reserva VARCHAR(30),
-    temp_nome VARCHAR(50) NOT NULL
+    temp_max_parcela TINYINT NOT NULL,
+    temp_nome VARCHAR(50) NOT NULL,
+    temp_preco DECIMAL(8,2) NOT NULL,
+    temp_festa VARCHAR(255) NOT NULL
 );
 
 -- Tabela acampante

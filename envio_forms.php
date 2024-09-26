@@ -10,7 +10,31 @@ if ($conexao->connect_error) {
 $conexao->begin_transaction();
 
 try {
-    // Inserindo dados na tabela responsavel
+    //pega os valores da temporada
+    $sql = "SELECT * FROM temporada WHERE temp_id = (SELECT MAX(temp_id) FROM temporada)";
+
+    $result = $conexao->query($sql);
+
+    // Verifica se um resultado foi encontrado
+    if ($result->num_rows > 0) {
+        // Busca os dados
+        $row = $result->fetch_assoc();
+
+        // Salva os dados em variáveis
+        $tempId = $row['temp_id'];//usado
+        $dataInicio = $row['temp_data_inicio'];//vai ser usado
+        $dataFim = $row['temp_data_fim'];
+        $tempFesta = $row['temp_festa'];
+        $tempNome = $row['temp_nome'];
+        $valorInscrição = $row['temp_preco'];//usado
+        $maxParcelas = $row['temp_max_parcela'];
+        $festaTemp = $row['temp_festa'];
+
+    } else {
+        $texto = "Nenhuma temporada encontrada.";
+    }
+
+    // Inserindo dados na tabela responsavel falta 1
     $sql = "INSERT INTO responsavel (res_cpf, res_nome, res_sobrenome, res_rg, res_telefone1, res_telefone2, res_email1, res_email2, res_tipo, res_tipo_outro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("ssssssssss", isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', isset($_POST['res-nom']) ? $_POST['res-nom'] : '', isset($_POST['res-sob']) ? $_POST['res-sob'] : '', isset($_POST['input-documento']) ? $_POST['input-documento'] : '', isset($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '', isset($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '', isset($_POST['res-eml-1']) ? $_POST['res-eml-1'] : '', isset($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '', isset($_POST['res-res']) ? $_POST['res-res'] : '', $res_tipo_outro);
@@ -20,10 +44,10 @@ try {
         throw new Exception("Erro ao inserir na tabela responsavel: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela endereco
+    // Inserindo dados na tabela endereco feito
     $sql = "INSERT INTO endereco (end_estado, end_cidade, end_bairro, end_rua, end_numero, end_cep) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssssss", $end_estado, $end_cidade, $end_bairro, $end_rua, $end_numero, $end_cep);
+    $stmt->bind_param("ssssis", isset($_POST['end-uf']) ? $_POST['end-uf'] : '', isset($_POST['end-cid']) ? $_POST['end-cid'] : '', isset($_POST['end-bai']) ? $_POST['end-bai'] : '', isset($_POST['end-rua']) ? $_POST['end-rua'] : '', isset($_POST['end-num']) ? $_POST['end-num'] : 0, isset($_POST['end-cep']) ? $_POST['end-cep'] : '');
     if ($stmt->execute()) {
         // Obtendo o ID auto incrementado endereco
         $endereco_id = $conexao->insert_id;
@@ -32,10 +56,10 @@ try {
         throw new Exception("Erro ao inserir na tabela endereco: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela acampante
-    $sql = "INSERT INTO acampante (aca_nome, aca_sobrenome, aca_idade, aca_data_nasc, aca_peso, aca_altura, aca_sintia, aca_responsavel_res_cpf, end_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    // Inserindo dados na tabela acampante falta 1
+    $sql = "INSERT INTO acampante (aca_nome, aca_sobrenome, aca_idade, aca_data_nasc, aca_peso, aca_altura, aca_sintia, aca_responsavel_res_cpf, end_id) VALUES (?, ?, (DATEDIFF(?, ?), ?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssissssssi", $aca_nome, $aca_sobrenome, $aca_idade, $aca_data_nasc, $aca_peso, $aca_altura, $aca_sintia, $res_cpf, $endereco_id);
+    $stmt->bind_param("sssssdd?si", isset($_POST['cri-nom']) ? $_POST['cri-nom'] : '', isset($_POST['cri-sob']) ? $_POST['cri-sob'] : '', $dataInicio, isset($_POST['birthday']) ? $_POST['birthday'] : '', isset($_POST['birthday']) ? $_POST['birthday'] : '', $aca_peso, $aca_altura, $aca_sintia, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $endereco_id);
     if ($stmt->execute()) {
         // Obtendo o ID auto incrementado acampante
         $acampante_id = $conexao->insert_id;
@@ -44,20 +68,20 @@ try {
         throw new Exception("Erro ao inserir na tabela acampante: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela inscricao
+    // Inserindo dados na tabela inscricao falta parcela
     $sql = "INSERT INTO inscricao (ins_pagamento, ins_data, temp_id, res_cpf, aca_id) VALUES (?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssssi", $ins_pagamento, $ins_data, $temp_id, $res_cpf, $acampante_id);
+    $stmt->bind_param("dsisi", $valorInscrição, date('d/m/Y'), $tempId, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $acampante_id);
     if ($stmt->execute()) {
         echo "Novo registro inscricao criado.";
     } else {
         throw new Exception("Erro ao inserir na tabela inscricao: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela convenio
+    // Inserindo dados na tabela convenio falta 2 mais um que nao tem no bd
     $sql = "INSERT INTO convenio (con_nome, con_numero, con_telefone, con_observacao) VALUES (?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssss", $con_nome, $con_numero, $con_telefone, $con_observacao);
+    $stmt->bind_param("ssss", $_POST['con-nom'] ?? '', $con_numero, $con_telefone, $_POST['tem-con-obs'] ?? '');
     if ($stmt->execute()) {
         // Obtendo o ID auto incrementado convenio
         $convenio_id = $conexao->insert_id;
@@ -66,7 +90,7 @@ try {
         throw new Exception("Erro ao inserir na tabela convenio: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela acampante_convenio
+    // Inserindo dados na tabela acampante_convenio feito
     $sql = "INSERT INTO acampante_convenio (aca_id, con_id) VALUES (?, ?);";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("ii", $acampante_id, $convenio_id);
@@ -120,6 +144,7 @@ $conexao->close();
 
 <!--
 
+    responsavel--
     $resNom = ;
     $resSob = ;
     $inputDocumento = ;
@@ -130,28 +155,50 @@ $conexao->close();
     $resEml1 = ;
     $resEml2 = ;
     $resRes = ;
-    faltando res tipo outro;
+    faltando res tipo outro;--
 
-    $endCep = isset($_POST['end-cep']) ? $_POST['end-cep'] : '';
-    $endRua = isset($_POST['end-rua']) ? $_POST['end-rua'] : '';
-    $endBai = isset($_POST['end-bai']) ? $_POST['end-bai'] : '';
-    $endCid = isset($_POST['end-cid']) ? $_POST['end-cid'] : '';
-    $endUf = isset($_POST['end-uf']) ? $_POST['end-uf'] : '';
-    $endNum = isset($_POST['end-num']) ? $_POST['end-num'] : '';
+    endereco--
+    $endCep = ;
+    $endRua = ;
+    $endBai = ;
+    $endCid = ;
+    $endUf = ;
+    $endNum = ;--
 
-    $criNom = isset($_POST['cri-nom']) ? $_POST['cri-nom'] : '';
-    $criSob = isset($_POST['cri-sob']) ? $_POST['cri-sob'] : '';
+    acampante--
+    $criNom = ;
+    $criSob = ;
+    nao estamos usando o rg e sim o cpf
     $criRg = isset($_POST['cri-rg']) ? $_POST['cri-rg'] : '';
+
+    não tem sexo nao banco temos que conversar com o pessoal do banco de dados
     $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : '';
-    $birthday = isset($_POST['birthday']) ? $_POST['birthday'] : '';
+
+    $birthday = ;
+
+    nao tem o tamanho da camiseta tambem
     $criTar = isset($_POST['cri-tar']) ? $_POST['cri-tar'] : '';
-    $valPar = isset($_POST['val-par']) ? $_POST['val-par'] : '';
+    falta altura peso e ??sintia??
+
+    nao tem sangue em ligar algum perguntar tambem para o grupo de bd
     $sangue = $_POST['sangue'] ?? '';
-    $rh = $_POST['rh'] ?? '';
-    $tem_con = $_POST['tem-con'] ?? '';
+    $rh = $_POST['rh'] ?? '';e o +- do sangue--
+
+    pagamento--
+    parcelas tem que ser mudadas depois o php
+    $valPar = isset($_POST['val-par']) ? $_POST['val-par'] : '';
+    o que caralhos é ins_pagamento se refere ao preco entao esta faltando as parcelas--
+
+    convenio--
     $con_nom = $_POST['con-nom'] ?? '';
+
+    contato do dono do convenio (tinha no forms antigo n tem no banco de dados novo)
     $con_cnt = $_POST['con-cnt'] ?? '';
-    $tem_con_obs = $_POST['tem-con-obs'] ?? '';
+
+    ta faltando no html $con_numero 
+    $con_telefone perguntar utilidade
+
+    $tem_con_obs = $_POST['tem-con-obs'] ?? '';--
     
     // Alergias a medicamentos
     $ale_med_aps = isset($_POST['ale-med-aps']) ? 'Sim' : 'Não';

@@ -13,7 +13,7 @@ try {
     // Inserindo dados na tabela responsavel
     $sql = "INSERT INTO responsavel (res_cpf, res_nome, res_sobrenome, res_rg, res_telefone1, res_telefone2, res_email1, res_email2, res_tipo, res_tipo_outro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssssssssss", $res_cpf, $res_nome, $res_sobrenome, $res_rg, $res_telefone1, $res_telefone2, $res_email1, $res_email2, $res_tipo, $res_tipo_outro);
+    $stmt->bind_param("ssssssssss", isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', isset($_POST['res-nom']) ? $_POST['res-nom'] : '', isset($_POST['res-sob']) ? $_POST['res-sob'] : '', isset($_POST['input-documento']) ? $_POST['input-documento'] : '', isset($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '', isset($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '', isset($_POST['res-eml-1']) ? $_POST['res-eml-1'] : '', isset($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '', isset($_POST['res-res']) ? $_POST['res-res'] : '', $res_tipo_outro);
     if ($stmt->execute()) {
         echo "Novo registro responsavel criado.";
     } else {
@@ -120,22 +120,25 @@ $conexao->close();
 
 <!--
 
-    $resNom = isset($_POST['res-nom']) ? $_POST['res-nom'] : '';
-    $resSob = isset($_POST['res-sob']) ? $_POST['res-sob'] : '';
-    $inputDocumento = isset($_POST['input-documento']) ? $_POST['input-documento'] : '';
-    $resCpf = isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '';
-    $resTel1 = isset($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '';
-    $resTel2 = isset($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '';
-    $resTel3 = isset($_POST['res-tel-3']) ? $_POST['res-tel-3'] : '';
-    $resEml1 = isset($_POST['res-eml-1']) ? $_POST['res-eml-1'] : '';
-    $resEml2 = isset($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '';
-    $resRes = isset($_POST['res-res']) ? $_POST['res-res'] : '';
+    $resNom = ;
+    $resSob = ;
+    $inputDocumento = ;
+    $resCpf = ;
+    $resTel1 = ;
+    $resTel2 = ;
+    $resTel3 = ;
+    $resEml1 = ;
+    $resEml2 = ;
+    $resRes = ;
+    faltando res tipo outro;
+
     $endCep = isset($_POST['end-cep']) ? $_POST['end-cep'] : '';
     $endRua = isset($_POST['end-rua']) ? $_POST['end-rua'] : '';
     $endBai = isset($_POST['end-bai']) ? $_POST['end-bai'] : '';
     $endCid = isset($_POST['end-cid']) ? $_POST['end-cid'] : '';
     $endUf = isset($_POST['end-uf']) ? $_POST['end-uf'] : '';
     $endNum = isset($_POST['end-num']) ? $_POST['end-num'] : '';
+
     $criNom = isset($_POST['cri-nom']) ? $_POST['cri-nom'] : '';
     $criSob = isset($_POST['cri-sob']) ? $_POST['cri-sob'] : '';
     $criRg = isset($_POST['cri-rg']) ? $_POST['cri-rg'] : '';
@@ -143,8 +146,6 @@ $conexao->close();
     $birthday = isset($_POST['birthday']) ? $_POST['birthday'] : '';
     $criTar = isset($_POST['cri-tar']) ? $_POST['cri-tar'] : '';
     $valPar = isset($_POST['val-par']) ? $_POST['val-par'] : '';
-
-        // Captura os valores dos campos
     $sangue = $_POST['sangue'] ?? '';
     $rh = $_POST['rh'] ?? '';
     $tem_con = $_POST['tem-con'] ?? '';

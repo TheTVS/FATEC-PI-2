@@ -20,7 +20,7 @@
         $tempNome = $row['temp_nome'];
 
     } else {
-        echo "Nenhuma temporada encontrada.";
+        $texto = "Nenhuma temporada encontrada.";
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,9 +38,9 @@
 
         // Executa a inserção
         if ($stmt->execute()) {
-            $texto = "Nova temporada adicionada com sucesso!";
+            $texto = "Temporada aleterada com sucesso!";
         } else {
-            $texto = "Erro ao adicionar nova temporada: " . $stmt->error;
+            $texto = "Erro ao alterar temporada: " . $stmt->error;
         }
         $stmt->close();
     }
@@ -57,12 +57,12 @@
 </head>
 <body>
     <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo">
-    <a href="admin.php">voltar</a>
+    <button onclick="window.location.href = 'admin.php'" class="btn">Menu</button>
     </div>
     <div class="conteudo">
         <div class="tablescroll" style="overflow-y: hidden;">
         
-        <table style="left: 10%;">
+        <table style="left: 5%;">
             <tr>
                 <td colspan="2">
                     <?php echo "$texto";?>

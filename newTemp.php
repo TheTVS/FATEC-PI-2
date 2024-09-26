@@ -51,7 +51,7 @@ if (isset($_GET['texto'])) {
 <body>
     <div class="navbar">
         <img src="resource/img/image/logo_rp_eventos_500x500.png" alt="logo">
-        <a href="admin.php">voltar</a>
+        <button onclick="window.location.href = 'admin.php'" class="btn">Menu</button>
     </div>
     <div class="tablescroll">
         <table>

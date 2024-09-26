@@ -10,83 +10,100 @@ if ($conexao->connect_error) {
 $conexao->begin_transaction();
 
 try {
-
     // Inserindo dados na tabela responsavel
-    $sql = "INSERT INTO responsavel (res_cpf, res_nome, res_sobrenome, res_rg, res_telefone1, res_telefone2, res_email1, res_email2, res_tipo, res_tipo_outro) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO responsavel (res_cpf, res_nome, res_sobrenome, res_rg, res_telefone1, res_telefone2, res_email1, res_email2, res_tipo, res_tipo_outro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ssssssssss", $res_cpf, $res_nome, $res_sobrenome, $res_rg, $res_telefone1, $res_telefone2, $res_email1, $res_email2, $res_tipo, $res_tipo_outro);
+    if ($stmt->execute()) {
         echo "Novo registro responsavel criado.";
     } else {
-        throw new Exception("Erro ao inserir na tabela responsavel: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela responsavel: " . $stmt->error);
     }
 
     // Inserindo dados na tabela endereco
-    $sql = "INSERT INTO endereco (end_estado, end_cidade, end_bairro, end_rua, end_numero, end_cep) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO endereco (end_estado, end_cidade, end_bairro, end_rua, end_numero, end_cep) VALUES (?, ?, ?, ?, ?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ssssss", $end_estado, $end_cidade, $end_bairro, $end_rua, $end_numero, $end_cep);
+    if ($stmt->execute()) {
         // Obtendo o ID auto incrementado endereco
         $endereco_id = $conexao->insert_id;
         echo "Novo registro criado com ID: " . $endereco_id;
     } else {
-        throw new Exception("Erro ao inserir na tabela endereço: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela endereco: " . $stmt->error);
     }
 
     // Inserindo dados na tabela acampante
-    $sql = "INSERT INTO acampante (aca_nome, aca_sobrenome, aca_idade, aca_data_nasc, aca_peso, aca_altura, aca_sintia, aca_responsavel_res_cpf, end_id) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO acampante (aca_nome, aca_sobrenome, aca_idade, aca_data_nasc, aca_peso, aca_altura, aca_sintia, aca_responsavel_res_cpf, end_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ssissssssi", $aca_nome, $aca_sobrenome, $aca_idade, $aca_data_nasc, $aca_peso, $aca_altura, $aca_sintia, $res_cpf, $endereco_id);
+    if ($stmt->execute()) {
         // Obtendo o ID auto incrementado acampante
         $acampante_id = $conexao->insert_id;
         echo "Novo registro acampante criado com ID: " . $acampante_id;
     } else {
-        throw new Exception("Erro ao inserir na tabela acampante: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela acampante: " . $stmt->error);
     }
 
     // Inserindo dados na tabela inscricao
-    $sql = "INSERT INTO inscricao (ins_pagamento, ins_data, temp_id, res_cpf, aca_id) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO inscricao (ins_pagamento, ins_data, temp_id, res_cpf, aca_id) VALUES (?, ?, ?, ?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ssssi", $ins_pagamento, $ins_data, $temp_id, $res_cpf, $acampante_id);
+    if ($stmt->execute()) {
         echo "Novo registro inscricao criado.";
     } else {
-        throw new Exception("Erro ao inserir na tabela inscricao: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela inscricao: " . $stmt->error);
     }
 
     // Inserindo dados na tabela convenio
-    $sql = "INSERT INTO convenio (con_nome, con_numero, con_telefone, con_observacao) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO convenio (con_nome, con_numero, con_telefone, con_observacao) VALUES (?, ?, ?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ssss", $con_nome, $con_numero, $con_telefone, $con_observacao);
+    if ($stmt->execute()) {
         // Obtendo o ID auto incrementado convenio
         $convenio_id = $conexao->insert_id;
-        echo "Novo registro convenio criado com ID: " . $aconvenio_id;
+        echo "Novo registro convenio criado com ID: " . $convenio_id;
     } else {
-        throw new Exception("Erro ao inserir na tabela convenio: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela convenio: " . $stmt->error);
     }
 
     // Inserindo dados na tabela acampante_convenio
-    $sql = "INSERT INTO acampante_convenio (aca_id, con_id) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO acampante_convenio (aca_id, con_id) VALUES (?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ii", $acampante_id, $convenio_id);
+    if ($stmt->execute()) {
         echo "Novo registro acampante_convenio criado.";
     } else {
-        throw new Exception("Erro ao inserir na tabela acampante_convenio: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela acampante_convenio: " . $stmt->error);
     }
 
     // Inserindo dados na tabela registro_vacina
-    $sql = "INSERT INTO registro_vacina (aca_id, vac_id, rv_data) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO registro_vacina (aca_id, vac_id, rv_data) VALUES (?, ?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("iis", $acampante_id, $vac_id, $rv_data);
+    if ($stmt->execute()) {
         echo "Novo registro registro_vacina criado.";
     } else {
-        throw new Exception("Erro ao inserir na tabela registro_vacina: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela registro_vacina: " . $stmt->error);
     }
 
     // Inserindo dados na tabela registro_doenca
-    $sql = "INSERT INTO registro_doenca (aca_id, doe_id) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO registro_doenca (aca_id, doe_id) VALUES (?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ii", $acampante_id, $doe_id);
+    if ($stmt->execute()) {
         echo "Novo registro registro_doenca criado.";
     } else {
-        throw new Exception("Erro ao inserir na tabela registro_doenca: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela registro_doenca: " . $stmt->error);
     }
 
     // Inserindo dados na tabela registro_medico
-    $sql = "INSERT INTO registro_medico (aca_id, med_id, rm_horario, rm_frequencia) VALUES ();";
-    if ($conexao->query($sql) === TRUE) {
+    $sql = "INSERT INTO registro_medico (aca_id, med_id, rm_horario, rm_frequencia) VALUES (?, ?, ?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("iiss", $acampante_id, $med_id, $rm_horario, $rm_frequencia);
+    if ($stmt->execute()) {
         echo "Novo registro registro_medico criado.";
     } else {
-        throw new Exception("Erro ao inserir na tabela registro_doenca: " . $conexao->error);
+        throw new Exception("Erro ao inserir na tabela registro_medico: " . $stmt->error);
     }
 
     // Confirma a transação
@@ -102,30 +119,6 @@ $conexao->close();
 ?>
 
 <!--
-
--- Inserindo dados na tabela temporada
-INSERT INTO temporada (temp_data_inicio, temp_data_fim, temp_masc_reserva, temp_nome) 
-VALUES 
-('2024-01-10', '2024-01-20', 'Sim', 'Verão 2024'),
-('2024-07-15', '2024-07-30', 'Não', 'Férias de Julho 2024');
-
--- Inserindo dados na tabela vacina
-INSERT INTO vacina (vac_nome) 
-VALUES 
-('Vacina contra Gripe'),
-('Vacina COVID-19');
-
--- Inserindo dados na tabela doenca
-INSERT INTO doenca (doe_nome, doe_tipo, doe_categoria) 
-VALUES 
-('Asma', 'Respiratória', 'Crônica'),
-('Diabetes', 'Metabólica', 'Crônica');
-
--- Inserindo dados na tabela medicamento
-INSERT INTO medicamento (med_nome) 
-VALUES 
-('Broncodilatador'),
-('Insulina');
 
     $resNom = isset($_POST['res-nom']) ? $_POST['res-nom'] : '';
     $resSob = isset($_POST['res-sob']) ? $_POST['res-sob'] : '';

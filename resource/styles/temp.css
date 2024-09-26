@@ -24,7 +24,7 @@ div.navbar img{
 table{
     position: relative;
     top:30px;
-    left: 40px;
+    left: 15%;
     text-align: center;
     width: fit-content;
     background-color: #DEDEDE;
@@ -67,4 +67,7 @@ input.btn{
     border-radius: 3px;
     height: 40px;
     width: 20%;
+}
+div.bold{
+    font-weight: bold;
 }

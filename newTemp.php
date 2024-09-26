@@ -1,9 +1,6 @@
 <?php
 include('resource/database/conexao.php');
 
-if ($conexao->connect_error) {
-    die("Conexão falhou: " . $conexao->connect_error);
-}
 $texto = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

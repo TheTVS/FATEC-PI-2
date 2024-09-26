@@ -138,3 +138,16 @@ CREATE TABLE registro_medico (
     FOREIGN KEY (aca_id) REFERENCES acampante(aca_id),
     FOREIGN KEY (med_id) REFERENCES medicamento(med_id)
 );
+
+-- Inserts
+INSERT INTO doenca (doe_nome, doe_tipo, doe_categoria)
+VALUES 
+('Convulsões', 'Crônica', 'Neurológica'),
+('Desmaios', 'Crônica', 'Neurológica'),
+('Hemofilia', 'Crônica', 'Sanguínea'),
+('Enxaqueca', 'Crônica', 'Neurológica'),
+('Distúrbios neurológicos', 'Crônica', 'Neurológica'),
+('Cardiopatias', 'Crônica', 'Cardíaca'),
+('Diabetes', 'Crônica', 'Metabólica'),
+('Hipoglicemia', 'Crônica', 'Metabólica'),
+('Asma / Bronquite', 'Crônica', 'Respiratória');

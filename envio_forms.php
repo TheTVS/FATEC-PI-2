@@ -11,7 +11,7 @@ $conexao->begin_transaction();
 
 try {
     //pega os valores da temporada
-    $sql = "SELECT * FROM temporada WHERE temp_id = (SELECT MAX(temp_id) FROM temporada)";
+    $sql = "SELECT temp_id,temp_data_inicio,temp_preco FROM temporada WHERE temp_id = (SELECT MAX(temp_id) FROM temporada)";
 
     $result = $conexao->query($sql);
 
@@ -23,21 +23,16 @@ try {
         // Salva os dados em variáveis
         $tempId = $row['temp_id'];//usado
         $dataInicio = $row['temp_data_inicio'];//usado
-        $dataFim = $row['temp_data_fim'];
-        $tempFesta = $row['temp_festa'];
-        $tempNome = $row['temp_nome'];
         $valorInscrição = $row['temp_preco'];//usado
-        $maxParcelas = $row['temp_max_parcela'];
-        $festaTemp = $row['temp_festa'];
 
     } else {
         $texto = "Nenhuma temporada encontrada.";
     }
 
-    // Inserindo dados na tabela responsavel falta 1
+    // Inserindo dados na tabela responsavel feito
     $sql = "INSERT INTO responsavel (res_cpf, res_nome, res_sobrenome, res_rg, res_telefone1, res_telefone2, res_email1, res_email2, res_tipo, res_tipo_outro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssssssssss", isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', isset($_POST['res-nom']) ? $_POST['res-nom'] : '', isset($_POST['res-sob']) ? $_POST['res-sob'] : '', isset($_POST['input-documento']) ? $_POST['input-documento'] : '', isset($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '', isset($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '', isset($_POST['res-eml-1']) ? $_POST['res-eml-1'] : '', isset($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '', isset($_POST['res-res']) ? $_POST['res-res'] : '', $res_tipo_outro);
+    $stmt->bind_param("ssssssssss", isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', isset($_POST['res-nom']) ? $_POST['res-nom'] : '', isset($_POST['res-sob']) ? $_POST['res-sob'] : '', isset($_POST['input-documento']) ? $_POST['input-documento'] : '', isset($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '', isset($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '', isset($_POST['res-eml-1']) ? $_POST['res-eml-1'] : '', isset($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '', isset($_POST['res-res']) ? $_POST['res-res'] : '', isset($_POST['outro']) ? $_POST['outro'] : '');
     if ($stmt->execute()) {
         echo "Novo registro responsavel criado.";
     } else {

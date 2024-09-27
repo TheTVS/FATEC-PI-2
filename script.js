@@ -123,7 +123,7 @@ function mostrarPagina(pagina) {
 
     // Inputs de RG
     var idsRG = ['res-rg', 'cri-rg'];
-    var minLengthTelefone = 12;
+    var minLengthTelefone = 11;
 
     idsRG.forEach(id => {
       var RG = document.getElementById(id);
@@ -609,6 +609,12 @@ function mostrarCamposRadio(radio, textareaId) {
   if (radio.value == 'nao') {
     textarea.style.display = "none";
   }
+}
+
+// Função de mostrar campo outro responsavel
+function mostrarCamposSelect(select, textareaId) {
+  var textarea = document.getElementById(textareaId);
+  textarea.style.display = select.value === "outro" ? "block" : "none";
 }
 
 function verificarSelecao(grupo) {

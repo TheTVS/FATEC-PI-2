@@ -22,7 +22,7 @@ try {
 
         // Salva os dados em variáveis
         $tempId = $row['temp_id'];//usado
-        $dataInicio = $row['temp_data_inicio'];//vai ser usado
+        $dataInicio = $row['temp_data_inicio'];//usado
         $dataFim = $row['temp_data_fim'];
         $tempFesta = $row['temp_festa'];
         $tempNome = $row['temp_nome'];
@@ -78,10 +78,10 @@ try {
         throw new Exception("Erro ao inserir na tabela inscricao: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela convenio falta 2 mais um que nao tem no bd
+    // Inserindo dados na tabela convenio falta 1 
     $sql = "INSERT INTO convenio (con_nome, con_numero, con_telefone, con_observacao) VALUES (?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssss", $_POST['con-nom'] ?? '', $con_numero, $con_telefone, $_POST['tem-con-obs'] ?? '');
+    $stmt->bind_param("ssss", $_POST['con-nom'] ?? '', $con_numero, $_POST['con-cnt'] ?? '', $_POST['tem-con-obs'] ?? '');
     if ($stmt->execute()) {
         // Obtendo o ID auto incrementado convenio
         $convenio_id = $conexao->insert_id;
@@ -100,7 +100,7 @@ try {
         throw new Exception("Erro ao inserir na tabela acampante_convenio: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela registro_vacina
+    // Inserindo dados na tabela registro_vacina falta o insert de bd
     $sql = "INSERT INTO registro_vacina (aca_id, vac_id, rv_data) VALUES (?, ?, ?);";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("iis", $acampante_id, $vac_id, $rv_data);
@@ -110,7 +110,7 @@ try {
         throw new Exception("Erro ao inserir na tabela registro_vacina: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela registro_doenca
+    // Inserindo dados na tabela registro_doenca pegar os valores de doencas certas
     $sql = "INSERT INTO registro_doenca (aca_id, doe_id) VALUES (?, ?);";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("ii", $acampante_id, $doe_id);
@@ -142,7 +142,7 @@ try {
 $conexao->close();
 ?>
 
-<!--
+<!--nao funciona passar para a proxima pagina conversar com m
 
     responsavel--
     $resNom = ;
@@ -157,7 +157,7 @@ $conexao->close();
     $resRes = ;
     faltando res tipo outro;--
 
-    endereco--
+    endereco-- feito
     $endCep = ;
     $endRua = ;
     $endBai = ;
@@ -185,20 +185,16 @@ $conexao->close();
     $rh = $_POST['rh'] ?? '';e o +- do sangue--
 
     pagamento--
-    parcelas tem que ser mudadas depois o php
-    $valPar = isset($_POST['val-par']) ? $_POST['val-par'] : '';
-    o que caralhos é ins_pagamento se refere ao preco entao esta faltando as parcelas--
+    parcelas tem que ser mudadas depois o php e falta salvar parcelas no banco
+    $valPar = isset($_POST['val-par']) ? $_POST['val-par'] : '';--
 
     convenio--
-    $con_nom = $_POST['con-nom'] ?? '';
-
-    contato do dono do convenio (tinha no forms antigo n tem no banco de dados novo)
+    $con_nom =;
+    tudo zuado tamo pegando o telefone do convenio sei la como a pessoa vai saber disso
     $con_cnt = $_POST['con-cnt'] ?? '';
-
     ta faltando no html $con_numero 
-    $con_telefone perguntar utilidade
 
-    $tem_con_obs = $_POST['tem-con-obs'] ?? '';--
+    $tem_con_obs =--
     
     // Alergias a medicamentos
     $ale_med_aps = isset($_POST['ale-med-aps']) ? 'Sim' : 'Não';

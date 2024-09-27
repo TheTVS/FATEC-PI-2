@@ -94,7 +94,7 @@ if (isset($_GET['texto'])) {
             <tr>
                 <td colspan="2">
                     <label for="temp_parc">Número máximo de parcelas aceitas: </label>
-                    <input type="number" name="temp_parc" id="temp_parc" required>
+                    <input type="number" name="temp_parc" id="temp_parc" max="120" required>
                     <br><br>
                 </td>
             </tr>

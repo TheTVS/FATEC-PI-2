@@ -96,7 +96,7 @@
             <tr>
                 <td colspan="2">
                         <label for="temp_parc">Novo Numero maximo de parcelas aceitas: </label>
-                        <input type="number" step="1" name="temp_parc" id="temp_parc" max="254" required>
+                        <input type="number" step="1" name="temp_parc" id="temp_parc" max="120" required>
                         <br><br>
                 </td>
             </tr>

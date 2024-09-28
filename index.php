@@ -1,3 +1,27 @@
+<?php
+    include('resource/database/conexao.php');
+
+    $texto = '';
+    //Select para mostrar qual temporada esta
+    $sql = "SELECT temp_data_inicio,temp_data_fim,temp_preco,temp_max_parcela FROM temporada WHERE temp_id = (SELECT MAX(temp_id) FROM temporada)";
+
+    $result = $conexao->query($sql);
+
+    // Verifica se um resultado foi encontrado
+    if ($result->num_rows > 0) {
+        // Busca os dados
+        $row = $result->fetch_assoc();
+
+        // Salva os dados em variáveis
+        $dataInicio = $row['temp_data_inicio'];
+        $dataFim = $row['temp_data_fim'];
+        $valorInscrição = $row['temp_preco'];
+        $maxParcelas = $row['temp_max_parcela'];
+
+    } else {
+        $texto = "Nenhuma temporada encontrada.";
+    }
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -40,7 +64,7 @@
                 <div class="container" style="text-align: center;">
                     <div>
                         <h1>Inscrição do Acampamento</h1>
-                        <h3>Acampamento dd/mm/aaaa até dd/mm/aaaa</h3>
+                        <h3>Acampamento <?php echo "$dataInicio até $dataFim"; ?></h3>
                     </div>
                 </div>
                 <div class="container">
@@ -289,30 +313,36 @@
                                     <h5>R$</h5>
                                 </div>
                                 <div class="formulario-grupo-valor">
-                                    <h1>0.000,00</h1>
+                                    <h1><?php echo "$valorInscrição"; ?></h1>
                                 </div>
                             </div>
-                            <h5>de R$0.000 por R$0.000 em 0x de R$0.000 até dia dd/mm/aaaa</h5>
+                            <h5 id="valor-calculado">R$<?php echo "$valorInscrição em $maxParcelas de R$".($valorInscrição/$maxParcelas);?></h5>
                         </div>
                         <br>
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <select id="val-par" name="val-par" class="obrigatorioSelect-p1">
                                     <option value="" disabled selected></option>
-                                    <option value="par-1">1</option>
-                                    <option value="par-2">2</option>
-                                    <option value="par-3">3</option>
-                                    <option value="par-4">4</option>
-                                    <option value="par-5">5</option>
-                                    <option value="par-6">6</option>
+                                    <?php 
+                                            for ($i = 1; $i <= $maxParcelas; $i++) {
+                                                echo "<option value='$i'>$i</option>";
+                                            }
+                                    ?>
                                 </select>
+                                <script>
+                                    document.getElementById('val-par').addEventListener('change', function() {
+                                        const selectedValue = this.value;
+                                        const valorInscricao = <?php echo $valorInscrição; ?>;
+                                        const newValor = (valorInscricao / selectedValue).toFixed(2);
+                                        document.getElementById('valor-calculado').innerText = `R$${valorInscricao} em ${selectedValue} de R$${newValor}`;
+                                    });
+                                </script>
                                 <label placeholder="‎" for="val-par">Parcelas<span style="color: red;">*</span></label>
                             </div>
                             <div class="formulario-grupo" style="flex-basis: 50%;"></div>
                         </div>
                     </div>
                 </div>
-
                 <div class="progresso-container">
                     Passo 1 de 2
                     <div class="barra-progresso">

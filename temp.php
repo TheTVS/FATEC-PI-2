@@ -16,7 +16,6 @@
         $id = $row['temp_id'];
         $dataInicio = $row['temp_data_inicio'];
         $dataFim = $row['temp_data_fim'];
-        $tempFesta = $row['temp_festa'];
         $tempNome = $row['temp_nome'];
         $valorInscrição = $row['temp_preco'];
         $maxParcelas = $row['temp_max_parcela'];

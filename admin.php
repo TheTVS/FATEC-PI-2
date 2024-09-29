@@ -1,3 +1,13 @@
+<?php
+    
+    session_start();
+
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: login.php');
+        exit();
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -8,7 +18,9 @@
     <title>Gerenciador de alunos</title>
 </head>
 <body>
-    <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo"></div>
+    <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo">
+    <button onclick="location.href='desloga.php'" class="desloga">Sair</button>
+    </div>
     <table>
         <tr>
             <td style="width: 50%;">
@@ -33,11 +45,3 @@
     </table>
 </body>
 </html>
-
-<?php
-    if(!isset($_SESSION)){
-        session_start();
-
-    }
-
-?>

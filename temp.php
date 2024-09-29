@@ -1,4 +1,10 @@
 <?php
+    session_start();
+
+    if (!isset($_SESSION['user_id'])) {
+        header('Location: login.php');
+        exit();
+    }
     include('resource/database/conexao.php');
 
     $texto = '';
@@ -38,6 +44,7 @@
 <body>
     <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo">
     <button onclick="window.location.href = 'admin.php'" class="btn">Menu</button>
+    <button onclick="location.href='desloga.php'" class="desloga">Sair</button>
     </div>
     <div class="conteudo">
         <div class="tablescroll" style="max-height: 700px;min-height: 700px;">

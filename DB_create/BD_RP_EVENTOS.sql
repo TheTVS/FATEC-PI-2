@@ -4,6 +4,14 @@ CREATE DATABASE rp_eventos;
 -- Usando banco de dados
 USE rp_eventos;
 
+-- Tabela usuario admin
+CREATE TABLE usuario(
+    userId INT NOT NULL AUTO_INCREMENT,
+    userNome VARCHAR(60) NOT NULL,
+    userSenha VARCHAR(40) NOT NULL,
+    PRIMARY KEY(userId)
+);
+
 -- Criando tabela responsavel
 
 -- Tabela responsável

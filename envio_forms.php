@@ -5,7 +5,6 @@ include('resource/database/conexao.php');
 if ($conexao->connect_error) {
     die("Conexão falhou: " . $conexao->connect_error);
 }
-
 //abre conexao
 $conexao->begin_transaction();
 
@@ -51,10 +50,14 @@ try {
         throw new Exception("Erro ao inserir na tabela endereco: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela acampante falta 1
-    $sql = "INSERT INTO acampante (aca_nome, aca_sobrenome, aca_idade, aca_data_nasc, aca_peso, aca_altura, aca_sintia, aca_responsavel_res_cpf, end_id) VALUES (?, ?, (DATEDIFF(?, ?), ?, ?, ?, ?, ?, ?);";
+    //sangue acampante
+    $sangue = $_POST['sangue'] ?? '';
+    $rh = $_POST['rh'] ?? '';
+    $sangeRh = $sangue . $rh; 
+    // Inserindo dados na tabela acampante feito
+    $sql = "INSERT INTO acampante (aca_nome, aca_sobrenome, aca_idade, aca_data_nasc, aca_sexo, aca_tamanho_camiseta, aca_tipo_sanguinio, aca_responsavel_res_cpf, end_id) VALUES (?, ?, (DATEDIFF(?, ?), ?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("sssssdd?si", isset($_POST['cri-nom']) ? $_POST['cri-nom'] : '', isset($_POST['cri-sob']) ? $_POST['cri-sob'] : '', $dataInicio, isset($_POST['birthday']) ? $_POST['birthday'] : '', isset($_POST['birthday']) ? $_POST['birthday'] : '', $aca_peso, $aca_altura, $aca_sintia, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $endereco_id);
+    $stmt->bind_param("sssssddssi", isset($_POST['cri-nom']) ? $_POST['cri-nom'] : '', isset($_POST['cri-sob']) ? $_POST['cri-sob'] : '', $dataInicio, isset($_POST['birthday']) ? $_POST['birthday'] : '', isset($_POST['birthday']) ? $_POST['birthday'] : '', isset($_POST['sexo']) ? $_POST['sexo'] : '', isset($_POST['cri-tar']) ? $_POST['cri-tar'] : '';, $sangeRh, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $endereco_id);
     if ($stmt->execute()) {
         // Obtendo o ID auto incrementado acampante
         $acampante_id = $conexao->insert_id;
@@ -63,10 +66,10 @@ try {
         throw new Exception("Erro ao inserir na tabela acampante: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela inscricao falta parcela
-    $sql = "INSERT INTO inscricao (ins_pagamento, ins_data, temp_id, res_cpf, aca_id) VALUES (?, ?, ?, ?, ?);";
+    // Inserindo dados na tabela inscricao feita
+    $sql = "INSERT INTO inscricao (ins_pagamento, ins_data, temp_id, res_cpf, aca_id,ins_num_parcela) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("dsisi", $valorInscrição, date('d/m/Y'), $tempId, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $acampante_id);
+    $stmt->bind_param("dsisii", $valorInscrição, date('d/m/Y'), $tempId, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $acampante_id, isset($_POST['val-par']) ? $_POST['val-par'] : '');
     if ($stmt->execute()) {
         echo "Novo registro inscricao criado.";
     } else {
@@ -95,14 +98,41 @@ try {
         throw new Exception("Erro ao inserir na tabela acampante_convenio: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela registro_vacina falta o insert de bd
-    $sql = "INSERT INTO registro_vacina (aca_id, vac_id, rv_data) VALUES (?, ?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("iis", $acampante_id, $vac_id, $rv_data);
-    if ($stmt->execute()) {
-        echo "Novo registro registro_vacina criado.";
-    } else {
-        throw new Exception("Erro ao inserir na tabela registro_vacina: " . $stmt->error);
+    //texto pra krl na vacina agr vamo ver se consigo fazer isso de forma eficiente , salvei todos os valores que nao sao 0 em um vetor dai fiz um for pra cada
+    $vacinas = []; // Inicializa o array para armazenar os dados
+    $vacinas[0] = isset($_POST['his-vac-bcg']) ? 1 : null;
+    $vacinas[1] = isset($_POST['his-vac-hpb']) ? 2 : null;
+    $vacinas[2] = isset($_POST['his-vac-tet']) ? 3 : null;
+    $vacinas[3] = isset($_POST['his-vac-pol']) ? 4 : null;
+    $vacinas[4] = isset($_POST['his-vac-rot']) ? 5 : null;
+    $vacinas[5] = isset($_POST['his-vac-sar']) ? 6 : null;
+    $vacinas[6] = isset($_POST['his-vac-hpa']) ? 7 : null;
+    $vacinas[7] = isset($_POST['his-vac-var']) ? 8 : null;
+    $vacinas[8] = isset($_POST['his-vac-men']) ? 9 : null;
+    $vacinas[9] = isset($_POST['his-vac-pne']) ? 10 : null;
+    $vacinas[10] = isset($_POST['his-vac-inf']) ? 11 : null;
+    $vacinas[11] = isset($_POST['his-vac-feb']) ? 12 : null;
+    
+    $vacinas_filtradas = array_filter($vacinas); // Filtra vacinas não definidas
+    $vacinas_filtradas = array_values($vacinas_filtradas); // Reindexa o array
+    
+    foreach ($vacinas_filtradas as $vacina_id) {
+        // Inserindo dados na tabela registro_vacina
+        $sql = "INSERT INTO registro_vacina (aca_id, vac_id) VALUES (?, ?);"; // rv_data removido
+        $stmt = $conexao->prepare($sql);
+        
+        // Verifica se a preparação da consulta foi bem-sucedida
+        if (!$stmt) {
+            throw new Exception("Erro ao preparar a consulta: " . $conexao->error);
+        }
+    
+        $stmt->bind_param("ii", $acampante_id, $vacina_id);
+        
+        if ($stmt->execute()) {
+            echo "Novo registro na tabela registro_vacina criado.";
+        } else {
+            throw new Exception("Erro ao inserir na tabela registro_vacina: " . $stmt->error);
+        }
     }
 
     // Inserindo dados na tabela registro_doenca pegar os valores de doencas certas
@@ -150,7 +180,7 @@ $conexao->close();
     $resEml1 = ;
     $resEml2 = ;
     $resRes = ;
-    faltando res tipo outro;--
+    --
 
     endereco-- feito
     $endCep = ;
@@ -163,33 +193,29 @@ $conexao->close();
     acampante--
     $criNom = ;
     $criSob = ;
-    nao estamos usando o rg e sim o cpf
-    $criRg = isset($_POST['cri-rg']) ? $_POST['cri-rg'] : '';
-
-    não tem sexo nao banco temos que conversar com o pessoal do banco de dados
-    $sexo = isset($_POST['sexo']) ? $_POST['sexo'] : '';
-
+    $sexo = ;
     $birthday = ;
+    $criTar =;
+    $sangue = ;
+    $rh =;
+    $resultado = $sangue . $rh; 
+    --
 
-    nao tem o tamanho da camiseta tambem
-    $criTar = isset($_POST['cri-tar']) ? $_POST['cri-tar'] : '';
-    falta altura peso e ??sintia??
-
-    nao tem sangue em ligar algum perguntar tambem para o grupo de bd
-    $sangue = $_POST['sangue'] ?? '';
-    $rh = $_POST['rh'] ?? '';e o +- do sangue--
-
-    pagamento--
-    parcelas tem que ser mudadas depois o php e falta salvar parcelas no banco
-    $valPar = isset($_POST['val-par']) ? $_POST['val-par'] : '';--
+    pagamento-- feito
+    $valPar = --
 
     convenio--
     $con_nom =;
-    tudo zuado tamo pegando o telefone do convenio sei la como a pessoa vai saber disso
-    $con_cnt = $_POST['con-cnt'] ?? '';
+    $con_cnt = ;
     ta faltando no html $con_numero 
 
     $tem_con_obs =--
+
+    // Para checkboxes, você pode verificar se estão definidos feito so tem que ver o bagulho do rv_date
+    $vacinas = [];
+    // Captura observações pode retirar essas porra de observacao da vacia
+    $temObservacao = isset($_POST['tem-his-vac-obs']) ? $_POST['tem-his-vac-obs'] : '';
+    $observacoes = isset($_POST['his-vac-obs']) ? $_POST['his-vac-obs'] : '';
     
     // Alergias a medicamentos
     $ale_med_aps = isset($_POST['ale-med-aps']) ? 'Sim' : 'Não';
@@ -233,28 +259,12 @@ $conexao->close();
      // Captura os dados do formulário
     $sintomasMedicamentos = isset($_POST['reg-sin-med-obs']) ? $_POST['reg-sin-med-obs'] : '';
     
-    // Para checkboxes, você pode verificar se estão definidos
-    $vacinas = [];
-    $vacinas['bcg'] = isset($_POST['his-vac-bcg']) ? true : false;
-    $vacinas['hpb'] = isset($_POST['his-vac-hpb']) ? true : false;
-    $vacinas['tet'] = isset($_POST['his-vac-tet']) ? true : false;
-    $vacinas['pol'] = isset($_POST['his-vac-pol']) ? true : false;
-    $vacinas['rot'] = isset($_POST['his-vac-rot']) ? true : false;
-    $vacinas['sar'] = isset($_POST['his-vac-sar']) ? true : false;
-    $vacinas['hpa'] = isset($_POST['his-vac-hpa']) ? true : false;
-    $vacinas['var'] = isset($_POST['his-vac-var']) ? true : false;
-    $vacinas['men'] = isset($_POST['his-vac-men']) ? true : false;
-    $vacinas['pne'] = isset($_POST['his-vac-pne']) ? true : false;
-    $vacinas['inf'] = isset($_POST['his-vac-inf']) ? true : false;
-    $vacinas['feb'] = isset($_POST['his-vac-feb']) ? true : false;
 
     // Captura se o participante faz uso de outros medicamentos
     $outrosMedicamentos = isset($_POST['tem-his-vac-out']) ? $_POST['tem-his-vac-out'] : '';
     $detalhesOutrosMedicamentos = isset($_POST['his-vac-out']) ? $_POST['his-vac-out'] : '';
 
-    // Captura observações
-    $temObservacao = isset($_POST['tem-his-vac-obs']) ? $_POST['tem-his-vac-obs'] : '';
-    $observacoes = isset($_POST['his-vac-obs']) ? $_POST['his-vac-obs'] : '';
+    
 
     // Captura a concordância com as normas
     $concordoNormas = isset($_POST['nor']) ? true : false;

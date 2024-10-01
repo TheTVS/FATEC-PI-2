@@ -258,9 +258,8 @@
                             <div class="formulario-grupo">
                                 <select id="sexo" name="sexo" class="obrigatorioSelect-p1">
                                     <option value="" disabled selected></option>
-                                    <option value="tiger1">Panzerkampfwagen VI Ausf. E (Tiger I)</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="feminino">Feminino</option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
                                 </select>
                                 <label placeholder="‎" for="sexo">Sexo<span style="color: red;">*</span></label>
                             </div>
@@ -322,7 +321,7 @@
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <select id="val-par" name="val-par" class="obrigatorioSelect-p1">
-                                    <option value="" disabled selected></option>
+                                    <option value="1" disabled selected></option>
                                     <?php 
                                             for ($i = 1; $i <= $maxParcelas; $i++) {
                                                 echo "<option value='$i'>$i</option>";

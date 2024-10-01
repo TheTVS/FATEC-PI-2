@@ -159,3 +159,34 @@ VALUES
 ('Diabetes', 'Crônica', 'Metabólica'),
 ('Hipoglicemia', 'Crônica', 'Metabólica'),
 ('Asma / Bronquite', 'Crônica', 'Respiratória');
+
+ALTER TABLE acampante
+CHANGE aca_peso aca_sexo VARCHAR(1),
+CHANGE aca_altura aca_tamanho_camiseta VARCHAR(3),
+CHANGE aca_sintia aca_tipo_sanguinio VARCHAR(3);
+
+ALTER TABLE inscricao
+ADD COLUMN ins_num_parcela TINYINT
+DEFAULT 1;
+
+
+ALTER TABLE vacina
+MODIFY vac_nome VARCHAR(255);
+
+INSERT INTO vacina (vac_nome) 
+VALUES	('BCG (Tuberculose) - Dose única'),
+		('Hepatite B - 3 doses'),
+		('Tríplice ou Tetra Bacteriana (Difteria, Tétano, Coqueluche e Haemophilus Influenzae B) - 3
+		doses + 2 reforços'),
+		('Poliomielite (Paralisia Infantil) - 3 doses + 2 reforços'),
+		('Rotavírus - 2 ou 3 doses'),
+		('Tríplice Viral (Sarampo, Caxumba e Rubéola) - 1 dose + 1 reforço'),
+		('Hepatite A - 2 doses'),
+		('Varicela (Catapora) - 1 dose + 1 reforço'),
+		('Meningocócica Conjugada C (Meningite Bacteriana) - 3 doses ou dose única'),
+		('Pneumocócica Conjugada 7, 10 ou 13 Valente (Doenças Pneumocócicas) - 4 doses, 3
+		doses, 2 doses ou dose única'),
+		('Influenza (Gripe) - Anual'),
+		('Febre Amarela');
+
+ALTER TABLE registro_vacina DROP rv_data;

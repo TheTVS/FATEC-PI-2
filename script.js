@@ -104,6 +104,40 @@ function mostrarPagina(pagina) {
       }
     }
 
+    // Verificação dos campos da "Responsaveis"
+    function verificarCamposResponsavel() {
+      var todosPreenchidos = true;
+      var campoFoco = -1;
+
+      // Verifica se "outro" foi selecionado
+      if (document.getElementById("res-res-outro").checked) {
+        var camposResponsavel = document.getElementsByClassName("obrigatorioResponsavel");
+        for (var i = 0; i < camposResponsavel.length; i++) {
+          if (camposResponsavel[i].value === '') {
+            todosPreenchidos = false;
+            camposResponsavel[i].style.border = "1px solid red";
+            if (campoFoco == -1) {
+              campoFoco = camposResponsavel[i];
+            }
+          } else {
+            camposResponsavel[i].style.border = "";
+          }
+        }
+      }
+      return todosPreenchidos;
+    }
+    if (!verificarSelecao('res-res')) {
+      todosPreenchidos = false;
+      document.getElementsByName("res-res")[0].style.border = "1px solid red";
+      if (campoFoco == -1) {
+        campoFoco = document.getElementsByName("res-res")[0];
+      }
+    } else {
+      if (!verificarCamposResponsavel()) {
+        todosPreenchidos = false;
+      }
+    }
+
     // Inputs de CPF
     var idsCPF = ['res-cpf'];
     var minLengthTelefone = 14;
@@ -118,23 +152,6 @@ function mostrarPagina(pagina) {
         }
       } else {
         CPF.style.border = "";
-      }
-    });
-
-    // Inputs de RG
-    var idsRG = ['res-rg', 'cri-rg'];
-    var minLengthTelefone = 11;
-
-    idsRG.forEach(id => {
-      var RG = document.getElementById(id);
-      if (RG.value.length < minLengthTelefone) {
-        todosPreenchidos = false;
-        RG.style.border = "1px solid red";
-        if (campoFoco == -1) {
-          campoFoco = RG;
-        }
-      } else {
-        RG.style.border = "";
       }
     });
 
@@ -611,10 +628,9 @@ function mostrarCamposRadio(radio, textareaId) {
   }
 }
 
-// Função de mostrar campo outro responsavel
-function mostrarCamposSelect(select, textareaId) {
+function mostrarCamposRadioResponsavel(radio, textareaId) {
   var textarea = document.getElementById(textareaId);
-  textarea.style.display = select.value === "outro" ? "block" : "none";
+  textarea.style.display = radio.value === 'outro' ? "block" : "none";
 }
 
 function verificarSelecao(grupo) {
@@ -663,80 +679,80 @@ form.addEventListener("submit", function (event) {
   }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   const inputDocumento = document.getElementById('input-documento');
   const labelDocumento = document.getElementById('label-documento');
 
-  inputDocumento.addEventListener('input', function() {
-      let valor = inputDocumento.value.trim();
-      let novoId, novoName, novoFor, novoMinLength, novoMaxLength, tipo;
+  inputDocumento.addEventListener('input', function () {
+    let valor = inputDocumento.value.trim();
+    let novoId, novoName, novoFor, novoMinLength, novoMaxLength, tipo;
 
-      if (/^\d/.test(valor)) {
-          // Começa com número, considera como RG
-          tipo = 'RG';
-          novoId = 'res-rg';
-          novoName = 'res-rg';
-          novoFor = 'res-rg';
-          novoMinLength = '12';
-          novoMaxLength = '12';
+    if (/^\d/.test(valor)) {
+      // Começa com número, considera como RG
+      tipo = 'RG';
+      novoId = 'res-rg';
+      novoName = 'res-rg';
+      novoFor = 'res-rg';
+      novoMinLength = '12';
+      novoMaxLength = '12';
 
-          valor = valor.replace(/\D/g, ''); // Remove não números
-          valor = valor.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})(\d{1})$/, '$1.$2.$3-$4');
-      } else if (/^[a-zA-Z]/.test(valor)) {
-          // Começa com letra, considera como RNE
-          tipo = 'RNE';
-          novoId = 'res-rne';
-          novoName = 'res-rne';
-          novoFor = 'res-rne';
-          novoMinLength = '9';
-          novoMaxLength = '9';
+      valor = valor.replace(/\D/g, ''); // Remove não números
+      valor = valor.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})(\d{1})$/, '$1.$2.$3-$4');
+    } else if (/^[a-zA-Z]/.test(valor)) {
+      // Começa com letra, considera como RNE
+      tipo = 'RNE';
+      novoId = 'res-rne';
+      novoName = 'res-rne';
+      novoFor = 'res-rne';
+      novoMinLength = '10';
+      novoMaxLength = '10';
 
-          valor = valor.toUpperCase().replace(/[^\w]/g, ''); // Remove caracteres especiais
-          valor = valor.replace(/^(\w{1})(\d{6})(\w{1})(\d{1})$/, '$1$2-$3');
-      } else {
-          // Padrão para caso inicial vazio ou outro formato não esperado
-          tipo = 'RG'; // Por padrão, começará como RG se não houver entrada válida
-          novoId = 'res-rg';
-          novoName = 'res-rg';
-          novoFor = 'res-rg';
-          novoMinLength = '12';
-          novoMaxLength = '12';
-          valor = '';
+      valor = valor.toUpperCase().replace(/[^\w]/g, ''); // Remove caracteres especiais
+      valor = valor.replace(/^(\w{1})(\d{6})(\w{1})(\d{1})$/, '$1$2-$3');
+    } else {
+      // Padrão para caso inicial vazio ou outro formato não esperado
+      tipo = 'RG'; // Por padrão, começará como RG se não houver entrada válida
+      novoId = 'res-rg';
+      novoName = 'res-rg';
+      novoFor = 'res-rg';
+      novoMinLength = '12';
+      novoMaxLength = '12';
+      valor = '';
+    }
+
+    // Altera dinamicamente o texto do label para RG ou RNE
+    labelDocumento.textContent = tipo;
+
+    // Aplica as novas configurações
+    inputDocumento.id = novoId;
+    inputDocumento.name = novoName;
+    labelDocumento.setAttribute('for', novoFor);
+    inputDocumento.minLength = novoMinLength;
+    inputDocumento.maxLength = novoMaxLength;
+    inputDocumento.value = valor;
+
+    // Aplica a máscara conforme o tipo de documento
+    if (tipo === 'RG') {
+      if (valor.length > 2) {
+        valor = valor.slice(0, 2) + '.' + valor.slice(2);
       }
-
-      // Altera dinamicamente o texto do label para RG ou RNE
-      labelDocumento.textContent = tipo;
-
-      // Aplica as novas configurações
-      inputDocumento.id = novoId;
-      inputDocumento.name = novoName;
-      labelDocumento.setAttribute('for', novoFor);
-      inputDocumento.minLength = novoMinLength;
-      inputDocumento.maxLength = novoMaxLength;
-      inputDocumento.value = valor;
-
-      // Aplica a máscara conforme o tipo de documento
-      if (tipo === 'RG') {
-          if (valor.length > 2) {
-              valor = valor.slice(0, 2) + '.' + valor.slice(2);
-          }
-          if (valor.length > 6) {
-              valor = valor.slice(0, 6) + '.' + valor.slice(6);
-          }
-          if (valor.length > 10) {
-              valor = valor.slice(0, 10) + '-' + valor.slice(10);
-          }
-      } else if (tipo === 'RNE') {
-          // Aplica a máscara para RNE
-          if (valor.length > 1) {
-              valor = valor.slice(0, 1) + '.' + valor.slice(1);
-          }
-          if (valor.length > 7) {
-              valor = valor.slice(0, 7) + '-' + valor.slice(7);
-          }
+      if (valor.length > 6) {
+        valor = valor.slice(0, 6) + '.' + valor.slice(6);
       }
+      if (valor.length > 10) {
+        valor = valor.slice(0, 10) + '-' + valor.slice(10);
+      }
+    } else if (tipo === 'RNE') {
+      // Aplica a máscara para RNE
+      if (valor.length > 1) {
+        valor = valor.slice(0, 1) + '.' + valor.slice(1);
+      }
+      if (valor.length > 7) {
+        valor = valor.slice(0, 7) + '-' + valor.slice(7);
+      }
+    }
 
-      inputDocumento.value = valor;
+    inputDocumento.value = valor;
   });
 });
 

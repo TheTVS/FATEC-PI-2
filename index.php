@@ -30,7 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário Básico</title>
     <link rel="stylesheet" href="styles.css">
-    
+
 </head>
 
 <body>
@@ -87,11 +87,6 @@
 
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
-                                <label id="label-documento" for="input-documento">RG<span style="color: red;">*</span></label>
-                                <input placeholder="Digite seu RG ou RNE" type="text" id="input-documento" name="input-documento" minlength="12" maxlength="12" class="obrigatorioTexto-p1" required>
-                            </div>
-
-                            <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="res-cpf" name="res-cpf" maxlength="14"
                                     oninput="aplicarMascara(event)" class="obrigatorioTexto-p1">
                                 <label for="res-cpf">CPF<span style="color: red;">*</span></label>
@@ -131,25 +126,35 @@
                             </div>
                         </div>
 
-                        <div class="formulario-linha">
-                            <div class="formulario-grupo">
-                                <select id="res-res" name="res-res" class="obrigatorioSelect-p1" onchange="mostrarCamposSelect(this, 'outro-responsavel')">
-                                    <option value="" disabled selected></option>
-                                    <option value="pai">Pai</option>
-                                    <option value="mae">Mãe</option>
-                                    <option value="outro">Outro</option>
-                                </select>
-                                <label placeholder="‎" for="res-res">Responsável<span
-                                        style="color: red;">*</span></label>
-                            </div>
-                            <div class="formulario-grupo" style="flex-basis: 30%;">
-                                <div id="outro-responsavel" class="formulario-grupo" style="display: none;">
-                                    <input placeholder="‎" type="text" id="outro" name="outro" class="obrigatorioTexto-p1">
-                                    <label for="outro">Outro Responsável<span style="color: red;">*</span></label>
-                                </div>
-                            </div>
-
+                        <div class="formulario-grupo">
+                            <span class="label" for="res-res">Responsável<span style="color: red;">*</span></span>
                         </div>
+                        <div class="formulario-linha-checkbox">
+                            <div class="formulario-grupo-checkbox">
+                                <input type="radio" id="res-res-pai" name="res-res" value="pai"
+                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')">
+                                <label for="res-res-pai">Pai</label>
+                            </div>
+                            <div class="formulario-grupo-checkbox">
+                                <input type="radio" id="res-res-mae" name="res-res" value="mae"
+                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')">
+                                <label for="res-res-mae">Mãe</label>
+                            </div>
+                            <div class="formulario-grupo-checkbox">
+                                <input type="radio" id="res-res-outro" name="res-res" value="outro"
+                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')">
+                                <label for="res-res-outro">Outro</label>
+                            </div>
+                        </div>
+
+                        <div id="camposResponsavel" style="display: none;">
+                            <div class="formulario-grupo">
+                                <input placeholder="‎" type="text" id="res-out" name="res-out"
+                                    class="obrigatorioResponsavel">
+                                <label for="res-out">Responsável<span style="color: red;">*</span></label>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -251,22 +256,6 @@
 
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
-                                <input placeholder="‎" type="text" id="cri-rg" name="cri-rg" maxlength="12"
-                                    oninput="apenasNumeros(event)" class="obrigatorioTexto-p1">
-                                <label for="cri-rg">RG<span style="color: red;">*</span></label>
-                            </div>
-                            <div class="formulario-grupo">
-                                <select id="sexo" name="sexo" class="obrigatorioSelect-p1">
-                                    <option value="" disabled selected></option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
-                                </select>
-                                <label placeholder="‎" for="sexo">Sexo<span style="color: red;">*</span></label>
-                            </div>
-                        </div>
-
-                        <div class="formulario-linha">
-                            <div class="formulario-grupo">
                                 <input type="date" id="birthday" name="birthday" min="2000-01-01" max="2030-12-31"
                                     class="data0, obrigatorioSelect-p1">
                                 <label placeholder="‎" for="birthday">Data de nascimento<span
@@ -282,6 +271,15 @@
 
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
+                                <select id="sexo" name="sexo" class="obrigatorioSelect-p1">
+                                    <option value="" disabled selected></option>
+                                    <option value="M">Masculino</option>
+                                    <option value="F">Feminino</option>
+                                </select>
+                                <label placeholder="‎" for="sexo">Sexo<span style="color: red;">*</span></label>
+                            </div>
+
+                            <div class="formulario-grupo">
                                 <select id="cri-tar" name="cri-tar" class="obrigatorioSelect-p1">
                                     <option value="" disabled selected></option>
                                     <option value="p">P</option>
@@ -296,8 +294,6 @@
                                 </select>
                                 <label placeholder="‎" for="cri-tar">Tamanho da camiseta<span
                                         style="color: red;">*</span></label>
-                            </div>
-                            <div class="formulario-grupo">
                             </div>
                         </div>
                     </div>
@@ -342,6 +338,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="progresso-container">
                     Passo 1 de 2
                     <div class="barra-progresso">
@@ -409,6 +406,11 @@
                         </div>
                         <div id="camposConvenio">
                             <div class="formulario-linha">
+                                <div class="formulario-grupo">
+                                    <input placeholder="‎" type="text" id="con-num" name="con-num"
+                                        class="obrigatorioConvenio">
+                                    <label for="con-num">Código do Convênio<span style="color: red;">*</span></label>
+                                </div>
                                 <div class="formulario-grupo">
                                     <input placeholder="‎" type="text" id="con-nom" name="con-nom"
                                         class="obrigatorioConvenio">

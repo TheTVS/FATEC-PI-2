@@ -58,7 +58,7 @@
             </div>
         </div>
 
-        <form id="form-principal" action="resource\scripts\PHP\main.php" method="post">
+        <form id="form-principal" action="envio_forms.php" method="post">
             <!-- PAGINA 1 -->
             <div id="pagina-1" class="pagina">
                 <div class="container" style="text-align: center;">
@@ -303,7 +303,7 @@
                     <div class="formulario">
                         <h2 class="formulario-titulo">Valores</h2>
                         <div class="formulario-grupo">
-                            <div class="formulario-linha-valor">
+                        <div class="formulario-linha-valor">
                                 <div class="formulario-grupo-moeda">
                                     <h5>R$</h5>
                                 </div>
@@ -409,7 +409,7 @@
                                 <div class="formulario-grupo">
                                     <input placeholder="‎" type="text" id="con-num" name="con-num"
                                         class="obrigatorioConvenio">
-                                    <label for="con-num">Código do Convênio<span style="color: red;">*</span></label>
+                                    <label for="con-num">Número do Convênio<span style="color: red;">*</span></label>
                                 </div>
                                 <div class="formulario-grupo">
                                     <input placeholder="‎" type="text" id="con-nom" name="con-nom"
@@ -678,16 +678,18 @@
                     </div>
                 </div>
 
+                
+
                 <div class="container">
                     <div class="formulario">
                         <h2 class="formulario-titulo">Registro de Sintomas e Medicamentos</h2>
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <span placeholder="‎" for="reg-sin-med-obs">Caso o participante apresente algum dos
-                                    seguintes sintomas
-                                    (febre,
-                                    gripe, cólica, dor de cabeça, dor de ouvido, náuseas/vômitos, dor de garganta, má
-                                    digestão), por favor, especifique os medicamentos liberados para uso.<span
+                                    seguintes sintomas (febre, gripe, cólica, dor de cabeça, dor de ouvido,
+                                    náuseas/vômitos, dor de garganta, má digestão), por favor, especifique os
+                                    medicamentos liberados para uso. Além disso, informe se o participante toma algum
+                                    remédio regularmente e, se sim, quais são os medicamentos.<span
                                         style="color: red;">*</span></span>
                                 <textarea id="reg-sin-med-obs" name="reg-sin-med-obs" rows="3" style="resize: vertical;"
                                     class="obrigatorioTexto-p2"></textarea>
@@ -753,6 +755,8 @@
                             <input type="checkbox" id="his-vac-feb" name="his-vac-feb">
                             <label for="his-vac-feb">Febre Amarela</label>
                         </div>
+                    </div>
+                </div>
 
                 <div class="container">
                     <div class="formulario">
@@ -778,7 +782,7 @@
                 <div class="formulario-linha">
                     <button type="button" class="formulario-botao" onclick="mostrarPagina(1)">Voltar</button>
                     <div class="botao">
-                        <button type="button" class="formulario-botao" onclick="mostrarPagina(3)">Enviar</button>
+                        <input type="submit" class="formulario-botao" onclick="mostrarPagina(3)" value="Enviar">
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@
 
 $hostname = "localhost";
 $user = "root";
-$password = "fatec";
+$password = "1234";
 $database = "rp_eventos";
 $conexao = mysqli_connect($hostname, $user, $password, $database);
 

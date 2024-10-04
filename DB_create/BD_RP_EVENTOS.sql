@@ -135,21 +135,21 @@ CREATE TABLE registro_medico (
     rm_id INT PRIMARY KEY AUTO_INCREMENT,
     aca_id INT,
     med VARCHAR(600),
-    FOREIGN KEY (aca_id) REFERENCES acampante(aca_id),
+    FOREIGN KEY (aca_id) REFERENCES acampante(aca_id)
 );
 
 -- Inserts
 INSERT INTO doenca (doe_nome, doe_tipo, doe_categoria)
 VALUES 
-('Convulsões', 'Crônica', 'Neurológica'),
-('Desmaios', 'Crônica', 'Neurológica'),
-('Hemofilia', 'Crônica', 'Sanguínea'),
-('Enxaqueca', 'Crônica', 'Neurológica'),
-('Distúrbios neurológicos', 'Crônica', 'Neurológica'),
-('Cardiopatias', 'Crônica', 'Cardíaca'),
-('Diabetes', 'Crônica', 'Metabólica'),
-('Hipoglicemia', 'Crônica', 'Metabólica'),
-('Asma / Bronquite', 'Crônica', 'Respiratória');
+('Convulsões', 'Crônica', 'Neurológica'),--1
+('Desmaios', 'Crônica', 'Neurológica'),--2
+('Hemofilia', 'Crônica', 'Sanguínea'),--3
+('Enxaqueca', 'Crônica', 'Neurológica'),--4
+('Distúrbios neurológicos', 'Crônica', 'Neurológica'),--5
+('Cardiopatias', 'Crônica', 'Cardíaca'),--6
+('Diabetes', 'Crônica', 'Metabólica'),--7
+('Hipoglicemia', 'Crônica', 'Metabólica'),--8
+('Asma / Bronquite', 'Crônica', 'Respiratória');--9
 
 ALTER TABLE acampante
 CHANGE aca_peso aca_sexo VARCHAR(1),
@@ -191,8 +191,22 @@ CREATE TABLE alergia (
 -- Tabela registro_alergia
 CREATE TABLE registro_alergia (
     ra_id INT PRIMARY KEY AUTO_INCREMENT,
+    ra_obs VARCHAR (200);
     aca_id INT,
     ale_id INT,
     FOREIGN KEY (aca_id) REFERENCES acampante(aca_id),
     FOREIGN KEY (ale_id) REFERENCES alergia(ale_id)
 );
+
+INSERT INTO alergia (ale_nome) VALUES 
+('Aspirina'),--1
+('Melhoral'),--2
+('Novalgina (dipirona)'),--3
+('Plasil (metoclopramida)'),--4
+('Dramin'),--5
+('Povidine (iodo)'),--6
+('Catafian (diclofenaco)'),--7
+('Penicilina'),--8
+('Pó'),--9
+('Alimentos'),--10
+('Picadas de Insetos');--11

@@ -146,67 +146,60 @@ try {
     if (isset($_POST["doe"])) {
         // Convulsões
         if (isset($_POST["doe-con"])) {
-        $doencas[] = "Convulsões";
-        $doeConObs = $_POST["doe-con-obs"];
+            $doencas[] = 1;//1
         }
-
+    
         // Cardiopatias
         if (isset($_POST["doe-car"])) {
-        $doencas[] = "Cardiopatias";
-        $doeCarObs = $_POST["doe-car-obs"];
+            $doencas[] = 6;//6
         }
-
+    
         // Desmaios
         if (isset($_POST["doe-des"])) {
-        $doencas[] = "Desmaios";
-        $doeDesObs = $_POST["doe-des-obs"];
+            $doencas[] = 2;//2
         }
-
+    
         // Diabetes
         if (isset($_POST["doe-dia"])) {
-        $doencas[] = "Diabetes";
-        $doeDiaObs = $_POST["doe-dia-obs"];
+            $doencas[] = 7;//7
         }
-
+    
         // Hemorragias
         if (isset($_POST["doe-hem"])) {
-        $doencas[] = "Hemorragias";
-        $doeHemObs = $_POST["doe-hem-obs"];
+            $doencas[] = 3;//3
         }
-
+    
         // Hipoglicemia
         if (isset($_POST["doe-hip"])) {
-        $doencas[] = "Hipoglicemia";
-        $doeHipObs = $_POST["doe-hip-obs"];
+            $doencas[] = 8;//8
         }
-
+    
         // Enxaqueca
         if (isset($_POST["doe-enx"])) {
-        $doencas[] = "Enxaqueca";
-        $doeEnxObs = $_POST["doe-enx-obs"];
+            $doencas[] = 4;//4
         }
-
+    
         // Asma/Bronquite
         if (isset($_POST["doe-bro"])) {
-        $doencas[] = "Asma/Bronquite";
-        $doeBroObs = $_POST["doe-bro-obs"];
+            $doencas[] = 9;//9
         }
-
+    
         // Distúrbios neurológicos
         if (isset($_POST["doe-dis"])) {
-        $doencas[] = "Distúrbios neurológicos";
-        $doeDisObs = $_POST["doe-dis-obs"];
+            $doencas[] = 5;//5
         }
-    }
-
-    // Inserindo dados na tabela registro_doenca pegar os valores de doencas certas no inxer mudar os nomes
-    $sql = "INSERT INTO registro_doenca (aca_id, doe_id) VALUES (?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ii", $acampante_id, $doe_id);
-    if ($stmt->execute()) {
-        echo "Novo registro registro_doenca criado.";
-    } else {
-        throw new Exception("Erro ao inserir na tabela registro_doenca: " . $stmt->error);
+    
+        // Insert each disease into the database feito
+        foreach ($doencas as $doe_id) {
+            $sql = "INSERT INTO registro_doenca (aca_id, doe_id) VALUES (?, ?);";
+            $stmt = $conexao->prepare($sql);
+            $stmt->bind_param("ii", $acampante_id, $doe_id);
+            if ($stmt->execute()) {
+                echo "Novo registro registro_doenca criado.";
+            } else {
+                throw new Exception("Erro ao inserir na tabela registro_doenca: " . $stmt->error);
+            }
+        }
     }
 
     // Inserindo dados na tabela registro_medico feito
@@ -220,16 +213,79 @@ try {
     }
 
 
-    // Inserindo dados na tabela vacinas falta fazer o insert na tabela ale
-    $sql = "INSERT INTO registro_alergia (aca_id, ale_id) VALUES (?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ii", $acampante_id, $ale_id);
-    if ($stmt->execute()) {
-        echo "Novo registro registro_medico criado.";
-    } else {
-        throw new Exception("Erro ao inserir na tabela registro_medico: " . $stmt->error);
+    if (isset($_POST["ale-med"])) {
+        // Aspirina
+        if (isset($_POST["ale-med-aps"])) {
+            $alergias[] = 1;//1
+        }
+    
+        // Melhoral
+        if (isset($_POST["ale-med-mel"])) {
+            $alergias[] = 2;//2
+        }
+    
+        // Novalgina (dipirona)
+        if (isset($_POST["ale-med-nov"])) {
+            $alergias[] = 3;//3
+        }
+    
+        // Plasil (metoclopramida)
+        if (isset($_POST["ale-med-pla"])) {
+            $alergias[] = 4;//4
+        }
+    
+        // Dramin
+        if (isset($_POST["ale-med-dra"])) {
+            $alergias[] = 5;//5
+        }
+    
+        // Povidine (iodo)
+        if (isset($_POST["ale-med-pov"])) {
+            $alergias[] = 6;//6
+        }
+    
+        // Cataflan (diclofenaco)
+        if (isset($_POST["ale-med-cat"])) {
+            $alergias[] = 7;//7
+        }
+    
+        // Penicilina
+        if (isset($_POST["ale-med-pen"])) {
+            $alergias[] = 8;//8
+        }
+    
+        // Outro medicamento não mencionado
+        if (isset($_POST["tem-ale-med"]) && $_POST["tem-ale-med"] == "sim") {
+            $alergias[] = 9;//9
+        }
+        if (isset($_POST["ale"])) {
+            // Pó
+        if (isset($_POST["ale"]) && $_POST["ale"] == "ale-po") {
+            $alergias[] = 10;//10
+            }
+        
+            // Alimentos
+        if (isset($_POST["ale"]) && $_POST["ale"] == "ale-ali") {
+            $alergias[] = 11;//11
+            }
+        
+            // Picadas de Insetos
+        if (isset($_POST["ale"]) && $_POST["ale"] == "ale-pdi") {
+            $alergias[] = 12;//12
+            }
+    
+        // Insert each allergy to medication into the database
+        foreach ($alergias as $ale_id) {
+            $sql = "INSERT INTO registro_alergia (aca_id, ale_id, ra_obs) VALUES (?, ?, ?);";
+            $stmt = $conexao->prepare($sql);
+            $stmt->bind_param("iis", $acampante_id, $ale_id,  isset($_POST['ale-out-obs']) ? $_POST['reg-sin-med-obs'] : '');
+            if ($stmt->execute()) {
+                echo "Novo registro registro_alergia criado.";
+            } else {
+                throw new Exception("Erro ao inserir na tabela registro_alergia: " . $stmt->error);
+            }
+        }
     }
-
     // Confirma a transação
     $conexao->commit();
 } catch (Exception $e) {
@@ -286,114 +342,5 @@ $conexao->close();
     con_numero 
 
 
-    // Para checkboxes, você pode verificar se estão definidos feito so tem que ver o bagulho do rv_date
-    $vacinas = [];
-    // Captura observações pode retirar essas porra de observacao da vacia ou no caso  colocar no banco  de dados 
-    $temObservacao = isset($_POST['tem-his-vac-obs']) ? $_POST['tem-his-vac-obs'] : '';
-    $observacoes = isset($_POST['his-vac-obs']) ? $_POST['his-vac-obs'] : '';
-    
-
-    // Alergias a medicamentos tem que ver a tabela de alegias no banco q ta faltando
-    $ale_med_aps = isset($_POST['ale-med-aps']) ? 'Sim' : 'Não';
-    $ale_med_mel = isset($_POST['ale-med-mel']) ? 'Sim' : 'Não';
-    $ale_med_nov = isset($_POST['ale-med-nov']) ? 'Sim' : 'Não';
-    $ale_med_pla = isset($_POST['ale-med-pla']) ? 'Sim' : 'Não';
-    $ale_med_dra = isset($_POST['ale-med-dra']) ? 'Sim' : 'Não';
-    $ale_med_pov = isset($_POST['ale-med-pov']) ? 'Sim' : 'Não';
-    $ale_med_cat = isset($_POST['ale-med-cat']) ? 'Sim' : 'Não';
-    $ale_med_pen = isset($_POST['ale-med-pen']) ? 'Sim' : 'Não';
-
-    // Outras alergias
-    $tem_ale_med = $_POST['tem-ale-med'] ?? '';
-    $ale_med_obs = $_POST['ale-med-obs'] ?? '';
-
-// Check if the form has been submitted
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Initialize an array to store the selected diseases
-    $selectedDiseases = array();
-
-    // Check each checkbox
-    if (isset($_POST["doe"])) {
-      // Convulsões
-      if (isset($_POST["doe-con"])) {
-        $selectedDiseases[] = "Convulsões";
-        $doeConObs = $_POST["doe-con-obs"];
-      }
-
-      // Cardiopatias
-      if (isset($_POST["doe-car"])) {
-        $selectedDiseases[] = "Cardiopatias";
-        $doeCarObs = $_POST["doe-car-obs"];
-      }
-
-      // Desmaios
-      if (isset($_POST["doe-des"])) {
-        $selectedDiseases[] = "Desmaios";
-        $doeDesObs = $_POST["doe-des-obs"];
-      }
-
-      // Diabetes
-      if (isset($_POST["doe-dia"])) {
-        $selectedDiseases[] = "Diabetes";
-        $doeDiaObs = $_POST["doe-dia-obs"];
-      }
-
-      // Hemorragias
-      if (isset($_POST["doe-hem"])) {
-        $selectedDiseases[] = "Hemorragias";
-        $doeHemObs = $_POST["doe-hem-obs"];
-      }
-
-      // Hipoglicemia
-      if (isset($_POST["doe-hip"])) {
-        $selectedDiseases[] = "Hipoglicemia";
-        $doeHipObs = $_POST["doe-hip-obs"];
-      }
-
-      // Enxaqueca
-      if (isset($_POST["doe-enx"])) {
-        $selectedDiseases[] = "Enxaqueca";
-        $doeEnxObs = $_POST["doe-enx-obs"];
-      }
-
-      // Asma/Bronquite
-      if (isset($_POST["doe-bro"])) {
-        $selectedDiseases[] = "Asma/Bronquite";
-        $doeBroObs = $_POST["doe-bro-obs"];
-      }
-
-      // Distúrbios neurológicos
-      if (isset($_POST["doe-dis"])) {
-        $selectedDiseases[] = "Distúrbios neurológicos";
-        $doeDisObs = $_POST["doe-dis-obs"];
-      }
-
-      // Outros
-      if (isset($_POST["doe-out"])) {
-        $selectedDiseases[] = "Outros";
-        $doeOutObs = $_POST["doe-out-obs"];
-      }
-    }
-
-    // Print the selected diseases
-    echo "Selected diseases: ";
-    foreach ($selectedDiseases as $disease) {
-      echo "$disease, ";
-    }
-    echo "<br>";
-
-    // Print the observations for each disease
-    echo "Observations: <br>";
-    echo "Convulsões: $doeConObs <br>";
-    echo "Cardiopatias: $doeCarObs <br>";
-    echo "Desmaios: $doeDesObs <br>";
-    echo "Diabetes: $doeDiaObs <br>";
-    echo "Hemorragias: $doeHemObs <br>";
-    echo "Hipoglicemia: $doeHipObs <br>";
-    echo "Enxaqueca: $doeEnxObs <br>";
-    echo "Asma/Bronquite: $doeBroObs <br>";
-    echo "Distúrbios neurológicos: $doeDisObs <br>";
-    echo "Outros: $doeOutObs <br>";
-  }
-
+   
 -->

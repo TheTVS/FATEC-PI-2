@@ -130,21 +130,12 @@ CREATE TABLE registro_doenca (
     FOREIGN KEY (doe_id) REFERENCES doenca(doe_id)
 );
 
--- Tabela medicamento
-CREATE TABLE medicamento (
-    med_id INT PRIMARY KEY AUTO_INCREMENT,
-    med_nome VARCHAR(60)
-);
-
 -- Tabela registro_medico
 CREATE TABLE registro_medico (
     rm_id INT PRIMARY KEY AUTO_INCREMENT,
     aca_id INT,
-    med_id INT,
-    rm_horario TIME,
-    rm_frequencia VARCHAR(50),
+    med VARCHAR(600),
     FOREIGN KEY (aca_id) REFERENCES acampante(aca_id),
-    FOREIGN KEY (med_id) REFERENCES medicamento(med_id)
 );
 
 -- Inserts
@@ -190,3 +181,18 @@ VALUES	('BCG (Tuberculose) - Dose única'),
 		('Febre Amarela');
 
 ALTER TABLE registro_vacina DROP rv_data;
+
+-- Tabela alergia
+CREATE TABLE alergia (
+    ale_id INT PRIMARY KEY AUTO_INCREMENT,
+    ale_nome VARCHAR(60) NOT NULL
+);
+
+-- Tabela registro_alergia
+CREATE TABLE registro_alergia (
+    ra_id INT PRIMARY KEY AUTO_INCREMENT,
+    aca_id INT,
+    ale_id INT,
+    FOREIGN KEY (aca_id) REFERENCES acampante(aca_id),
+    FOREIGN KEY (ale_id) REFERENCES alergia(ale_id)
+);

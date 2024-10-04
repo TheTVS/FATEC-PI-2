@@ -28,6 +28,7 @@ try {
         $texto = "Nenhuma temporada encontrada.";
     }
 
+    
     // Inserindo dados na tabela responsavel feito
     $sql = "INSERT INTO responsavel (res_cpf, res_nome, res_sobrenome, res_rg, res_telefone1, res_telefone2, res_email1, res_email2, res_tipo, res_tipo_outro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
@@ -37,6 +38,7 @@ try {
     } else {
         throw new Exception("Erro ao inserir na tabela responsavel: " . $stmt->error);
     }
+
 
     // Inserindo dados na tabela endereco feito
     $sql = "INSERT INTO endereco (end_estado, end_cidade, end_bairro, end_rua, end_numero, end_cep) VALUES (?, ?, ?, ?, ?, ?);";
@@ -49,6 +51,7 @@ try {
     } else {
         throw new Exception("Erro ao inserir na tabela endereco: " . $stmt->error);
     }
+
 
     //sangue acampante
     $sangue = $_POST['sangue'] ?? '';
@@ -66,6 +69,7 @@ try {
         throw new Exception("Erro ao inserir na tabela acampante: " . $stmt->error);
     }
 
+
     // Inserindo dados na tabela inscricao feita
     $sql = "INSERT INTO inscricao (ins_pagamento, ins_data, temp_id, res_cpf, aca_id,ins_num_parcela) VALUES (?, ?, ?, ?, ?, ?);";
     $stmt = $conexao->prepare($sql);
@@ -75,6 +79,7 @@ try {
     } else {
         throw new Exception("Erro ao inserir na tabela inscricao: " . $stmt->error);
     }
+
 
     // Inserindo dados na tabela convenio feito
     $sql = "INSERT INTO convenio (con_nome, con_numero, con_telefone, con_observacao) VALUES (?, ?, ?, ?);";
@@ -87,6 +92,7 @@ try {
     } else {
         throw new Exception("Erro ao inserir na tabela convenio: " . $stmt->error);
     }
+
 
     // Inserindo dados na tabela acampante_convenio feito
     $sql = "INSERT INTO acampante_convenio (aca_id, con_id) VALUES (?, ?);";
@@ -193,7 +199,7 @@ try {
         }
     }
 
-    // Inserindo dados na tabela registro_doenca pegar os valores de doencas certas
+    // Inserindo dados na tabela registro_doenca pegar os valores de doencas certas no inxer mudar os nomes
     $sql = "INSERT INTO registro_doenca (aca_id, doe_id) VALUES (?, ?);";
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("ii", $acampante_id, $doe_id);
@@ -203,10 +209,21 @@ try {
         throw new Exception("Erro ao inserir na tabela registro_doenca: " . $stmt->error);
     }
 
-    // Inserindo dados na tabela registro_medico
-    $sql = "INSERT INTO registro_medico (aca_id, med_id, rm_horario, rm_frequencia) VALUES (?, ?, ?, ?);";
+    // Inserindo dados na tabela registro_medico feito
+    $sql = "INSERT INTO registro_medico (aca_id, med) VALUES (?, ?);";
     $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("iiss", $acampante_id, $med_id, $rm_horario, $rm_frequencia);
+    $stmt->bind_param("is", $acampante_id, isset($_POST['reg-sin-med-obs']) ? $_POST['reg-sin-med-obs'] : '');
+    if ($stmt->execute()) {
+        echo "Novo registro registro_medico criado.";
+    } else {
+        throw new Exception("Erro ao inserir na tabela registro_medico: " . $stmt->error);
+    }
+
+
+    // Inserindo dados na tabela vacinas falta fazer o insert na tabela ale
+    $sql = "INSERT INTO registro_alergia (aca_id, ale_id) VALUES (?, ?);";
+    $stmt = $conexao->prepare($sql);
+    $stmt->bind_param("ii", $acampante_id, $ale_id);
     if ($stmt->execute()) {
         echo "Novo registro registro_medico criado.";
     } else {

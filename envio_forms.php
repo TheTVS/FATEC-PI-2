@@ -253,25 +253,21 @@ try {
         if (isset($_POST["ale-med-pen"])) {
             $alergias[] = 8;//8
         }
-    
-        // Outro medicamento não mencionado
-        if (isset($_POST["tem-ale-med"]) && $_POST["tem-ale-med"] == "sim") {
-            $alergias[] = 9;//9
-        }
+    }
         if (isset($_POST["ale"])) {
             // Pó
         if (isset($_POST["ale"]) && $_POST["ale"] == "ale-po") {
-            $alergias[] = 10;//10
+            $alergias[] = 9;//9
             }
         
             // Alimentos
         if (isset($_POST["ale"]) && $_POST["ale"] == "ale-ali") {
-            $alergias[] = 11;//11
+            $alergias[] = 10;//10
             }
         
             // Picadas de Insetos
         if (isset($_POST["ale"]) && $_POST["ale"] == "ale-pdi") {
-            $alergias[] = 12;//12
+            $alergias[] = 11;//11
             }
     
         // Insert each allergy to medication into the database
@@ -297,50 +293,3 @@ try {
 //fecha conexão
 $conexao->close();
 ?>
-
-<!--nao funciona passar para a proxima pagina conversar com m
-
-    responsavel--
-    $resNom = ;
-    $resSob = ;
-    $inputDocumento = ;
-    $resCpf = ;
-    $resTel1 = ;
-    $resTel2 = ;
-    $resTel3 = ;
-    $resEml1 = ;
-    $resEml2 = ;
-    $resRes = ;
-    --
-
-    endereco-- feito
-    $endCep = ;
-    $endRua = ;
-    $endBai = ;
-    $endCid = ;
-    $endUf = ;
-    $endNum = ;--
-
-    acampante--
-    $criNom = ;
-    $criSob = ;
-    $sexo = ;
-    $birthday = ;
-    $criTar =;
-    $sangue = ;
-    $rh =;
-    $resultado = $sangue . $rh; 
-    --
-
-    pagamento-- feito
-    $valPar = --
-
-
-    convenio--feito
-    $con_nom =;
-    $con_cnt = ;
-    con_numero 
-
-
-   
--->

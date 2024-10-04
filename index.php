@@ -626,27 +626,11 @@
                                     onclick="mostrarCamposCheckbox(this, 'doe-con-textarea')">
                                 <label for="doe-con">Convulsões</label>
                             </div>
-                            <div class="formulario-linha" id="doe-con-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-con-obs" name="doe-con-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeCon"></textarea>
-                                    <label for="doe-con-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
                             <!-- Cardiopatias -->
                             <div class="formulario-grupo-checkbox">
                                 <input type="checkbox" id="doe-car" name="doe"
                                     onclick="mostrarCamposCheckbox(this, 'doe-car-textarea')">
                                 <label for="doe-car">Cardiopatias</label>
-                            </div>
-                            <div class="formulario-linha" id="doe-car-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-car-obs" name="doe-car-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeCar"></textarea>
-                                    <label for="doe-car-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
                             </div>
                             <!-- Desmaios -->
                             <div class="formulario-grupo-checkbox">
@@ -654,28 +638,11 @@
                                     onclick="mostrarCamposCheckbox(this, 'doe-des-textarea')">
                                 <label for="doe-des">Desmaios</label>
                             </div>
-                            <div class="formulario-linha" id="doe-des-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-
-                                    <textarea placeholder="‎" id="doe-des-obs" name="doe-des-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeDes"></textarea>
-                                    <label for="doe-des-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
                             <!-- Diabetes -->
                             <div class="formulario-grupo-checkbox">
                                 <input type="checkbox" id="doe-dia" name="doe"
                                     onclick="mostrarCamposCheckbox(this, 'doe-dia-textarea')">
                                 <label for="doe-dia">Diabetes</label>
-                            </div>
-                            <div class="formulario-linha" id="doe-dia-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-dia-obs" name="doe-dia-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeDia"></textarea>
-                                    <label for="doe-dia-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
                             </div>
                             <!-- Hemorragias -->
                             <div class="formulario-grupo-checkbox">
@@ -683,27 +650,11 @@
                                     onclick="mostrarCamposCheckbox(this, 'doe-hem-textarea')">
                                 <label for="doe-hem">Hemorragias</label>
                             </div>
-                            <div class="formulario-linha" id="doe-hem-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-hem-obs" name="doe-hem-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeHem"></textarea>
-                                    <label for="doe-hem-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
                             <!-- Hipoglicemia -->
                             <div class="formulario-grupo-checkbox">
                                 <input type="checkbox" id="doe-hip" name="doe"
                                     onclick="mostrarCamposCheckbox(this, 'doe-hip-textarea')">
                                 <label for="doe-hip">Hipoglicemia</label>
-                            </div>
-                            <div class="formulario-linha" id="doe-hip-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-hip-obs" name="doe-hip-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeHip"></textarea>
-                                    <label for="doe-hip-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
                             </div>
                             <!-- Enxaqueca -->
                             <div class="formulario-grupo-checkbox">
@@ -711,100 +662,17 @@
                                     onclick="mostrarCamposCheckbox(this, 'doe-enx-textarea')">
                                 <label for="doe-enx">Enxaqueca</label>
                             </div>
-                            <div class="formulario-linha" id="doe-enx-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-enx-obs" name="doe-enx-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeEnx"></textarea>
-                                    <label for="doe-enx-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
                             <!-- Asma/Bronquite -->
                             <div class="formulario-grupo-checkbox">
                                 <input type="checkbox" id="doe-bro" name="doe"
                                     onclick="mostrarCamposCheckbox(this, 'doe-bro-textarea')">
                                 <label for="doe-bro">Asma / Bronquite</label>
                             </div>
-                            <div class="formulario-linha" id="doe-bro-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-bro-obs" name="doe-bro-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeBro"></textarea>
-                                    <label for="doe-bro-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
                             <!-- Distúrbios neurológicos -->
                             <div class="formulario-grupo-checkbox">
                                 <input type="checkbox" id="doe-dis" name="doe"
                                     onclick="mostrarCamposCheckbox(this, 'doe-dis-textarea')">
                                 <label for="doe-dis">Distúrbios neurológicos</label>
-                            </div>
-                            <div class="formulario-linha" id="doe-dis-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-dis-obs" name="doe-dis-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeDis"></textarea>
-                                    <label for="doe-dis-obs">Detalhe sobre a doença<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
-                            <!-- Distúrbios neurológicos -->
-                            <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-out" name="doe"
-                                    onclick="mostrarCamposCheckbox(this, 'doe-out-textarea')">
-                                <label for="doe-out">Outros</label>
-                            </div>
-                            <div class="formulario-linha" id="doe-out-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="doe-out-obs" name="doe-out-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioDoeOut"></textarea>
-                                    <label for="doe-out-obs">Detalhe sobre a(s) doença(s) adicional(is)<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="container">
-                    <div class="formulario">
-                        <h2 class="formulario-titulo">Histórico de Saúde</h2>
-                        <div class="formulario-grupo">
-                            <span for="his-sau-var">Já teve varicela (catapora)?<span
-                                    style="color: red;">*</span></span>
-                        </div>
-                        <div class="formulario-linha-checkbox">
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="his-sau-var-sim" name="his-sau-var" value="sim">
-                                <label for="his-sau-var-sim">Sim</label>
-                            </div>
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="his-sau-var-nao" name="his-sau-var" value="nao">
-                                <label for="his-sau-var-nao">Não</label>
-                            </div>
-                        </div>
-
-                        <div class="formulario-grupo">
-                            <span for="his-sau-son">Tem sonambulismo? <span style="color: red;">*</span></span>
-                        </div>
-                        <div class="formulario-linha-checkbox">
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="his-sau-son-sim" name="his-sau-son" value="sim"
-                                    onclick="mostrarCamposRadio(this, 'camposHisSauSon')">
-                                <label for="his-sau-son-sim">Sim</label>
-                            </div>
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="his-sau-son-nao" name="his-sau-son" value="nao"
-                                    onclick="mostrarCamposRadio(this, 'camposHisSauSon')">
-                                <label for="his-sau-son-nao">Não</label>
-                            </div>
-                        </div>
-                        <div id="camposHisSauSon">
-                            <div class="formulario-linha">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="his-sau-son-obs" name="his-sau-son-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioHisSauSonObs"></textarea>
-                                    <label for="his-sau-son-obs">Especifique<span style="color: red;">*</span></label>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -885,60 +753,6 @@
                             <input type="checkbox" id="his-vac-feb" name="his-vac-feb">
                             <label for="his-vac-feb">Febre Amarela</label>
                         </div>
-
-                        <div class="formulario-grupo">
-                            <span for="tem-his-vac-out">O Participante faz uso de algum outro medicamento?<span
-                                    style="color: red;">*</span></span>
-                        </div>
-                        <div class="formulario-linha-checkbox">
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="tem-his-vac-out-sim" name="tem-his-vac-out" value="sim"
-                                    onclick="mostrarCamposRadio(this, 'camposHisVac')">
-                                <label for="tem-his-vac-out-sim">Sim</label>
-                            </div>
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="tem-his-vac-out-nao" name="tem-his-vac-out" value="nao"
-                                    onclick="mostrarCamposRadio(this, 'camposHisVac')">
-                                <label for="tem-his-vac-out-nao">Não</label>
-                            </div>
-                        </div>
-                        <div id="camposHisVac">
-                            <div class="formulario-linha">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="his-vac-out" name="his-vac-out" rows="2"
-                                        style="resize: vertical;" class="obrigatorioHisVacOut"></textarea>
-                                    <label for="his-vac-out">Especifique qual, dose e horário<span
-                                            style="color: red;">*</span></label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="formulario-grupo">
-                            <span for="tem-his-vac-obs">Alguma observação? <span style="color: red;">*</span></span>
-                        </div>
-                        <div class="formulario-linha-checkbox">
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="tem-his-vac-obs-sim" name="tem-his-vac-obs" value="sim"
-                                    onclick="mostrarCamposRadio(this, 'camposHisVacObs')">
-                                <label for="tem-his-vac-obs-sim">Sim</label>
-                            </div>
-                            <div class="formulario-grupo-checkbox">
-                                <input type="radio" id="tem-his-vac-obs-nao" name="tem-his-vac-obs" value="nao"
-                                    onclick="mostrarCamposRadio(this, 'camposHisVacObs')">
-                                <label for="tem-his-vac-obs-nao">Não</label>
-                            </div>
-                        </div>
-                        <div id="camposHisVacObs">
-                            <div class="formulario-linha">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="his-vac-obs" name="his-vac-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioHisVacObs"></textarea>
-                                    <label for="his-vac-obs">Observações<span style="color: red;">*</span></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="container">
                     <div class="formulario">

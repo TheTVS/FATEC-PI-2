@@ -210,3 +210,8 @@ INSERT INTO alergia (ale_nome) VALUES
 ('Pó'),--9
 ('Alimentos'),--10
 ('Picadas de Insetos');--11
+
+ALTER TABLE responsavel 
+    MODIFY res_cpf VARCHAR(20) PRIMARY KEY,
+    MODIFY res_telefone1 VARCHAR(20) NOT NULL,
+    MODIFY res_telefone2 VARCHAR(20);

@@ -373,9 +373,9 @@
                             <div class="formulario-grupo">
                                 <select id="rh" name="rh" class="obrigatorioSelect-p2">
                                     <option value="" disabled selected></option>
-                                    <option value="pos">+</option>
-                                    <option value="neg">-</option>
-                                    <option value="rh-nulo">RH Nulo</option>
+                                    <option value="+">+</option>
+                                    <option value="-">-</option>
+                                    <option value="nulo">RH Nulo</option>
                                 </select>
                                 <label placeholder="‎" for="rh">Fator RH<span style="color: red;">*</span></label>
                             </div>
@@ -545,41 +545,25 @@
                             </div>
                             <!-- Pó -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="ale-po" name="ale"
+                                <input type="checkbox" id="ale-po" name="ale_po"
                                     onclick="mostrarCamposCheckbox(this, 'ale-po-textarea')">
                                 <label for="ale-po">Pó</label>
                             </div>
                             <!-- Alimentos -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="ale-ali" name="ale"
+                                <input type="checkbox" id="ale-ali" name="ale_ali"
                                     onclick="mostrarCamposCheckbox(this, 'ale-ali-textarea')">
                                 <label for="ale-ali">Alimentos</label>
                             </div>
-                            <div class="formulario-linha" id="ale-ali-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="ale-ali-obs" name="ale-ali-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioAleAli"></textarea>
-                                    <label for="ale-ali-obs">Descreva qual(is) alimento(s) o participante tem
-                                        alergia<span style="color: red;">*</span></label>
-                                </div>
-                            </div>
                             <!-- Picadas de Insetos -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="ale-pdi" name="ale"
+                                <input type="checkbox" id="ale-pdi" name="ale-pdi"
                                     onclick="mostrarCamposCheckbox(this, 'ale-pdi-textarea')">
                                 <label for="ale-pdi">Picadas de Insetos</label>
                             </div>
-                            <div class="formulario-linha" id="ale-pdi-textarea" style="display: none;">
-                                <div class="formulario-grupo">
-                                    <textarea placeholder="‎" id="ale-pdi-obs" name="ale-pdi-obs" rows="2"
-                                        style="resize: vertical;" class="obrigatorioAlePdi"></textarea>
-                                    <label for="ale-pdi-obs">Descreva qual(is) inseto(s) o participante tem
-                                        alergia<span style="color: red;">*</span></label>
-                                </div>
-                            </div>
                             <!-- Outras alergias -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="ale-out" name="ale"
+                                <input type="checkbox" id="ale-out" name="ale-out"
                                     onclick="mostrarCamposCheckbox(this, 'ale-out-textarea')">
                                 <label for="ale-out">Outros</label>
                             </div>
@@ -622,55 +606,55 @@
                             </div>
                             <!-- Convulsão -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-con" name="doe"
+                                <input type="checkbox" id="doe-con" name="doe-con"
                                     onclick="mostrarCamposCheckbox(this, 'doe-con-textarea')">
                                 <label for="doe-con">Convulsões</label>
                             </div>
                             <!-- Cardiopatias -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-car" name="doe"
+                                <input type="checkbox" id="doe-car" name="doe-car"
                                     onclick="mostrarCamposCheckbox(this, 'doe-car-textarea')">
                                 <label for="doe-car">Cardiopatias</label>
                             </div>
                             <!-- Desmaios -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-des" name="doe"
+                                <input type="checkbox" id="doe-des" name="doe-des"
                                     onclick="mostrarCamposCheckbox(this, 'doe-des-textarea')">
                                 <label for="doe-des">Desmaios</label>
                             </div>
                             <!-- Diabetes -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-dia" name="doe"
+                                <input type="checkbox" id="doe-dia" name="doe-dia"
                                     onclick="mostrarCamposCheckbox(this, 'doe-dia-textarea')">
                                 <label for="doe-dia">Diabetes</label>
                             </div>
                             <!-- Hemorragias -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-hem" name="doe"
+                                <input type="checkbox" id="doe-hem" name="doe-hem"
                                     onclick="mostrarCamposCheckbox(this, 'doe-hem-textarea')">
                                 <label for="doe-hem">Hemorragias</label>
                             </div>
                             <!-- Hipoglicemia -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-hip" name="doe"
+                                <input type="checkbox" id="doe-hip" name="doe-hip"
                                     onclick="mostrarCamposCheckbox(this, 'doe-hip-textarea')">
                                 <label for="doe-hip">Hipoglicemia</label>
                             </div>
                             <!-- Enxaqueca -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-enx" name="doe"
+                                <input type="checkbox" id="doe-enx" name="doe-enx"
                                     onclick="mostrarCamposCheckbox(this, 'doe-enx-textarea')">
                                 <label for="doe-enx">Enxaqueca</label>
                             </div>
                             <!-- Asma/Bronquite -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-bro" name="doe"
+                                <input type="checkbox" id="doe-bro" name="doe-bro"
                                     onclick="mostrarCamposCheckbox(this, 'doe-bro-textarea')">
                                 <label for="doe-bro">Asma / Bronquite</label>
                             </div>
                             <!-- Distúrbios neurológicos -->
                             <div class="formulario-grupo-checkbox">
-                                <input type="checkbox" id="doe-dis" name="doe"
+                                <input type="checkbox" id="doe-dis" name="doe-dis"
                                     onclick="mostrarCamposCheckbox(this, 'doe-dis-textarea')">
                                 <label for="doe-dis">Distúrbios neurológicos</label>
                             </div>

@@ -323,34 +323,6 @@ function mostrarPagina(pagina) {
         campoFoco = document.getElementsByName("tem-ale")[0];
       }
     } else {
-      if (document.getElementById("ale-ali").checked) {
-        var camposAleAli = document.getElementsByClassName("obrigatorioAleAli");
-        for (var i = 0; i < camposAleAli.length; i++) {
-          if (camposAleAli[i].value === '') {
-            todosPreenchidos = false;
-            camposAleAli[i].style.border = "1px solid red";
-            if (campoFoco == -1) {
-              campoFoco = camposAleAli[i];
-            }
-          } else {
-            camposAleAli[i].style.border = "";
-          }
-        }
-      }
-      if (document.getElementById("ale-pdi").checked) {
-        var camposAlePdi = document.getElementsByClassName("obrigatorioAlePdi");
-        for (var i = 0; i < camposAlePdi.length; i++) {
-          if (camposAlePdi[i].value === '') {
-            todosPreenchidos = false;
-            camposAlePdi[i].style.border = "1px solid red";
-            if (campoFoco == -1) {
-              campoFoco = camposAlePdi[i];
-            }
-          } else {
-            camposAlePdi[i].style.border = "";
-          }
-        }
-      }
       if (document.getElementById("ale-out").checked) {
         var camposAleOut = document.getElementsByClassName("obrigatorioAleOut");
         for (var i = 0; i < camposAleOut.length; i++) {

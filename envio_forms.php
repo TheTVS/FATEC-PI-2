@@ -2,294 +2,631 @@
 
 include('resource/database/conexao.php');
 
-if ($conexao->connect_error) {
-    die("Conexão falhou: " . $conexao->connect_error);
-}
-//abre conexao
-$conexao->begin_transaction();
-
-try {
-    //pega os valores da temporada
-    $sql = "SELECT temp_id,temp_data_inicio,temp_preco FROM temporada WHERE temp_id = (SELECT MAX(temp_id) FROM temporada)";
+    //Select para mostrar qual temporada esta
+    $sql = "SELECT * FROM temporada WHERE temp_id = (SELECT MAX(temp_id) FROM temporada)";
 
     $result = $conexao->query($sql);
 
     // Verifica se um resultado foi encontrado
     if ($result->num_rows > 0) {
-        // Busca os dados
-        $row = $result->fetch_assoc();
+    // Busca os dados
+    $row = $result->fetch_assoc();
 
-        // Salva os dados em variáveis
-        $tempId = $row['temp_id'];//usado
-        $dataInicio = $row['temp_data_inicio'];//usado
-        $valorInscrição = $row['temp_preco'];//usado
+    // Salva os dados em variáveis
+    $id_temp = $row['temp_id'];
+    $dataInicio = $row['temp_data_inicio'];
+    $dataFim = $row['temp_data_fim'];
+    $tempNome = $row['temp_nome'];
+    $valorInscrição = $row['temp_preco'];
+    $maxParcelas = $row['temp_max_parcela'];
+    $festaTemp = $row['temp_festa'];
 
-    } else {
-        $texto = "Nenhuma temporada encontrada.";
-    }
-
-    
-    // Inserindo dados na tabela responsavel feito
-    $sql = "INSERT INTO responsavel (res_cpf, res_nome, res_sobrenome, res_rg, res_telefone1, res_telefone2, res_email1, res_email2, res_tipo, res_tipo_outro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssssssssss", isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', isset($_POST['res-nom']) ? $_POST['res-nom'] : '', isset($_POST['res-sob']) ? $_POST['res-sob'] : '', isset($_POST['input-documento']) ? $_POST['input-documento'] : '', isset($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '', isset($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '', isset($_POST['res-eml-1']) ? $_POST['res-eml-1'] : '', isset($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '', isset($_POST['res-res']) ? $_POST['res-res'] : '', isset($_POST['outro']) ? $_POST['outro'] : '');
-    if ($stmt->execute()) {
-        echo "Novo registro responsavel criado.";
-    } else {
-        throw new Exception("Erro ao inserir na tabela responsavel: " . $stmt->error);
-    }
-
-
-    // Inserindo dados na tabela endereco feito
-    $sql = "INSERT INTO endereco (end_estado, end_cidade, end_bairro, end_rua, end_numero, end_cep) VALUES (?, ?, ?, ?, ?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssssis", isset($_POST['end-uf']) ? $_POST['end-uf'] : '', isset($_POST['end-cid']) ? $_POST['end-cid'] : '', isset($_POST['end-bai']) ? $_POST['end-bai'] : '', isset($_POST['end-rua']) ? $_POST['end-rua'] : '', isset($_POST['end-num']) ? $_POST['end-num'] : 0, isset($_POST['end-cep']) ? $_POST['end-cep'] : '');
-    if ($stmt->execute()) {
-        // Obtendo o ID auto incrementado endereco
-        $endereco_id = $conexao->insert_id;
-        echo "Novo registro criado com ID: " . $endereco_id;
-    } else {
-        throw new Exception("Erro ao inserir na tabela endereco: " . $stmt->error);
-    }
-
-
-    //sangue acampante
-    $sangue = $_POST['sangue'] ?? '';
-    $rh = $_POST['rh'] ?? '';
-    $sangeRh = $sangue . $rh; 
-    // Inserindo dados na tabela acampante feito
-    $sql = "INSERT INTO acampante (aca_nome, aca_sobrenome, aca_idade, aca_data_nasc, aca_sexo, aca_tamanho_camiseta, aca_tipo_sanguinio, aca_responsavel_res_cpf, end_id) VALUES (?, ?, (DATEDIFF(?, ?), ?, ?, ?, ?, ?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("sssssddssi", isset($_POST['cri-nom']) ? $_POST['cri-nom'] : '', isset($_POST['cri-sob']) ? $_POST['cri-sob'] : '', $dataInicio, isset($_POST['birthday']) ? $_POST['birthday'] : '', isset($_POST['birthday']) ? $_POST['birthday'] : '', isset($_POST['sexo']) ? $_POST['sexo'] : '', isset($_POST['cri-tar']) ? $_POST['cri-tar'] : '';, $sangeRh, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $endereco_id);
-    if ($stmt->execute()) {
-        // Obtendo o ID auto incrementado acampante
-        $acampante_id = $conexao->insert_id;
-        echo "Novo registro acampante criado com ID: " . $acampante_id;
-    } else {
-        throw new Exception("Erro ao inserir na tabela acampante: " . $stmt->error);
-    }
-
-
-    // Inserindo dados na tabela inscricao feita
-    $sql = "INSERT INTO inscricao (ins_pagamento, ins_data, temp_id, res_cpf, aca_id,ins_num_parcela) VALUES (?, ?, ?, ?, ?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("dsisii", $valorInscrição, date('d/m/Y'), $tempId, isset($_POST['res-cpf']) ? $_POST['res-cpf'] : '', $acampante_id, isset($_POST['val-par']) ? $_POST['val-par'] : '');
-    if ($stmt->execute()) {
-        echo "Novo registro inscricao criado.";
-    } else {
-        throw new Exception("Erro ao inserir na tabela inscricao: " . $stmt->error);
-    }
-
-
-    // Inserindo dados na tabela convenio feito
-    $sql = "INSERT INTO convenio (con_nome, con_numero, con_telefone, con_observacao) VALUES (?, ?, ?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ssss", $_POST['con-nom'] ?? '', isset($_POST['con-num']) ? $_POST['con-num'] : '', $_POST['con-cnt'] ?? '', $_POST['tem-con-obs'] ?? '');
-    if ($stmt->execute()) {
-        // Obtendo o ID auto incrementado convenio
-        $convenio_id = $conexao->insert_id;
-        echo "Novo registro convenio criado com ID: " . $convenio_id;
-    } else {
-        throw new Exception("Erro ao inserir na tabela convenio: " . $stmt->error);
-    }
-
-
-    // Inserindo dados na tabela acampante_convenio feito
-    $sql = "INSERT INTO acampante_convenio (aca_id, con_id) VALUES (?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("ii", $acampante_id, $convenio_id);
-    if ($stmt->execute()) {
-        echo "Novo registro acampante_convenio criado.";
-    } else {
-        throw new Exception("Erro ao inserir na tabela acampante_convenio: " . $stmt->error);
-    }
-
-    //texto pra krl na vacina agr vamo ver se consigo fazer isso de forma eficiente , salvei todos os valores que nao sao 0 em um vetor dai fiz um for pra cada
-    $vacinas = []; // Inicializa o array para armazenar os dados
-    $vacinas[0] = isset($_POST['his-vac-bcg']) ? 1 : null;
-    $vacinas[1] = isset($_POST['his-vac-hpb']) ? 2 : null;
-    $vacinas[2] = isset($_POST['his-vac-tet']) ? 3 : null;
-    $vacinas[3] = isset($_POST['his-vac-pol']) ? 4 : null;
-    $vacinas[4] = isset($_POST['his-vac-rot']) ? 5 : null;
-    $vacinas[5] = isset($_POST['his-vac-sar']) ? 6 : null;
-    $vacinas[6] = isset($_POST['his-vac-hpa']) ? 7 : null;
-    $vacinas[7] = isset($_POST['his-vac-var']) ? 8 : null;
-    $vacinas[8] = isset($_POST['his-vac-men']) ? 9 : null;
-    $vacinas[9] = isset($_POST['his-vac-pne']) ? 10 : null;
-    $vacinas[10] = isset($_POST['his-vac-inf']) ? 11 : null;
-    $vacinas[11] = isset($_POST['his-vac-feb']) ? 12 : null;
-    
-    $vacinas_filtradas = array_filter($vacinas); // Filtra vacinas não definidas
-    $vacinas_filtradas = array_values($vacinas_filtradas); // Reindexa o array
-    
-    foreach ($vacinas_filtradas as $vacina_id) {
-        // Inserindo dados na tabela registro_vacina feito
-        $sql = "INSERT INTO registro_vacina (aca_id, vac_id) VALUES (?, ?);"; // rv_data removido
-        $stmt = $conexao->prepare($sql);
-        
-        // Verifica se a preparação da consulta foi bem-sucedida
-        if (!$stmt) {
-            throw new Exception("Erro ao preparar a consulta: " . $conexao->error);
-        }
-    
-        $stmt->bind_param("ii", $acampante_id, $vacina_id);
-        
-        if ($stmt->execute()) {
-            echo "Novo registro na tabela registro_vacina criado.";
-        } else {
-            throw new Exception("Erro ao inserir na tabela registro_vacina: " . $stmt->error);
-        }
-    }
-
-    //pegando os valores das doencas
-    // Check each checkbox
-    if (isset($_POST["doe"])) {
-        // Convulsões
-        if (isset($_POST["doe-con"])) {
-            $doencas[] = 1;//1
-        }
-    
-        // Cardiopatias
-        if (isset($_POST["doe-car"])) {
-            $doencas[] = 6;//6
-        }
-    
-        // Desmaios
-        if (isset($_POST["doe-des"])) {
-            $doencas[] = 2;//2
-        }
-    
-        // Diabetes
-        if (isset($_POST["doe-dia"])) {
-            $doencas[] = 7;//7
-        }
-    
-        // Hemorragias
-        if (isset($_POST["doe-hem"])) {
-            $doencas[] = 3;//3
-        }
-    
-        // Hipoglicemia
-        if (isset($_POST["doe-hip"])) {
-            $doencas[] = 8;//8
-        }
-    
-        // Enxaqueca
-        if (isset($_POST["doe-enx"])) {
-            $doencas[] = 4;//4
-        }
-    
-        // Asma/Bronquite
-        if (isset($_POST["doe-bro"])) {
-            $doencas[] = 9;//9
-        }
-    
-        // Distúrbios neurológicos
-        if (isset($_POST["doe-dis"])) {
-            $doencas[] = 5;//5
-        }
-    
-        // Insert each disease into the database feito
-        foreach ($doencas as $doe_id) {
-            $sql = "INSERT INTO registro_doenca (aca_id, doe_id) VALUES (?, ?);";
-            $stmt = $conexao->prepare($sql);
-            $stmt->bind_param("ii", $acampante_id, $doe_id);
-            if ($stmt->execute()) {
-                echo "Novo registro registro_doenca criado.";
-            } else {
-                throw new Exception("Erro ao inserir na tabela registro_doenca: " . $stmt->error);
-            }
-        }
-    }
-
-    // Inserindo dados na tabela registro_medico feito
-    $sql = "INSERT INTO registro_medico (aca_id, med) VALUES (?, ?);";
-    $stmt = $conexao->prepare($sql);
-    $stmt->bind_param("is", $acampante_id, isset($_POST['reg-sin-med-obs']) ? $_POST['reg-sin-med-obs'] : '');
-    if ($stmt->execute()) {
-        echo "Novo registro registro_medico criado.";
-    } else {
-        throw new Exception("Erro ao inserir na tabela registro_medico: " . $stmt->error);
-    }
-
-
-    if (isset($_POST["ale-med"])) {
-        // Aspirina
-        if (isset($_POST["ale-med-aps"])) {
-            $alergias[] = 1;//1
-        }
-    
-        // Melhoral
-        if (isset($_POST["ale-med-mel"])) {
-            $alergias[] = 2;//2
-        }
-    
-        // Novalgina (dipirona)
-        if (isset($_POST["ale-med-nov"])) {
-            $alergias[] = 3;//3
-        }
-    
-        // Plasil (metoclopramida)
-        if (isset($_POST["ale-med-pla"])) {
-            $alergias[] = 4;//4
-        }
-    
-        // Dramin
-        if (isset($_POST["ale-med-dra"])) {
-            $alergias[] = 5;//5
-        }
-    
-        // Povidine (iodo)
-        if (isset($_POST["ale-med-pov"])) {
-            $alergias[] = 6;//6
-        }
-    
-        // Cataflan (diclofenaco)
-        if (isset($_POST["ale-med-cat"])) {
-            $alergias[] = 7;//7
-        }
-    
-        // Penicilina
-        if (isset($_POST["ale-med-pen"])) {
-            $alergias[] = 8;//8
-        }
-    }
-        if (isset($_POST["ale"])) {
-            // Pó
-        if (isset($_POST["ale"]) && $_POST["ale"] == "ale-po") {
-            $alergias[] = 9;//9
-            }
-        
-            // Alimentos
-        if (isset($_POST["ale"]) && $_POST["ale"] == "ale-ali") {
-            $alergias[] = 10;//10
-            }
-        
-            // Picadas de Insetos
-        if (isset($_POST["ale"]) && $_POST["ale"] == "ale-pdi") {
-            $alergias[] = 11;//11
-            }
-    
-        // Insert each allergy to medication into the database
-        foreach ($alergias as $ale_id) {
-            $sql = "INSERT INTO registro_alergia (aca_id, ale_id, ra_obs) VALUES (?, ?, ?);";
-            $stmt = $conexao->prepare($sql);
-            $stmt->bind_param("iis", $acampante_id, $ale_id,  isset($_POST['ale-out-obs']) ? $_POST['reg-sin-med-obs'] : '');
-            if ($stmt->execute()) {
-                echo "Novo registro registro_alergia criado.";
-            } else {
-                throw new Exception("Erro ao inserir na tabela registro_alergia: " . $stmt->error);
-            }
-        }
-    }
-    // Confirma a transação
-    $conexao->commit();
-} catch (Exception $e) {
-    // Se algo falhar, faz rollback
-    $conexao->rollback();
-    echo "Erro: " . $e->getMessage();
+} else {
+    $texto = "Nenhuma temporada encontrada.";
 }
 
-//fecha conexão
+//data do dia
+    $data_atual = date('Y-m-d');
+
+//responsavel
+    $res_nome = !empty($_POST['res-nom']) ? $_POST['res-nom'] : '';
+    $res_sobrenome = !empty($_POST['res-sob']) ? $_POST['res-sob'] : '';
+    $res_cpf = !empty($_POST['res-cpf']) ? $_POST['res-cpf'] : '';
+    $res_telefone1 = !empty($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '';
+    $res_telefone2 = !empty($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '';
+    $res_telefone3 = !empty($_POST['res-tel-3']) ? $_POST['res-tel-3'] : '';
+    $res_email1 = !empty($_POST['res-eml-1']) ? $_POST['res-eml-1'] : '';
+    $res_email2 = !empty($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '';
+    $res_tipo = !empty($_POST['res-res']) ? $_POST['res-res'] : '';
+    $res_tipo_outro = !empty($_POST['res-out']) ? $_POST['res-out'] : '';
+
+    echo "Dados do Responsável:<br>";
+    echo "Nome: $res_nome<br>";
+    echo "Sobrenome: $res_sobrenome<br>";
+    echo "CPF: $res_cpf<br>";
+    echo "Telefone 1: $res_telefone1<br>";
+    echo "Telefone 2: $res_telefone2<br>";
+    echo "Telefone 3: $res_telefone3<br>";
+    echo "Email 1: $res_email1<br>";
+    echo "Email 2: $res_email2<br>";
+    echo "Tipo: $res_tipo<br>";
+    echo "Tipo Outro: $res_tipo_outro<br>";
+
+//endereco
+    $end_estado = $_POST['end-uf'];
+    $end_cidade = $_POST['end-cid'];
+    $end_bairro = $_POST['end-bai'];
+    $end_rua = $_POST['end-rua'];
+    $end_numero = $_POST['end-num'];
+    $end_cep = $_POST['end-cep'];
+
+    echo "<br>Dados do Endereço:<br>";
+    echo "Estado: $end_estado<br>";
+    echo "Cidade: $end_cidade<br>";
+    echo "Bairro: $end_bairro<br>";
+    echo "Rua: $end_rua<br>";
+    echo "Número: $end_numero<br>";
+    echo "CEP: $end_cep<br>";
+
+// acampante
+    $aca_nome = $_POST['cri-nom'];
+    $aca_sobrenome = $_POST['cri-sob'];
+    $aca_data_nasc = $_POST['birthday'];
+    $aca_sexo = $_POST['sexo'];
+    $aca_tamanho_camiseta = $_POST['cri-tar'];
+    $aca_tipo_sanguinio = $_POST['sangue'];
+    $aca_rh = $_POST['rh'];
+    $tipo_sanguinio_rh = $aca_tipo_sanguinio . $aca_rh;
+
+    echo "<br>Dados do Acampante:<br>";
+    echo "Nome: $aca_nome<br>";
+    echo "Sobrenome: $aca_sobrenome<br>";
+    echo "Data de Nascimento: $aca_data_nasc<br>";
+    echo "Sexo: $aca_sexo<br>";
+    echo "Tamanho da Camiseta: $aca_tamanho_camiseta<br>";
+    echo "Tipo Sanguíneo: $aca_tipo_sanguinio<br>";
+    echo "RH: $aca_rh<br>";
+
+//Pagamento
+    $ins_num_parcela = $_POST['val-par'];
+
+    echo "<br>Dados de Pagamento:<br>";
+    echo "Preço: $valorInscrição<br>";
+    echo "Quantidade de Parcelas: $ins_num_parcela<br>";
+    echo "Data da solicitação: $data_atual<br>";
+
+//convenio
+    $tem_con = $_POST['tem-con'];
+    $con_nome = $_POST['con-nom'];
+    $con_numero = $_POST['con-num'];
+    $con_telefone = $_POST['con-cnt'];
+    $con_observacao = $_POST['tem-con-obs'] ?? '';
+
+    echo "<br>Dados de Conveino:<br>";
+    echo "Nome: $con_nome<br>";
+    echo "Codigo: $con_numero<br>";
+    echo "Telefone: $con_telefone<br>";
+    echo "Observação: $con_observacao <br>";
+
+// Vacinas
+    $his_vac_bcg = $_POST['his-vac-bcg'];
+    $his_vac_hpb = $_POST['his-vac-hpb'];
+    $his_vac_tet = $_POST['his-vac-tet'];
+    $his_vac_pol = $_POST['his-vac-pol'];
+    $his_vac_rot = $_POST['his-vac-rot'];
+    $his_vac_sar = $_POST['his-vac-sar'];
+    $his_vac_hpa = $_POST['his-vac-hpa'];
+    $his_vac_var = $_POST['his-vac-var'];
+    $his_vac_men = $_POST['his-vac-men'];
+    $his_vac_pne = $_POST['his-vac-pne'];
+    $his_vac_inf = $_POST['his-vac-inf'];
+    $his_vac_feb = $_POST['his-vac-feb'];
+
+//doencas
+    $doe_convulsoes = $_POST['doe-con'];
+    $doe_cardiopatias = $_POST['doe-car'];
+    $doe_desmaios = $_POST['doe-des'];
+    $doe_diabetes = $_POST['doe-dia'];
+    $doe_hemorragias = $_POST['doe-hem'];
+    $doe_hipoglicemia = $_POST['doe-hip'];
+    $doe_enxaqueca = $_POST['doe-enx'];
+    $doe_asma_bronquite = $_POST['doe-bro'];
+    $doe_distúrbios_neurológicos = $_POST['doe-dis'];
+
+//alergias
+    $ale_med_aps = $_POST['ale-med-aps'];
+    $ale_med_mel = $_POST['ale-med-mel'];
+    $ale_med_nov = $_POST['ale-med-nov'];
+    $ale_med_pla = $_POST['ale-med-pla'];
+    $ale_med_dra = $_POST['ale-med-dra'];
+    $ale_med_pov = $_POST['ale-med-pov'];
+    $ale_med_cat = $_POST['ale-med-cat'];
+    $ale_med_pen = $_POST['ale-med-pen'];
+    
+    $ale_po = $_POST['ale_po'];
+    $ale_ali = $_POST['ale_ali'];
+    $ale_pdi = $_POST['ale-pdi'];
+
+    $tem_ale_med = $_POST['tem-ale-med'];
+    $ale_med_obs = $_POST['ale-med-obs'];
+
+    $ale_out = $_POST['ale-out'];
+    $ale_out_obs = $_POST['ale-out-obs'];
+
+//medicamentos
+    $reg_sin_med_obs = $_POST['reg-sin-med-obs'];
+
+
+// Query de inserção responsavel funcioando problema no rg mas q se foda dps tiro da tabela
+$sql = "INSERT INTO `responsavel` (`res_cpf`, `res_nome`, `res_sobrenome`, `res_rg`, `res_telefone1`, `res_telefone2`, `res_email1`, `res_email2`, `res_tipo`, `res_tipo_outro`) VALUES ('$res_cpf', '$res_nome', '$res_sobrenome', '$res_cpf', '$res_telefone1', '$res_telefone2', '$res_email1', '$res_email2', '$res_tipo', '$res_tipo_outro');";
+
+// Execução
+if ($conexao->query($sql) === TRUE) {
+    echo "Respnsavel: Registro inserido com sucesso!<br>";
+} else {
+    echo "Erro: ";
+}
+
+// Query de inserção endereco funcionando
+$sql = "INSERT INTO `endereco` (`end_estado`, `end_cidade`, `end_bairro`, `end_rua`, `end_numero`, `end_cep`) VALUES ('$end_estado', '$end_cidade', '$end_bairro', '$end_rua', '$end_numero', '$end_cep');";
+
+// Execução
+if ($conexao->query($sql) === TRUE) {
+    $id_endereco = $conexao->insert_id;
+    echo "Endereco: Registro inserido com sucesso!<br>";
+} else {
+    echo "Erro: ";
+}
+
+// Query de inserção acampante
+$sql = "INSERT INTO `acampante` (`aca_nome`, `aca_sobrenome`, `aca_idade`, `aca_data_nasc`, `aca_sexo`, `aca_tamanho_camiseta`, `aca_tipo_sanguinio`, `aca_responsavel_res_cpf`, `end_id`) VALUES ('$aca_nome', '$aca_sobrenome', '1', '$aca_data_nasc', '$aca_sexo', '$aca_tamanho_camiseta', '$tipo_sanguinio_rh', '$res_cpf', '$id_endereco');";
+
+// Execução
+if ($conexao->query($sql) === TRUE) {
+    $id_acampante = $conexao->insert_id;
+    echo "Acampante: Registro inserido com sucesso!<br>";
+} else {
+    echo "Erro: ";
+}
+
+// Query de inserção incricao
+$sql = "INSERT INTO `inscricao` (`ins_pagamento`, `ins_data`, `temp_id`, `res_cpf`, `aca_id`, `ins_num_parcela`) VALUES ('$valorInscrição', '$data_atual', '$id_temp' , '$res_cpf' , '$id_acampante', '$ins_num_parcela');";
+
+// Execução
+if ($conexao->query($sql) === TRUE) {
+    echo "Inscricao: Registro inserido com sucesso!<br>";
+} else {
+    echo "Erro: ";
+}
+
+//checa se a pessoa tem convenio
+if ($tem_con == "sim") {
+    // Query de inserção convenio
+    $sql = "INSERT INTO `convenio` (`con_nome`, `con_numero`, `con_telefone`, `con_observacao`) VALUES ('$con_nome','$con_numero','$con_telefone','$con_observacao');";
+
+    // Execução
+    if ($conexao->query($sql) === TRUE) {
+        $id_convenio = $conexao->insert_id;
+        echo "Convenio: Registro inserido com sucesso!<br>";
+    } else {
+        echo "Erro: ";
+    }
+
+
+    // Query de inserção acampante_convenio
+    $sql = "INSERT INTO `acampante_convenio` (`aca_id`, `con_id`) VALUES ('$id_acampante', '$id_convenio');";
+
+    // Execução
+    if ($conexao->query($sql) === TRUE) {
+        echo "Acampante_Convenio: Registro inserido com sucesso!<br>";
+    } else {
+        echo "Erro: ";
+    }
+}
+
+//cont vacinas
+$i_quantvacina=0;
+    //checa se as vacinas foi ou nao ativa (por que isso ta assim em vez de um for 1- e mais facil de testar assim 2- tava dando problema em outras partes para corrigir, 3- se vc quiser colocar em um for coloca, eu n to sendo pago para isso)
+    if ($his_vac_bcg == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '1');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_hpb == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '2');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_tet == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '3');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_pol == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '4');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_rot == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '5');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_sar == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '6');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_hpa == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '7');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_var == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '8');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_men == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '9');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_pne == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '10');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_inf == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '11');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($his_vac_feb == "on") { 
+        // Query de inserção acampante_vacina
+        $sql = "INSERT INTO `registro_vacina` (`aca_id`, `vac_id`) VALUES ('$id_acampante', '12');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantvacina=$i_quantvacina+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if($i_quantvacina>0){
+        echo "$i_quantvacina Vacinas: Registro inserido com sucesso!<br>";
+    }
+
+    //doencas
+    $i_quantdoenca=0;
+    // Verifica se algum checkbox foi selecionado
+    if (isset($_POST['tem-doe'])=="sim") {
+        if ($doe_convulsoes == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '1');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_cardiopatias == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '6');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_desmaios == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '2');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_diabetes == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '7');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_hemorragias == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '3');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_hipoglicemia == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '8');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_enxaqueca == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '4');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_asma_bronquite == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '9');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+        if ($doe_distúrbios_neurológicos == "on") {
+            $sql = "INSERT INTO `registro_doenca` (`aca_id`, `doe_id`) VALUES ('$id_acampante', '5');";
+
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                $i_quantdoenca=$i_quantdoenca+1;
+            } else {
+                echo "Erro: ";
+            }
+        }
+        
+    }
+    if($i_quantdoenca>0){
+        echo "$i_quantdoenca Doencas: Registro inserido com sucesso!<br>";
+    }
+
+    //alergia
+    $i_quantalergia=0;
+    if ($ale_med_aps == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','1');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_med_mel == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','2');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_med_nov == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','3');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_med_pla == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','4');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_med_dra == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','5');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_med_pov == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','6');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_med_cat == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','7');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_med_pen == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','8');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_po == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','9');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_ali == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','10');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    
+    if ($ale_pdi == "on") { 
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','11');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($tem_ale_med == "sim"){
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('$ale_med_obs','$id_acampante','12');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+    if ($ale_out == "on"){
+        $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('$ale_out_obs','$id_acampante','12');";
+
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            $i_quantalergia=$i_quantalergia+1;
+        } else {
+            echo "Erro: ";
+        }
+    }
+
+    if($i_quantalergia>0){
+        echo "$i_quantalergia Alergias: Registro inserido com sucesso!<br>";    
+    }
+
+    //registro medico
+    $sql = "INSERT INTO `registro_medico` (`aca_id`, `med`) VALUES ('$id_acampante','$reg_sin_med_obs');";
+
+    // Execução
+    if ($conexao->query($sql) === TRUE) {
+        echo "Medicamento: Registro inserido com sucesso!<br>"; 
+    } else {
+        echo "Erro: ";
+    }
+
 $conexao->close();
 ?>

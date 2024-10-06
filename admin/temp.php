@@ -5,7 +5,7 @@
         header('Location: login.php');
         exit();
     }
-    include('resource/database/conexao.php');
+    include('../resource/database/conexao.php');
 
     $texto = '';
     //Select para mostrar qual temporada esta
@@ -38,11 +38,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="resource/styles/temp.css">
+    <link rel="stylesheet" type="text/css" href="../resource/styles/temp.css">
     <title>Document</title>
 </head>
 <body>
-    <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo">
+    <div class="navbar"><img src="../resource\img\image\logo_rp_eventos_500x500.png" alt="logo">
     <button onclick="window.location.href = 'admin.php'" class="btn">Menu</button>
     <button onclick="location.href='desloga.php'" class="desloga">Sair</button>
     </div>

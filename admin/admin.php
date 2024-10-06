@@ -13,12 +13,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="resource/styles/menu.css">
+    <link rel="stylesheet" href="../resource/styles/menu.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <title>Gerenciador de alunos</title>
 </head>
 <body>
-    <div class="navbar"><img src="resource\img\image\logo_rp_eventos_500x500.png" alt="logo">
+    <div class="navbar"><img src="../resource\img\image\logo_rp_eventos_500x500.png" alt="logo">
     <button onclick="location.href='desloga.php'" class="desloga">Sair</button>
     </div>
     <table>
@@ -39,7 +39,7 @@
                 </div>
             </td>
             <td>
-                <img src="resource\img\image\loginlogo.png" alt="logologin" class="logo">
+                <img src="../resource\img\image\loginlogo.png" alt="logologin" class="logo">
             </td>
         </tr>
     </table>

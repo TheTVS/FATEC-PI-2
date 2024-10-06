@@ -6,11 +6,11 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="resource/styles/admin.css">
+    <link rel="stylesheet" href="../resource/styles/admin.css">
     <title>Gerenciador de alunos</title>
 </head>
 <body>
-    <div class="navbar"><img src="resource/img/image/logo_rp_eventos_500x500.png" alt="logo"></div>
+    <div class="navbar"><img src="../resource/img/image/logo_rp_eventos_500x500.png" alt="logo"></div>
     <table>
         <tr>
             <td style="width: 50%;padding-left: 20px;">
@@ -40,7 +40,7 @@ session_start();
                 </div>
             </td>
             <td>
-                <img src="resource/img/image/loginlogo.png" alt="logologin" class="logo">
+                <img src="../resource/img/image/loginlogo.png" alt="logologin" class="logo">
             </td>
         </tr>
     </table>

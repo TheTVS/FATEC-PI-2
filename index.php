@@ -980,7 +980,7 @@
         <div id="form-principal">
             <div id="pagina-3" class="pagina hidden">
                 <div class="container" style="text-align: center;">
-                    <h2>Formulário enviado com sucesso!</h2>
+                    <h2>Enviando formulario</h2>
                     <p>Obrigado por se inscrever no acampamento.</p>
                 </div>
             </div>

@@ -1,3 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário Básico</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <div class="formulario-wrapper">
+        <div class="container-header" id="header">
+            <div class="header-linha">
+                <div class="header-grupo" style="flex-basis: 10in;">
+                    <div class="logo-wrapper">
+                        <img src="imgs/RP_Acamps.svg" alt="Logo">
+                    </div>
+                </div>
+                <div class="header-grupo" style="flex-basis: 50in;">
+                    <div class="container-header-slogan">A semana mais incrível do ano!</div>
+                </div>
+                <div class="header-grupo" style="flex-basis: 10in;">
+
+                </div>
+            </div>
+        </div>
+        <div class="containerbranco">
+
+
 <?php
 
 include('resource/database/conexao.php');
@@ -39,6 +70,8 @@ include('resource/database/conexao.php');
     $res_email2 = !empty($_POST['res-eml-2']) ? $_POST['res-eml-2'] : '';
     $res_tipo = !empty($_POST['res-res']) ? $_POST['res-res'] : '';
     $res_tipo_outro = !empty($_POST['res-out']) ? $_POST['res-out'] : '';
+
+    echo "<h1>Confira os dados:</h1><br>";
 
     echo "Dados do Responsável:<br>";
     echo "Nome: $res_nome<br>";
@@ -106,7 +139,7 @@ include('resource/database/conexao.php');
     echo "Nome: $con_nome<br>";
     echo "Codigo: $con_numero<br>";
     echo "Telefone: $con_telefone<br>";
-    echo "Observação: $con_observacao <br>";
+    echo "Observação: $con_observacao <br><br>";
 
 // Vacinas
     $his_vac_bcg = $_POST['his-vac-bcg'];
@@ -162,7 +195,6 @@ $sql = "INSERT INTO `responsavel` (`res_cpf`, `res_nome`, `res_sobrenome`, `res_
 
 // Execução
 if ($conexao->query($sql) === TRUE) {
-    echo "Respnsavel: Registro inserido com sucesso!<br>";
 } else {
     echo "Erro: ";
 }
@@ -173,7 +205,6 @@ $sql = "INSERT INTO `endereco` (`end_estado`, `end_cidade`, `end_bairro`, `end_r
 // Execução
 if ($conexao->query($sql) === TRUE) {
     $id_endereco = $conexao->insert_id;
-    echo "Endereco: Registro inserido com sucesso!<br>";
 } else {
     echo "Erro: ";
 }
@@ -184,7 +215,6 @@ $sql = "INSERT INTO `acampante` (`aca_nome`, `aca_sobrenome`, `aca_idade`, `aca_
 // Execução
 if ($conexao->query($sql) === TRUE) {
     $id_acampante = $conexao->insert_id;
-    echo "Acampante: Registro inserido com sucesso!<br>";
 } else {
     echo "Erro: ";
 }
@@ -194,7 +224,6 @@ $sql = "INSERT INTO `inscricao` (`ins_pagamento`, `ins_data`, `temp_id`, `res_cp
 
 // Execução
 if ($conexao->query($sql) === TRUE) {
-    echo "Inscricao: Registro inserido com sucesso!<br>";
 } else {
     echo "Erro: ";
 }
@@ -207,7 +236,6 @@ if ($tem_con == "sim") {
     // Execução
     if ($conexao->query($sql) === TRUE) {
         $id_convenio = $conexao->insert_id;
-        echo "Convenio: Registro inserido com sucesso!<br>";
     } else {
         echo "Erro: ";
     }
@@ -218,14 +246,11 @@ if ($tem_con == "sim") {
 
     // Execução
     if ($conexao->query($sql) === TRUE) {
-        echo "Acampante_Convenio: Registro inserido com sucesso!<br>";
     } else {
         echo "Erro: ";
     }
 }
 
-//cont vacinas
-$i_quantvacina=0;
     //checa se as vacinas foi ou nao ativa (por que isso ta assim em vez de um for 1- e mais facil de testar assim 2- tava dando problema em outras partes para corrigir, 3- se vc quiser colocar em um for coloca, eu n to sendo pago para isso)
     if ($his_vac_bcg == "on") { 
         // Query de inserção acampante_vacina
@@ -233,7 +258,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -244,7 +268,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -255,7 +278,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -266,7 +288,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -277,7 +298,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -288,7 +308,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -299,7 +318,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -310,7 +328,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -321,7 +338,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -332,7 +348,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -343,7 +358,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -354,7 +368,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantvacina=$i_quantvacina+1;
         } else {
             echo "Erro: ";
         }
@@ -364,7 +377,6 @@ $i_quantvacina=0;
     }
 
     //doencas
-    $i_quantdoenca=0;
     // Verifica se algum checkbox foi selecionado
     if (isset($_POST['tem-doe'])=="sim") {
         if ($doe_convulsoes == "on") {
@@ -372,7 +384,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -383,7 +394,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -394,7 +404,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -405,7 +414,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -416,7 +424,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -427,7 +434,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -438,7 +444,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -449,7 +454,6 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
@@ -460,25 +464,19 @@ $i_quantvacina=0;
 
             // Execução
             if ($conexao->query($sql) === TRUE) {
-                $i_quantdoenca=$i_quantdoenca+1;
             } else {
                 echo "Erro: ";
             }
         }
         
     }
-    if($i_quantdoenca>0){
-        echo "$i_quantdoenca Doencas: Registro inserido com sucesso!<br>";
-    }
 
     //alergia
-    $i_quantalergia=0;
     if ($ale_med_aps == "on") { 
         $sql = "INSERT INTO `registro_alergia` (`ra_obs`, `aca_id`, `ale_id`) VALUES ('','$id_acampante','1');";
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -489,7 +487,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -500,7 +497,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -511,7 +507,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -522,7 +517,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -533,7 +527,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -544,7 +537,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -555,7 +547,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -566,7 +557,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -577,7 +567,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -588,7 +577,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -598,7 +586,6 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
@@ -608,14 +595,9 @@ $i_quantvacina=0;
 
         // Execução
         if ($conexao->query($sql) === TRUE) {
-            $i_quantalergia=$i_quantalergia+1;
         } else {
             echo "Erro: ";
         }
-    }
-
-    if($i_quantalergia>0){
-        echo "$i_quantalergia Alergias: Registro inserido com sucesso!<br>";    
     }
 
     //registro medico
@@ -623,10 +605,14 @@ $i_quantvacina=0;
 
     // Execução
     if ($conexao->query($sql) === TRUE) {
-        echo "Medicamento: Registro inserido com sucesso!<br>"; 
+        echo "<h4> Registro inserido com sucesso!</h4><br>"; 
     } else {
         echo "Erro: ";
     }
 
 $conexao->close();
 ?>
+</div>
+
+</body>
+</html>

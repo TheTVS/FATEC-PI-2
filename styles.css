@@ -395,5 +395,11 @@ select:focus {
     }
     
 }
-
+div.containerbranco{
+    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    border: 0;
+    padding: 10px;
+}
 

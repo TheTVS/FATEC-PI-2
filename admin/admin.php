@@ -33,9 +33,7 @@
                 <br>
                 <div class="area">
                     <div class="titulo">INSCRITOS <span class="material-symbols-outlined">menu</span></div>
-                    <button onclick="window.location.href = 'listaInscs.html'" class="btn">Consultar inscrições</button><br>
-                    <button onclick="window.location.href = 'listaCamps.html'" class="btn">Consultar campistas</button><br>
-                    <button onclick="window.location.href = 'listaTutors.html'" class="btn">Consultar responsáveis</button>
+                    <button onclick="window.location.href = 'inscritos.php'" class="btn">Consultar inscrições</button><br>
                 </div>
             </td>
             <td>

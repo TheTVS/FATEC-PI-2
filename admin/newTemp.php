@@ -5,7 +5,7 @@
         header('Location: login.php');
         exit();
     }
-include('resource/database/conexao.php');
+include('../resource/database/conexao.php');
 
 $texto = '';
 

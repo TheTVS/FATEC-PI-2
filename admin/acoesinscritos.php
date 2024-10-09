@@ -14,10 +14,10 @@ if (isset($_POST['aca_id'])) {
     $stmt = $conexao->prepare($query);
     $stmt->bind_param("i", $aca_id);
     $stmt->execute();
-    $result = $stmt->get_result();
+    $result_acampante = $stmt->get_result();
 
     // Processa o resultado
-    if ($row = $result->fetch_assoc()) {
+    if ($row = $result_acampante->fetch_assoc()) {
         echo "<tr>
                 <td>{$row['aca_id']}</td>
                 <td>{$row['aca_nome']}</td>

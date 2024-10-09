@@ -91,3 +91,81 @@ a.desloga{
     border-radius: 5px;
     background-color: #FBD72B;
 }
+table.inscricao {
+    position: relative;
+    width: 80%;
+    border: 1px solid;
+    border-radius: 10px; 
+    text-align: center;
+    border-collapse: collapse; 
+    overflow: hidden; 
+}
+
+table.inscricao tr {
+    border-bottom: 1px solid black;
+}
+table.inscricao td {
+    border: 1px solid black;
+    font-weight: 400;
+}
+table.inscricao tr:nth-child(odd) {
+    background-color: #d3d3d3; /* Cor das linhas ímpares */
+}
+
+table.inscricao tr:nth-child(even) {
+    background-color: #e9e9e9; /* Cor das linhas pares */
+}
+table.inscricao th {
+    background-color: #020331;
+    color: white;
+    border: 1px solid white;
+}
+
+button.mais{
+    top: auto;
+    left: auto;
+    position: relative;
+    height: 40px;
+    width: 80px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: #FBD72B;
+}
+div.modal{
+    background:white; 
+    margin:15% auto; 
+    padding:20px;
+    width:500px;
+    border: solid 30px #020331;
+    border-radius: 10px;
+}
+div.filtro{
+    position: relative;
+    text-align: center;
+    width: 30%;
+    background-color: #020331;
+    color: white;
+    border-radius: 5px;
+    padding-left: 3px;
+    left: 35%;
+}
+input.filtro{
+    position: relative;
+    border: #020331 4px solid;
+    width: 50%;
+    height: 40px;
+}
+select.temporada{
+    position: relative;
+    width: 40%; 
+    height: 50px;
+    border: #020331 4px solid;
+}
+input.enviatemp{
+    position: relative;
+    height: 40px;
+    width: 80px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: #FBD72B;
+}

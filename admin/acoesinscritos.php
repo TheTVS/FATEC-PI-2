@@ -23,12 +23,26 @@ if (isset($_POST['aca_id'])) {
     $stmt->execute();
     $result_responsavel = $stmt->get_result();
 
-    // Consulta para obter o responsavel
+    // Consulta para obter o convenio
     $query = "SELECT c.* FROM convenio c JOIN acampante_convenio ac on (c.con_id = ac.con_id and ac.aca_id=?);";
     $stmt = $conexao->prepare($query);
     $stmt->bind_param("i", $aca_id);
     $stmt->execute();
     $result_convenio = $stmt->get_result();
+
+    // Consulta para obter as alergias
+    $query = "SELECT a.ale_nome,ra.ra_obs FROM registro_alergia ra JOIN alergia a on (ra.ale_id = a.ale_id) WHERE ra.aca_id = ?;";
+    $stmt = $conexao->prepare($query);
+    $stmt->bind_param("i", $aca_id);
+    $stmt->execute();
+    $result_alergia = $stmt->get_result();
+
+    // Consulta para obter as doencas
+    $query = "SELECT d.doe_nome,d.doe_tipo,d.doe_categoria FROM registro_doenca rd JOIN doenca d on (rd.doe_id = d.doe_id) WHERE rd.aca_id = ?;";
+    $stmt = $conexao->prepare($query);
+    $stmt->bind_param("i", $aca_id);
+    $stmt->execute();
+    $result_doenca = $stmt->get_result();
 
     // Tabela do acampante
     if ($row = $result_acampante->fetch_assoc()) {
@@ -132,11 +146,14 @@ if (isset($_POST['aca_id'])) {
                                 <div class='bold'>Email 2: </div>{$row['res_email2']}
                             </td>";
             }
+            }else {
+                echo "Nenhum resultado de responsavel encontrado para o ID: " . $aca_id;
+            }
 
-            // Tabela convenio
-            // se tem convenio
-        if($row = $result_convenio->fetch_assoc()){
-                echo"
+    // Tabela convenio
+    // se tem convenio
+    if($row = $result_convenio->fetch_assoc()){
+            echo"
                         </tr>
                     </table> 
                 </td>
@@ -169,7 +186,7 @@ if (isset($_POST['aca_id'])) {
                     </table>
                 </td>
             </tr>";}
-        else{
+    else{
             echo "
                         </tr>
                     </table>
@@ -180,12 +197,12 @@ if (isset($_POST['aca_id'])) {
                 <td>
                     <table class ='formulariomodal'>
                         <tr>
-                            <th colspan='4'>
+                            <th>
                                 Convenio: 
                             </th>
                         </tr>
                         <tr>
-                            <td colspan='4'>
+                            <td>
                                 Esse Acampante não possui convenio
                             </td>
                         </tr>
@@ -194,14 +211,147 @@ if (isset($_POST['aca_id'])) {
             </tr>";
         }
 
-        
-        echo "   
-        </table>
+    $cont_td=0;
+    //Tabelas alergias
+    if ($result_alergia->num_rows > 0) {
+            echo "
+            <tr>
+                <td>
+                    <table class ='formulariomodal'>
+                        <tr>
+                            <th colspan='2'>
+                                Alergias: 
+                            </th>
+                        </tr>
+                        <tr>";
+        while ($row = $result_alergia->fetch_assoc()) {
+            if($row['ale_nome']=='Outro'){
+                echo "
+                            <td>
+                                Outro: {$row['ra_obs']}
+                            </td>";
+            $cont_td++;
+            }
+            else{
+                echo "
+                            <td>
+                                {$row['ale_nome']}
+                            </td>";
+            $cont_td++;
+            }
+            if($cont_td==2){
+                echo"
+                        </tr>
+                        <tr>
             ";
-    } else {
-        echo "Nenhum resultado de responsavel encontrado para o ID: " . $aca_id;
+            $cont_td=0;
+            }
+        }
+            echo"   
+                        </tr>
+                    </table>
+                </td>
+        ";
+    }else{
+            echo "
+            <tr>
+                <td>
+                    <table class ='formulariomodal'>
+                        <tr>
+                            <th>
+                                Alergias: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Esse Acampante não possui Alergias
+                            </td>
+                        </tr>
+                    </table>
+                </td>";
+        }
+
+    //Tabelas doencas
+    if ($result_doenca->num_rows > 0) {
+            echo "
+                <td>
+                    <table class ='formulariomodal'>
+                        <tr>
+                            <th colspan='3'>
+                                Doenças: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                Nome: 
+                            </th>
+                            <th>
+                                Tipo: 
+                            </th>
+                            <th>
+                                Categoria: 
+                            </th>
+                        </tr>";
+        while ($row = $result_doenca->fetch_assoc()) {
+            echo "
+                        <tr>
+                            <td>
+                                {$row['doe_nome']}
+                            </td>
+                            <td>
+                                {$row['doe_tipo']}
+                            </td>
+                            <td>
+                                {$row['doe_categoria']}
+                            </td>
+                        </tr>";
+            }
+            echo"
+                    </table>
+                </td>
+            ";
+    }else{
+            echo "
+                <td>
+                    <table class ='formulariomodal'>
+                        <tr>
+                            <th>
+                                Doenças: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Esse Acampante não possui Doenças
+                            </td>
+                        </tr>
+                    </table>
+                </td>";
+            }
+        echo "
+            </tr>
+            <tr>
+                <td>
+                    <table class ='formulariomodal'>
+                        <tr>
+                            <th>
+                                Vacinas: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Esse Acampante não possui Vacinas
+                            </td>
+                        </tr>
+                    </table>
+                </td> 
+            </tr>
+        ";
+
+    echo"
+        </table>
+        ";
+
     }
-}
 
 $conexao->close();
 ?>

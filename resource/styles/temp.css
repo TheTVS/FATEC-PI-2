@@ -137,10 +137,10 @@ div.modal{
     margin:15% auto; 
     padding:20px;
     width: fit-content;
-    max-height: 900px;
+    max-height: 750px;
     border: solid 30px #020331;
     border-radius: 10px;
-    top: -20%;
+    top: -25%;
     overflow-y: scroll;
 }
 div.filtro{
@@ -181,14 +181,18 @@ table.formulariomodal{
     border-radius: 5px;
     left: 0;
     top: 0;
+    width: 100%;
 }
 table.formulariomodal td{
+    position: relative;
     padding: 10px;
     border: 1px #020331 solid;
     background-color: white;
+    width: fit-content;
 }
 table.organizaFormularioModal{
     background-color: white;
     position: relative;
     left: 0;
+    width: 100%;
 }

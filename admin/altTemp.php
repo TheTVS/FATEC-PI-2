@@ -26,6 +26,14 @@
         $tempFesta = $row['temp_festa'];
         $tempNome = $row['temp_nome'];
 
+
+        // Converte a data de início
+        $dateInicio = DateTime::createFromFormat('Y-m-d', $dataInicio);
+        $dataInicio = $dateInicio->format('d/m/Y'); // Salva no formato DD/MM/AAAA
+
+        // Converte a data de fim
+        $dateFim = DateTime::createFromFormat('Y-m-d', $dataFim);
+        $dataFim = $dateFim->format('d/m/Y'); // Salva no formato DD/MM/AAAA
     } else {
         $texto = "Nenhuma temporada encontrada.";
     }

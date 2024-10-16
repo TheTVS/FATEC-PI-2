@@ -44,6 +44,34 @@ if (isset($_POST['aca_id'])) {
     $stmt->execute();
     $result_doenca = $stmt->get_result();
 
+    // Consulta para obter as vacinas
+    $query = "SELECT v.vac_nome FROM registro_vacina rv JOIN vacina v on (rv.vac_id = v.vac_id) WHERE rv.aca_id = ?;";
+    $stmt = $conexao->prepare($query);
+    $stmt->bind_param("i", $aca_id);
+    $stmt->execute();
+    $result_vacinas = $stmt->get_result();
+
+    // Consulta para obter as medicamentos
+    $query = "SELECT med FROM `registro_medico` WHERE aca_id = ?;";
+    $stmt = $conexao->prepare($query);
+    $stmt->bind_param("i", $aca_id);
+    $stmt->execute();
+    $result_medicamentos = $stmt->get_result();
+
+    // Consulta para obter o endereco
+    $query = "SELECT e.* FROM endereco e JOIN acampante a on (e.end_id = a.end_id) WHERE a.aca_id = ?;";
+    $stmt = $conexao->prepare($query);
+    $stmt->bind_param("i", $aca_id);
+    $stmt->execute();
+    $result_endereco = $stmt->get_result();
+
+    // Consulta para obter a inscricao
+    $query = "SELECT * FROM inscricao WHERE aca_id = ?;";
+    $stmt = $conexao->prepare($query);
+    $stmt->bind_param("i", $aca_id);
+    $stmt->execute();
+    $result_inscricao = $stmt->get_result();
+
     // Tabela do acampante
     if ($row = $result_acampante->fetch_assoc()) {
         echo "
@@ -247,11 +275,14 @@ if (isset($_POST['aca_id'])) {
             $cont_td=0;
             }
         }
+            // Se o contador não estiver zerado no final, feche a linha
+            if ($cont_td > 0) {
+            echo "
+                        </tr>";
+            }
             echo"   
-                        </tr>
                     </table>
-                </td>
-        ";
+                </td>";
     }else{
             echo "
             <tr>
@@ -327,6 +358,31 @@ if (isset($_POST['aca_id'])) {
                     </table>
                 </td>";
             }
+
+    //Tabela de vacinas
+    if ($result_vacinas->num_rows > 0) {
+        echo "
+            </tr>
+            <tr>
+                <td>
+                    <table class='formulariomodal'>
+                        <tr>
+                            <th>Vacinas:</th>
+                        </tr>
+                    ";
+        while ($row = $result_vacinas->fetch_assoc()) {
+            echo "  
+                        <tr>
+                            <td>
+                                {$row['vac_nome']}
+                            </td>
+                        </tr>";
+        }
+        echo "
+                    </table>
+                </td>";
+    }
+    else{
         echo "
             </tr>
             <tr>
@@ -346,9 +402,121 @@ if (isset($_POST['aca_id'])) {
                 </td> 
             </tr>
         ";
+    }
+
+            echo "
+                <td>";
+
+    //Tabela Medicamentos+
+    if($row = $result_medicamentos->fetch_assoc()){
+        echo"
+                <table class ='formulariomodal'>
+                        <tr>
+                            <th>
+                                Medicamentos: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                {$row['med']}
+                            </td>
+                        </tr>
+                    </table>";
+    }
+    else{
+        echo"
+                <table class ='formulariomodal'>
+                        <tr>
+                            <th>
+                                Medicamentos: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                Esse Acampante não possui Medicamentos
+                            </td>
+                        </tr>
+                </table>";
+    }
+    echo"   
+            </td>
+        </tr>
+        <tr>
+            <td>";
+    
+    //Tabela endereco
+    if($row = $result_endereco->fetch_assoc()){
+         echo"
+                <table class ='formulariomodal'>
+                        <tr>
+                            <th>
+                                Endereço: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='bold'>CEP: </div>{$row['end_cep']}
+                            </td>
+                            <td>
+                                <div class='bold'>Estado: </div>{$row['end_estado']}
+                            </td>
+                            <td>
+                                <div class='bold'>Cidade: </div>{$row['end_cidade']}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='bold'>Bairro: </div>{$row['end_bairro']}
+                            </td>
+                            <td>
+                                <div class='bold'>Rua: </div>{$row['end_rua']}
+                            </td>
+                            <td>
+                                <div class='bold'>Número: </div>{$row['end_numero']}
+                            </td>
+                        </tr>
+                </table>";
+    }
+    else {
+        echo "Nenhum resultado de endereco encontrado para o ID: " . $aca_id;
+    }
 
     echo"
-        </table>
+            </td>
+            <td>";
+
+    //tabela inscricao
+    if($row = $result_inscricao->fetch_assoc()){
+        $ins_data = $row['ins_data']; // Data no formato AAAA-MM-DD
+        $date = DateTime::createFromFormat('Y-m-d', $ins_data); // Cria um objeto DateTime
+        $formatted_date = $date->format('d/m/Y'); // Formata para DD-MM-AAAA
+         echo"
+                <table class ='formulariomodal'>
+                        <tr>
+                            <th>
+                                Inscrição: 
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class='bold'>Data de Inscricao: </div>$formatted_date
+                            </td>
+                            <td>
+                                <div class='bold'>Preço inscrito: </div>R$:{$row['ins_pagamento']}
+                            </td>
+                            <td>
+                                <div class='bold'>Quantidade de Prcelas: </div>{$row['ins_num_parcela']}
+                            </td>
+                        </tr>
+                </table>";
+    }
+    else {
+        echo "Nenhum resultado de inscricao encontrado para o ID: " . $aca_id;
+    }
+    echo"
+            </td>
+        </tr>
+    </table>
         ";
 
     }

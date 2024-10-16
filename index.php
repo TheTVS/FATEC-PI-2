@@ -18,6 +18,15 @@
         $valorInscrição = $row['temp_preco'];
         $maxParcelas = $row['temp_max_parcela'];
 
+
+        // Converte a data de início
+        $dateInicio = DateTime::createFromFormat('Y-m-d', $dataInicio);
+        $dataInicio = $dateInicio->format('d/m/Y'); // Salva no formato DD/MM/AAAA
+
+        // Converte a data de fim
+        $dateFim = DateTime::createFromFormat('Y-m-d', $dataFim);
+        $dataFim = $dateFim->format('d/m/Y'); // Salva no formato DD/MM/AAAA
+
     } else {
         $texto = "Nenhuma temporada encontrada.";
     }
@@ -301,7 +310,7 @@
 
                 <div class="container">
                     <div class="formulario">
-                        <h2 class="formulario-titulo">Valores</h2>
+                        <h2 class="formulario-titulo">Valor da Temporada</h2>
                         <div class="formulario-grupo">
                         <div class="formulario-linha-valor">
                                 <div class="formulario-grupo-moeda">

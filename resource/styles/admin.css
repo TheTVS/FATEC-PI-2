@@ -65,3 +65,13 @@ table{
     width: 100%;
     text-align: center
 }
+button{
+    position: relative;
+    height: 50px;
+    width: 150px;
+    background-color: white;
+    color: #020331;
+    border: 0px;
+    border-radius: 2px;
+    border: 1px solid lightgrey;
+}

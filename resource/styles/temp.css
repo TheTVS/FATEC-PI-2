@@ -137,7 +137,7 @@ div.modal{
     margin:15% auto; 
     padding:20px;
     width: fit-content;
-    max-height: 750px;
+    max-height: 75%;
     border: solid 30px #020331;
     border-radius: 10px;
     top: -25%;

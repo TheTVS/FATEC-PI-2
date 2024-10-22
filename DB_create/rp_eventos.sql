@@ -273,6 +273,16 @@ INSERT INTO `usuario` (`userId`, `userNome`, `userSenha`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `usuario_acampante`
+--
+
+CREATE TABLE usuario_acampante ( usu_cpf VARCHAR(20) NOT NULL PRIMARY KEY,
+ usu_senha VARCHAR(20) NOT NULL 
+ ) ENGINE = InnoDB;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `vacina`
 --
 

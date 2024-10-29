@@ -1,5 +1,6 @@
 <?php
     include('resource/database/conexao.php');
+    include_once('admin/selectIdAca.php');
 
     $texto = '';
     //Select para mostrar qual temporada esta
@@ -30,6 +31,7 @@
     } else {
         $texto = "Nenhuma temporada encontrada.";
     }
+    
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -79,30 +81,35 @@
                 <div class="container">
                     <div class="formulario">
                         <h2 class="formulario-titulo">Área do responsável</h2>
+                        <?php
+                            if (isset($_POST['aca_id'])) {
+                                $row = $result_responsavel->fetch_assoc();
+                            }
+                        ?>
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="res-nom" name="res-nom" maxlength="100"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php echo $row['res_nome'] ?? "";?>">
                                 <label for="res-nom">Nome<span style="color: red;">*</span></label>
 
                             </div>
 
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="res-sob" name="res-sob" maxlength="200"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['res_sobrenome'] ?? "";?>">
                                 <label for="res-sob">Sobrenome<span style="color: red;">*</span></label>
                             </div>
                         </div>
 
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
-                                <input placeholder="‎" type="text" id="res-rg" name="res-rg" maxlength="11" oninput="aplicarMascara(event)" class="obrigatorioTexto-p1">
+                                <input placeholder="‎" type="text" id="res-rg" name="res-rg" maxlength="11" oninput="aplicarMascara(event)" class="obrigatorioTexto-p1" value="<?php  echo $row['res_rg'] ?? "";?>">
                                 <label for="res-rg">RG<span style="color: red;">*</span></label>
                             </div>
 
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="res-cpf" name="res-cpf" maxlength="14"
-                                    oninput="aplicarMascara(event)" class="obrigatorioTexto-p1">
+                                    oninput="aplicarMascara(event)" class="obrigatorioTexto-p1" value="<?php  echo $row['res_cpf'] ?? "";?>">
                                 <label for="res-cpf">CPF<span style="color: red;">*</span></label>
                             </div>
                         </div>
@@ -110,32 +117,26 @@
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="res-tel-1" name="res-tel-1" minlength="15"
-                                    maxlength="15" class="obrigatorioTexto-p1" required>
+                                    maxlength="15" class="obrigatorioTexto-p1" required value="<?php  echo $row['res_telefone1'] ?? "";?>">
                                 <label for="res-tel-1">Telefone 1<span style="color: red;">*</span></label>
                             </div>
 
                             <div class="formulario-grupo">
 
-                                <input placeholder="‎" type="text" id="res-tel-2" name="res-tel-2" maxlength="15">
+                                <input placeholder="‎" type="text" id="res-tel-2" name="res-tel-2" maxlength="15" value="<?php  echo $row['res_telefone2'] ?? "";?>">
                                 <label for="res-tel-2">Telefone 2</label>
-                            </div>
-
-                            <div class="formulario-grupo">
-
-                                <input placeholder="‎" type="text" id="res-tel-3" name="res-tel-3" maxlength="15">
-                                <label for="res-tel-3">Telefone 3</label>
                             </div>
                         </div>
 
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="email" id="res-eml-1" name="res-eml-1"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['res_email1'] ?? "";?>">
                                 <label for="res-eml-1">Email 1<span style="color: red;">*</span></label>
                             </div>
 
                             <div class="formulario-grupo">
-                                <input placeholder="‎" type="email" id="res-eml-2" name="res-eml-2">
+                                <input placeholder="‎" type="email" id="res-eml-2" name="res-eml-2" value="<?php  echo $row['res_email2'] ?? "";?>">
                                 <label for="res-eml-2">Email 2</label>
                             </div>
                         </div>

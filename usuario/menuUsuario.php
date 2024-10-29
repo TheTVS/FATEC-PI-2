@@ -76,7 +76,10 @@ if ($result_inscritos->num_rows > 0) {
                      <button class='mais' onclick='abrirPopup({$row['aca_id']}, \"{$row['aca_nome']}\", \"{$row['aca_sobrenome']}\")'>Mais+</button>
                 </td>
                 <td>
-                     <button class='mais' onclick=''>Reutilizar</button>
+                    <form action='../index.php' method='post'> 
+                        <input type='hidden' name='aca_id' value='".$row['aca_id']."'>
+                        <button type='submit' class='mais'>Reutilizar</button>
+                    </form>
                 </td>
               </tr>";
     }

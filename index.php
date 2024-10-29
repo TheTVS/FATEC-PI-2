@@ -96,6 +96,11 @@
 
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
+                                <input placeholder="‎" type="text" id="res-rg" name="res-rg" maxlength="11" oninput="aplicarMascara(event)" class="obrigatorioTexto-p1">
+                                <label for="res-rg">RG<span style="color: red;">*</span></label>
+                            </div>
+
+                            <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="res-cpf" name="res-cpf" maxlength="14"
                                     oninput="aplicarMascara(event)" class="obrigatorioTexto-p1">
                                 <label for="res-cpf">CPF<span style="color: red;">*</span></label>

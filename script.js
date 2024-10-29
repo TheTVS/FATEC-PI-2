@@ -138,6 +138,23 @@ function mostrarPagina(pagina) {
       }
     }
 
+    // Inputs de RG
+    var idsRG = ['res-rg'];
+    var minLengthTelefone = 11;
+
+    idsRG.forEach(id => {
+      var RG = document.getElementById(id);
+      if (RG.value.length < minLengthTelefone) {
+        todosPreenchidos = false;
+        RG.style.border = "1px solid red";
+        if (campoFoco == -1) {
+          campoFoco = RG;
+        }
+      } else {
+        RG.style.border = "";
+      }
+    });
+
     // Inputs de CPF
     var idsCPF = ['res-cpf'];
     var minLengthTelefone = 14;
@@ -338,7 +355,7 @@ function mostrarPagina(pagina) {
         }
       }
     }
-    
+
     // Verificação dos campos da "Doença Crônicas"
     if (!verificarSelecao('tem-doe')) {
       todosPreenchidos = false;
@@ -347,7 +364,7 @@ function mostrarPagina(pagina) {
         campoFoco = document.getElementsByName("tem-doe")[0];
       }
     }
-    
+
     // Foco
     if (todosPreenchidos) {
       paginas.forEach(p => p.classList.add('hidden'));
@@ -433,84 +450,6 @@ form.addEventListener("submit", function (event) {
   }
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-  const inputDocumento = document.getElementById('input-documento');
-  const labelDocumento = document.getElementById('label-documento');
-
-  inputDocumento.addEventListener('input', function () {
-    let valor = inputDocumento.value.trim();
-    let novoId, novoName, novoFor, novoMinLength, novoMaxLength, tipo;
-
-    if (/^\d/.test(valor)) {
-      // Começa com número, considera como RG
-      tipo = 'RG';
-      novoId = 'res-rg';
-      novoName = 'res-rg';
-      novoFor = 'res-rg';
-      novoMinLength = '12';
-      novoMaxLength = '12';
-
-      valor = valor.replace(/\D/g, ''); // Remove não números
-      valor = valor.replace(/^(\d{2})(\d{3})(\d{3})(\d{1})(\d{1})$/, '$1.$2.$3-$4');
-    } else if (/^[a-zA-Z]/.test(valor)) {
-      // Começa com letra, considera como RNE
-      tipo = 'RNE';
-      novoId = 'res-rne';
-      novoName = 'res-rne';
-      novoFor = 'res-rne';
-      novoMinLength = '10';
-      novoMaxLength = '10';
-
-      valor = valor.toUpperCase().replace(/[^\w]/g, ''); // Remove caracteres especiais
-      valor = valor.replace(/^(\w{1})(\d{6})(\w{1})(\d{1})$/, '$1$2-$3');
-    } else {
-      // Padrão para caso inicial vazio ou outro formato não esperado
-      tipo = 'RG'; // Por padrão, começará como RG se não houver entrada válida
-      novoId = 'res-rg';
-      novoName = 'res-rg';
-      novoFor = 'res-rg';
-      novoMinLength = '12';
-      novoMaxLength = '12';
-      valor = '';
-    }
-
-    // Altera dinamicamente o texto do label para RG ou RNE
-    labelDocumento.textContent = tipo;
-
-    // Aplica as novas configurações
-    inputDocumento.id = novoId;
-    inputDocumento.name = novoName;
-    labelDocumento.setAttribute('for', novoFor);
-    inputDocumento.minLength = novoMinLength;
-    inputDocumento.maxLength = novoMaxLength;
-    inputDocumento.value = valor;
-
-    // Aplica a máscara conforme o tipo de documento
-    if (tipo === 'RG') {
-      if (valor.length > 2) {
-        valor = valor.slice(0, 2) + '.' + valor.slice(2);
-      }
-      if (valor.length > 6) {
-        valor = valor.slice(0, 6) + '.' + valor.slice(6);
-      }
-      if (valor.length > 10) {
-        valor = valor.slice(0, 10) + '-' + valor.slice(10);
-      }
-    } else if (tipo === 'RNE') {
-      // Aplica a máscara para RNE
-      if (valor.length > 1) {
-        valor = valor.slice(0, 1) + '.' + valor.slice(1);
-      }
-      if (valor.length > 7) {
-        valor = valor.slice(0, 7) + '-' + valor.slice(7);
-      }
-    }
-
-    inputDocumento.value = valor;
-  });
-});
-
-
 // Função para permitir apenas números e aplicar máscara de acordo com o tipo
 function aplicarMascara(event, tipo) {
   const input = event.target;
@@ -540,6 +479,16 @@ function aplicarMascara(event, tipo) {
     if (value.length > 5) {
       value = value.slice(0, 5) + '-' + value.slice(5);
     }
+  } else if (tipo === 'RG') {
+    if (value.length > 2) {
+      value = value.slice(0, 2) + '.' + value.slice(2);
+    }
+    if (value.length > 6) {
+      value = value.slice(0, 6) + '.' + value.slice(6);
+    }
+    if (value.length > 10) {
+      value = value.slice(0, 10) + '-' + value.slice(10);
+    }
   }
 
   input.value = value;
@@ -562,12 +511,14 @@ function aplicarMascaraCampos(ids, tipo) {
   });
 }
 
-// IDs de CPF, Telefone e CEP
+// IDs de RG, CPF, Telefone e CEP
+const RGIds = ['res-rg'];
 const CPFIds = ['res-cpf'];
 const TelIds = ['res-tel-1', 'res-tel-2', 'res-tel-3'];
 const CEPIds = ['end-cep'];
 
-// Aplicando as máscaras e validações apenas para CPF, Telefone e CEP
+// Aplicando as máscaras e validações apenas para RG, CPF, Telefone e CEP
+aplicarMascaraCampos(RGIds, 'RG');
 aplicarMascaraCampos(CPFIds, 'CPF');
 aplicarMascaraCampos(TelIds, 'Telefone');
 aplicarMascaraCampos(CEPIds, 'CEP');

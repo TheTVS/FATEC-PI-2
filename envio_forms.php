@@ -63,6 +63,7 @@ include('resource/database/conexao.php');
     $res_nome = !empty($_POST['res-nom']) ? $_POST['res-nom'] : '';
     $res_sobrenome = !empty($_POST['res-sob']) ? $_POST['res-sob'] : '';
     $res_cpf = !empty($_POST['res-cpf']) ? $_POST['res-cpf'] : '';
+    $res_rg = !empty($_POST['res-rg']) ? $_POST['res-rg'] : '';
     $res_telefone1 = !empty($_POST['res-tel-1']) ? $_POST['res-tel-1'] : '';
     $res_telefone2 = !empty($_POST['res-tel-2']) ? $_POST['res-tel-2'] : '';
     $res_telefone3 = !empty($_POST['res-tel-3']) ? $_POST['res-tel-3'] : '';
@@ -77,6 +78,7 @@ include('resource/database/conexao.php');
     echo "Nome: $res_nome<br>";
     echo "Sobrenome: $res_sobrenome<br>";
     echo "CPF: $res_cpf<br>";
+    echo "RG: $res_rg<br>";
     echo "Telefone 1: $res_telefone1<br>";
     echo "Telefone 2: $res_telefone2<br>";
     echo "Telefone 3: $res_telefone3<br>";
@@ -191,7 +193,7 @@ include('resource/database/conexao.php');
 
 
 // Query de inserção responsavel funcioando problema no rg mas q se foda dps tiro da tabela
-$sql = "INSERT INTO `responsavel` (`res_cpf`, `res_nome`, `res_sobrenome`, `res_rg`, `res_telefone1`, `res_telefone2`, `res_email1`, `res_email2`, `res_tipo`, `res_tipo_outro`) VALUES ('$res_cpf', '$res_nome', '$res_sobrenome', '$res_cpf', '$res_telefone1', '$res_telefone2', '$res_email1', '$res_email2', '$res_tipo', '$res_tipo_outro');";
+$sql = "INSERT INTO `responsavel` (`res_cpf`, `res_nome`, `res_sobrenome`, `res_rg`, `res_telefone1`, `res_telefone2`, `res_email1`, `res_email2`, `res_tipo`, `res_tipo_outro`) VALUES ('$res_cpf', '$res_nome', '$res_sobrenome', '$res_rg', '$res_telefone1', '$res_telefone2', '$res_email1', '$res_email2', '$res_tipo', '$res_tipo_outro');";
 
 // Execução
 if ($conexao->query($sql) === TRUE) {

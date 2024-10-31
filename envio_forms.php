@@ -107,6 +107,15 @@ include('resource/database/conexao.php');
     $aca_nome = $_POST['cri-nom'];
     $aca_sobrenome = $_POST['cri-sob'];
     $aca_data_nasc = $_POST['birthday'];
+
+    // Cria objetos DateTime
+    $dataNasc = new DateTime($aca_data_nasc);
+    $dataInicio = new DateTime($dataInicio);
+
+    // Calcula a diferença em anos
+    $diferenca = $dataNasc->diff($dataInicio);
+    $anos = $diferenca->y;
+
     $aca_sexo = $_POST['sexo'];
     $aca_tamanho_camiseta = $_POST['cri-tar'];
     $aca_tipo_sanguinio = $_POST['sangue'];
@@ -212,7 +221,7 @@ if ($conexao->query($sql) === TRUE) {
 }
 
 // Query de inserção acampante
-$sql = "INSERT INTO `acampante` (`aca_nome`, `aca_sobrenome`, `aca_idade`, `aca_data_nasc`, `aca_sexo`, `aca_tamanho_camiseta`, `aca_tipo_sanguinio`, `aca_responsavel_res_cpf`, `end_id`) VALUES ('$aca_nome', '$aca_sobrenome', '1', '$aca_data_nasc', '$aca_sexo', '$aca_tamanho_camiseta', '$tipo_sanguinio_rh', '$res_cpf', '$id_endereco');";
+$sql = "INSERT INTO `acampante` (`aca_nome`, `aca_sobrenome`, `aca_idade`, `aca_data_nasc`, `aca_sexo`, `aca_tamanho_camiseta`, `aca_tipo_sanguinio`, `aca_responsavel_res_cpf`, `end_id`) VALUES ('$aca_nome', '$aca_sobrenome', '$anos', '$aca_data_nasc', '$aca_sexo', '$aca_tamanho_camiseta', '$tipo_sanguinio_rh', '$res_cpf', '$id_endereco');";
 
 // Execução
 if ($conexao->query($sql) === TRUE) {

@@ -147,17 +147,17 @@
                         <div class="formulario-linha-checkbox">
                             <div class="formulario-grupo-checkbox">
                                 <input type="radio" id="res-res-pai" name="res-res" value="pai"
-                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')">
+                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')"<?php if($row['res_tipo']=='pai'){echo'checked';} ?>>
                                 <label for="res-res-pai">Pai</label>
                             </div>
                             <div class="formulario-grupo-checkbox">
                                 <input type="radio" id="res-res-mae" name="res-res" value="mae"
-                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')">
+                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')"<?php if($row['res_tipo']=='mae'){echo'checked';} ?>>
                                 <label for="res-res-mae">Mãe</label>
                             </div>
                             <div class="formulario-grupo-checkbox">
                                 <input type="radio" id="res-res-outro" name="res-res" value="outro"
-                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')">
+                                    onclick="mostrarCamposRadioResponsavel(this, 'camposResponsavel')"<?php if($row['res_tipo']=='outro'){echo'checked';} ?>>
                                 <label for="res-res-outro">Outro</label>
                             </div>
                         </div>
@@ -165,7 +165,7 @@
                         <div id="camposResponsavel" style="display: none;">
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="res-out" name="res-out"
-                                    class="obrigatorioResponsavel">
+                                    class="obrigatorioResponsavel" value="<?php if($row['res_tipo']=='outro'){ echo $row['res_tipo_outro']; }?>">
                                 <label for="res-out">Responsável<span style="color: red;">*</span></label>
                             </div>
                         </div>
@@ -176,11 +176,15 @@
                 <div class="container">
                     <div class="formulario">
                         <h2 class="formulario-titulo">Endereço</h2>
-
+                        <?php
+                            if (isset($_POST['aca_id'])) {
+                                $row = $result_endereco->fetch_assoc();
+                            }
+                        ?>
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="end-cep" name="end-cep" maxlength="9"
-                                    class="obrigatorioTexto-p1" onblur="consultarEndereco()">
+                                    class="obrigatorioTexto-p1" onblur="consultarEndereco()" value="<?php  echo $row['end_cep'] ?? "";?>">
                                 <label for="end-cep">CEP<span style="color: red;">*</span></label>
                             </div>
                         </div>
@@ -189,14 +193,14 @@
                             <div class="formulario-grupo">
 
                                 <input placeholder="‎" type="text" id="end-rua" name="end-rua" maxlength="200"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['end_rua'] ?? "";?>">
                                 <label for="end-rua">Rua<span style="color: red;">*</span></label>
                             </div>
 
                             <div class="formulario-grupo">
 
                                 <input placeholder="‎" type="text" id="end-bai" name="end-bai" maxlength="100"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['end_bairro'] ?? "";?>">
                                 <label for="end-bai">Bairro<span style="color: red;">*</span></label>
                             </div>
                         </div>
@@ -204,7 +208,7 @@
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="end-cid" name="end-cid" maxlength="100"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['end_cidade'] ?? "";?>">
                                 <label for="end-cid">Cidade<span style="color: red;">*</span></label>
                             </div>
 
@@ -243,7 +247,7 @@
                             </div>
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="number" step="1" id="end-num" name="end-num" maxlength="10"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['end_numero'] ?? "";?>">
                                 <label for="end-num">Número<span style="color: red;">*</span></label>
                             </div>
                         </div>
@@ -254,17 +258,21 @@
                 <div class="container">
                     <div class="formulario">
                         <h2 class="formulario-titulo">Área da criança</h2>
-
+                        <?php
+                        if (isset($_POST['aca_id'])) {
+                                $row = $result_acampante->fetch_assoc();
+                            }
+                        ?> 
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="cri-nom" name="cri-nom" maxlength="100"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['aca_nome'] ?? "";?>">
                                 <label for="cri-nom">Nome<span style="color: red;">*</span></label>
                             </div>
 
                             <div class="formulario-grupo">
                                 <input placeholder="‎" type="text" id="cri-sob" name="cri-sob" maxlength="200"
-                                    class="obrigatorioTexto-p1">
+                                    class="obrigatorioTexto-p1" value="<?php  echo $row['aca_sobrenome'] ?? "";?>">
                                 <label for="cri-sob">Sobrenome<span style="color: red;">*</span></label>
                             </div>
                         </div>
@@ -272,7 +280,7 @@
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <input type="date" id="birthday" name="birthday" min="2000-01-01" max="2030-12-31"
-                                    class="data0, obrigatorioSelect-p1">
+                                    class="data0, obrigatorioSelect-p1" value="<?php  echo $row['aca_data_nasc'] ?? "";?>">
                                 <label placeholder="‎" for="birthday">Data de nascimento<span
                                         style="color: red;">*</span></label>
                             </div>
@@ -287,9 +295,9 @@
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
                                 <select id="sexo" name="sexo" class="obrigatorioSelect-p1">
-                                    <option value="" disabled selected></option>
-                                    <option value="M">Masculino</option>
-                                    <option value="F">Feminino</option>
+                                    <option value="" disabled <?php if($row['aca_sexo']==''){echo 'selected';} ?>></option>
+                                    <option value="M" <?php if($row['aca_sexo']=='M'){echo 'selected';} ?>>Masculino</option>
+                                    <option value="F" <?php if($row['aca_sexo']=='F'){echo 'selected';} ?>>Feminino</option>
                                 </select>
                                 <label placeholder="‎" for="sexo">Sexo<span style="color: red;">*</span></label>
                             </div>

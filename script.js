@@ -77,7 +77,6 @@ function mostrarPagina(pagina) {
     var todosPreenchidos = true;
     var campoFoco = -1;
 
-
     // Input texto
     for (var i = 0; i < campos.length; i++) {
       if (campos[i].value === '') {
@@ -602,3 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+function alert(bool) {
+  alert("teste");
+}

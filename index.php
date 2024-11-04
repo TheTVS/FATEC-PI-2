@@ -380,25 +380,32 @@
                 <div class="container">
                     <div class="formulario">
                         <h2 class="formulario-titulo">Área médica</h2>
+                        <?php
+                            if (isset($_POST['aca_id'])) {
+                                echo '<script type="text/javascript">
+                                    alert("Para a segurança do inscrito a área médica precisará ser refeita.");
+                                </script>';
+                            }
+                        ?>
                         <div class="formulario-linha">
                             <div class="formulario-grupo">
-                                <select id="sangue" name="sangue" class="obrigatorioSelect-p2">
-                                    <option value="" disabled selected></option>
-                                    <option value="a">A</option>
-                                    <option value="b">B</option>
-                                    <option value="ab">AB</option>
-                                    <option value="o">O</option>
-                                    <option value="falso-o">Falso O</option>
+                                <select id="sangue" name="sangue" class="obrigatorioSelect-p2" required>
+                                    <option value="" disabled <?php if($row['aca_tipo_sanguinio']==''){echo 'selected';} ?>></option>
+                                    <option value="a" <?php $tipoSanguinio = $row['aca_tipo_sanguinio']; if (isset($tipoSanguinio[0]) && strtolower($tipoSanguinio[0]) === 'a'){echo 'selected';} ?>>A</option>
+                                    <option value="b" <?php if (isset($tipoSanguinio[0]) && strtolower($tipoSanguinio[0]) === 'b'){echo 'selected';} ?>>B</option>
+                                    <option value="ab" <?php if (isset($tipoSanguinio[0], $tipoSanguinio[1]) && strtolower($tipoSanguinio[0]) === 'a' && strtolower($tipoSanguinio[1]) === 'b') {echo 'selected';} ?>>AB</option>
+                                    <option value="o" <?php if (isset($tipoSanguinio[0]) && strtolower($tipoSanguinio[0]) === 'o'){echo 'selected';} ?>>O</option>
+                                    <option value="falso-o" <?php if (isset($tipoSanguinio[0]) && strtolower($tipoSanguinio[0]) === 'f'){echo 'selected';} ?>>Falso O</option>
                                 </select>
                                 <label placeholder="‎" for="sangue">Tipagem sanguínea<span
                                         style="color: red;">*</span></label>
                             </div>
                             <div class="formulario-grupo">
-                                <select id="rh" name="rh" class="obrigatorioSelect-p2">
-                                    <option value="" disabled selected></option>
-                                    <option value="+">+</option>
-                                    <option value="-">-</option>
-                                    <option value="nulo">RH Nulo</option>
+                                <select id="rh" name="rh" class="obrigatorioSelect-p2" required>
+                                    <option value="" disabled <?php if($row['aca_tipo_sanguinio']==''){echo 'selected';} ?>></option>
+                                    <option value="+" <?php if (isset($tipoSanguinio[strlen($tipoSanguinio) - 1]) && $tipoSanguinio[strlen($tipoSanguinio) - 1] === '+'){echo 'selected';} ?>>+</option>
+                                    <option value="-" <?php if (isset($tipoSanguinio[strlen($tipoSanguinio) - 1]) && $tipoSanguinio[strlen($tipoSanguinio) - 1] === '-'){echo 'selected';} ?>>-</option>
+                                    <option value="nulo"<?php if (isset($tipoSanguinio[strlen($tipoSanguinio) - 1]) && $tipoSanguinio[strlen($tipoSanguinio) - 1] === 'o'){echo 'selected';} ?>>RH Nulo</option>
                                 </select>
                                 <label placeholder="‎" for="rh">Fator RH<span style="color: red;">*</span></label>
                             </div>
@@ -410,20 +417,24 @@
                 <div class="container">
                     <div class="formulario">
                         <h2 class="formulario-titulo">Convênio médico</h2>
-
+                        <?php
+                        if (isset($_POST['aca_id'])) {
+                                $row = $result_convenio->fetch_assoc();
+                            }
+                        ?>
                         <div class="formulario-grupo">
                             <span class="label" for="tem-con">Você possui convênio médico?<span
-                                    style="color: red;">*</span></span>
+                                    style="color: red;" required>*</span></span>
                         </div>
                         <div class="formulario-linha-checkbox">
                             <div class="formulario-grupo-checkbox">
                                 <input type="radio" id="tem-con-sim" name="tem-con" value="sim"
-                                    onclick="mostrarCamposRadio(this, 'camposConvenio')">
-                                <label for="tem-con-sim">Sim</label>
+                                    onclick="mostrarCamposRadio(this, 'camposConvenio')" <?php if($row['con_nome']!=''){echo 'checked';} ?>>
+                                <label for="tem-con-sim" >Sim</label>
                             </div>
                             <div class="formulario-grupo-checkbox">
                                 <input type="radio" id="tem-con-nao" name="tem-con" value="nao"
-                                    onclick="mostrarCamposRadio(this, 'camposConvenio')">
+                                    onclick="mostrarCamposRadio(this, 'camposConvenio')" <?php if($row['con_nome']==''){echo 'checked';} ?>>
                                 <label for="tem-con-nao">Não</label>
                             </div>
                         </div>
@@ -431,17 +442,17 @@
                             <div class="formulario-linha">
                                 <div class="formulario-grupo">
                                     <input placeholder="‎" type="text" id="con-num" name="con-num"
-                                        class="obrigatorioConvenio">
-                                    <label for="con-num">Número do Convênio<span style="color: red;">*</span></label>
+                                        class="obrigatorioConvenio"value="<?php  echo $row['con_numero'] ?? "";?>">
+                                    <label for="con-num">Número do Convênio<span style="color: red;" >*</span></label>
                                 </div>
                                 <div class="formulario-grupo">
                                     <input placeholder="‎" type="text" id="con-nom" name="con-nom"
-                                        class="obrigatorioConvenio">
+                                        class="obrigatorioConvenio" value="<?php  echo $row['con_nome'] ?? "";?>">
                                     <label for="con-nom">Nome do Convênio<span style="color: red;">*</span></label>
                                 </div>
                                 <div class="formulario-grupo">
                                     <input placeholder="‎" type="text" id="con-cnt" name="con-cnt"
-                                        class="obrigatorioConvenio">
+                                        class="obrigatorioConvenio" value="<?php  echo $row['con_telefone'] ?? "";?>">
                                     <label for="con-cnt">Contato do Convênio<span style="color: red;">*</span></label>
                                 </div>
                             </div>
@@ -452,12 +463,12 @@
                             <div class="formulario-linha-checkbox">
                                 <div class="formulario-grupo-checkbox">
                                     <input type="radio" id="tem-con-obs-sim" name="tem-con-obs" value="sim"
-                                        onclick="mostrarCamposRadio(this, 'camposConvenioObs')">
+                                        onclick="mostrarCamposRadio(this, 'camposConvenioObs')" <?php if($row['con_observacao']!=''){echo 'checked';} ?>>
                                     <label for="tem-con-obs-sim">Sim</label>
                                 </div>
                                 <div class="formulario-grupo-checkbox">
                                     <input type="radio" id="tem-con-obs-nao" name="tem-con-obs" value="nao"
-                                        onclick="mostrarCamposRadio(this, 'camposConvenioObs')" checked>
+                                        onclick="mostrarCamposRadio(this, 'camposConvenioObs')" <?php if($row['con_observacao']==''){echo 'checked';} ?>>
                                     <label for="tem-con-obs-nao">Não</label>
                                 </div>
                             </div>
@@ -465,7 +476,7 @@
                                 <div class="formulario-linha">
                                     <div class="formulario-grupo">
                                         <textarea placeholder="‎" id="tem-con-obs" name="tem-con-obs" rows="2"
-                                            style="resize: vertical;" class="obrigatorioConvenioObs"></textarea>
+                                            style="resize: vertical;" class="obrigatorioConvenioObs"><?php if($row['con_observacao']!=''){echo $row['con_observacao'];} ?></textarea>
                                         <label for="tem-con-obs">Observações<span style="color: red;">*</span></label>
                                     </div>
                                 </div>
@@ -552,7 +563,7 @@
                         <div class="formulario-linha-checkbox">
                             <div class="formulario-grupo-checkbox">
                                 <input type="radio" id="tem-ale-sim" name="tem-ale" value="sim"
-                                    onclick="mostrarCamposRadio(this, 'camposAle')">
+                                    onclick="mostrarCamposRadio(this, 'camposAle')" required>
                                 <label for="tem-ale-sim">Sim</label>
                             </div>
                             <div class="formulario-grupo-checkbox">
@@ -613,7 +624,7 @@
                         <div class="formulario-linha-checkbox">
                             <div class="formulario-grupo-checkbox">
                                 <input type="radio" id="tem-doe-sim" name="tem-doe" value="sim"
-                                    onclick="mostrarCamposRadio(this, 'camposDoe')">
+                                    onclick="mostrarCamposRadio(this, 'camposDoe')" required>
                                 <label for="tem-doe-sim">Sim</label>
                             </div>
                             <div class="formulario-grupo-checkbox">
@@ -699,7 +710,7 @@
                                     remédio regularmente e, se sim, quais são os medicamentos.<span
                                         style="color: red;">*</span></span>
                                 <textarea id="reg-sin-med-obs" name="reg-sin-med-obs" rows="3" style="resize: vertical;"
-                                    class="obrigatorioTexto-p2"></textarea>
+                                    class="obrigatorioTexto-p2" required></textarea>
                             </div>
                         </div>
                     </div>
@@ -773,7 +784,7 @@
                             <button class="formulario-botao" type="button" onclick="openPopup()">Ler as normas</button>
                         </div>
                         <div class="formulario-grupo-checkbox">
-                            <input type="checkbox" id="nor" name="nor" class="obrigatorioCheckbox-p2">
+                            <input type="checkbox" id="nor" name="nor" class="obrigatorioCheckbox-p2" required>
                             <label for="nor">Estou ciente e concordo com as normas <span
                                     style="color: red;">*</span></label>
                         </div>

@@ -200,7 +200,10 @@ include('resource/database/conexao.php');
 //medicamentos
     $reg_sin_med_obs = $_POST['reg-sin-med-obs'];
 
+//comeca a trasação
+$conexao->begin_transaction();
 
+try {
 // Query de inserção responsavel funcioando problema no rg mas q se foda dps tiro da tabela
 $sql = "INSERT INTO `responsavel` (`res_cpf`, `res_nome`, `res_sobrenome`, `res_rg`, `res_telefone1`, `res_telefone2`, `res_email1`, `res_email2`, `res_tipo`, `res_tipo_outro`) VALUES ('$res_cpf', '$res_nome', '$res_sobrenome', '$res_rg', '$res_telefone1', '$res_telefone2', '$res_email1', '$res_email2', '$res_tipo', '$res_tipo_outro');";
 
@@ -208,7 +211,7 @@ $sql = "INSERT INTO `responsavel` (`res_cpf`, `res_nome`, `res_sobrenome`, `res_
 if ($conexao->query($sql) === TRUE) {
     $id_responsavel = $conexao->insert_id;
 } else {
-    echo "Erro: ";
+    throw new Exception("Erro ao inserir responsável: " . $conexao->error);
 }
 
 // Query de inserção endereco funcionando
@@ -218,7 +221,7 @@ $sql = "INSERT INTO `endereco` (`end_estado`, `end_cidade`, `end_bairro`, `end_r
 if ($conexao->query($sql) === TRUE) {
     $id_endereco = $conexao->insert_id;
 } else {
-    echo "Erro: ";
+    throw new Exception("Erro ao inserir endereco: " . $conexao->error);
 }
 
 // Query de inserção acampante
@@ -228,7 +231,7 @@ $sql = "INSERT INTO `acampante` (`aca_nome`, `aca_sobrenome`, `aca_idade`, `aca_
 if ($conexao->query($sql) === TRUE) {
     $id_acampante = $conexao->insert_id;
 } else {
-    echo "Erro: ";
+    throw new Exception("Erro ao inserir responsável: " . $conexao->error);
 }
 
 // Query de inserção incricao
@@ -237,7 +240,7 @@ $sql = "INSERT INTO `inscricao` (`ins_pagamento`, `ins_data`, `temp_id`, `res_id
 // Execução
 if ($conexao->query($sql) === TRUE) {
 } else {
-    echo "Erro: ";
+    throw new Exception("Erro ao inserir responsável: " . $conexao->error);
 }
 
 //checa se a pessoa tem convenio
@@ -249,7 +252,7 @@ if ($tem_con == "sim") {
     if ($conexao->query($sql) === TRUE) {
         $id_convenio = $conexao->insert_id;
     } else {
-        echo "Erro: ";
+        throw new Exception("Erro ao inserir responsável: " . $conexao->error);
     }
 
 
@@ -259,7 +262,7 @@ if ($tem_con == "sim") {
     // Execução
     if ($conexao->query($sql) === TRUE) {
     } else {
-        echo "Erro: ";
+        throw new Exception("Erro ao inserir responsável: " . $conexao->error);;
     }
 }
 
@@ -271,7 +274,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_hpb == "on") { 
@@ -281,7 +284,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_tet == "on") { 
@@ -291,7 +294,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_pol == "on") { 
@@ -301,7 +304,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_rot == "on") { 
@@ -311,7 +314,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_sar == "on") { 
@@ -321,7 +324,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_hpa == "on") { 
@@ -331,7 +334,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_var == "on") { 
@@ -341,7 +344,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_men == "on") { 
@@ -351,7 +354,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_pne == "on") { 
@@ -361,7 +364,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_inf == "on") { 
@@ -371,7 +374,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($his_vac_feb == "on") { 
@@ -381,7 +384,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if($i_quantvacina>0){
@@ -397,7 +400,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -407,7 +410,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -417,7 +420,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -427,7 +430,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -437,7 +440,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -447,7 +450,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -457,7 +460,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -467,7 +470,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -477,7 +480,7 @@ if ($tem_con == "sim") {
             // Execução
             if ($conexao->query($sql) === TRUE) {
             } else {
-                echo "Erro: ";
+                throw new Exception("Erro ao inserir responsável: " . $conexao->error);
             }
         }
         
@@ -490,7 +493,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -500,7 +503,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -510,7 +513,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -520,7 +523,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -530,7 +533,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -540,7 +543,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -550,7 +553,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -560,7 +563,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -570,7 +573,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -580,7 +583,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     
@@ -590,7 +593,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($tem_ale_med == "sim"){
@@ -599,7 +602,7 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
     if ($ale_out == "on"){
@@ -608,20 +611,26 @@ if ($tem_con == "sim") {
         // Execução
         if ($conexao->query($sql) === TRUE) {
         } else {
-            echo "Erro: ";
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
         }
     }
 
     //registro medico
     $sql = "INSERT INTO `registro_medico` (`aca_id`, `med`) VALUES ('$id_acampante','$reg_sin_med_obs');";
 
-    // Execução
-    if ($conexao->query($sql) === TRUE) {
-        echo "<h4> Registro inserido com sucesso!</h4><br>"; 
-    } else {
-        echo "Erro: ";
-    }
+        // Execução
+        if ($conexao->query($sql) === TRUE) {
+            echo "<h4> Registro inserido com sucesso!</h4><br>"; 
+        } else {
+            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
+        }
 
+        $conexao->commit();
+    } catch (Exception $e) {
+        // Se houver qualquer erro, desfaz todas as alterações
+        $conexao->rollback();
+        echo "Erro: " . $e->getMessage();
+    }
 $conexao->close();
 ?>
 </div>

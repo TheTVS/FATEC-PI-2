@@ -22,7 +22,7 @@ else{
 
 $result_inscritos = $conexao->query($sql);
 
-$sql = "SELECT temp_id,temp_nome FROM temporada WHERE temp_id = (SELECT i.temp_id FROM inscricao i Join responsavel r on i.res_id=r.res_id WHERE r.res_cpf= '$usu_cpf' ) ORDER by temp_id DESC;";
+$sql = "SELECT temp_id, temp_nome FROM temporada WHERE temp_id IN (SELECT i.temp_id FROM inscricao i JOIN responsavel r ON i.res_id = r.res_id WHERE r.res_cpf = '$usu_cpf') ORDER BY temp_id DESC;";
 $result_temporada = $conexao->query($sql);
 
 $i_containsc=1;

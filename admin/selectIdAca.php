@@ -11,7 +11,7 @@ if (isset($_POST['aca_id'])) {
     $result_acampante = $stmt->get_result();
 
     // Consulta para obter o responsavel
-    $query = "SELECT r.* FROM responsavel r JOIN acampante a on ((SELECT aca_responsavel_res_cpf from acampante WHERE aca_id = ?) = r.res_cpf) GROUP BY r.res_cpf;";
+    $query = "SELECT r.* FROM responsavel r JOIN acampante a on ((SELECT res_id from acampante WHERE aca_id = ?) = r.res_id) GROUP BY r.res_id;";
     $stmt = $conexao->prepare($query);
     $stmt->bind_param("i", $aca_id);
     $stmt->execute();

@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 05-Out-2024 às 23:27
--- Versão do servidor: 9.0.1
+-- Tempo de geração: 05-Nov-2024 às 18:46
+-- Versão do servidor: 8.0.35
 -- versão do PHP: 8.1.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -36,9 +36,10 @@ CREATE TABLE `acampante` (
   `aca_sexo` varchar(1) DEFAULT NULL,
   `aca_tamanho_camiseta` varchar(3) DEFAULT NULL,
   `aca_tipo_sanguinio` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `aca_responsavel_res_cpf` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `end_id` int DEFAULT NULL
+  `end_id` int DEFAULT NULL,
+  `res_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- --------------------------------------------------------
 
@@ -94,6 +95,7 @@ CREATE TABLE `convenio` (
   `con_telefone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `con_observacao` varchar(150) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- --------------------------------------------------------
 
@@ -151,9 +153,9 @@ CREATE TABLE `inscricao` (
   `ins_pagamento` decimal(10,2) NOT NULL,
   `ins_data` date NOT NULL,
   `temp_id` int DEFAULT NULL,
-  `res_cpf` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `aca_id` int DEFAULT NULL,
-  `ins_num_parcela` tinyint DEFAULT '1'
+  `ins_num_parcela` tinyint DEFAULT '1',
+  `res_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -168,7 +170,6 @@ CREATE TABLE `registro_alergia` (
   `aca_id` int DEFAULT NULL,
   `ale_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 
 -- --------------------------------------------------------
@@ -197,7 +198,6 @@ CREATE TABLE `registro_medico` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-
 -- --------------------------------------------------------
 
 --
@@ -211,7 +211,6 @@ CREATE TABLE `registro_vacina` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-
 -- --------------------------------------------------------
 
 --
@@ -219,6 +218,7 @@ CREATE TABLE `registro_vacina` (
 --
 
 CREATE TABLE `responsavel` (
+  `res_id` int NOT NULL,
   `res_cpf` varchar(20) NOT NULL,
   `res_nome` varchar(60) NOT NULL,
   `res_sobrenome` varchar(60) NOT NULL,
@@ -230,7 +230,6 @@ CREATE TABLE `responsavel` (
   `res_tipo` enum('mãe','pai','outro') NOT NULL,
   `res_tipo_outro` varchar(60) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 
 
 -- --------------------------------------------------------
@@ -250,7 +249,6 @@ CREATE TABLE `temporada` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-
 -- --------------------------------------------------------
 
 --
@@ -263,12 +261,6 @@ CREATE TABLE `usuario` (
   `userSenha` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Extraindo dados da tabela `usuario`
---
-
-INSERT INTO `usuario` (`userId`, `userNome`, `userSenha`) VALUES
-(1, 'teste', '1234');
 
 -- --------------------------------------------------------
 
@@ -276,9 +268,10 @@ INSERT INTO `usuario` (`userId`, `userNome`, `userSenha`) VALUES
 -- Estrutura da tabela `usuario_acampante`
 --
 
-CREATE TABLE usuario_acampante ( usu_cpf VARCHAR(20) NOT NULL PRIMARY KEY,
- usu_senha VARCHAR(20) NOT NULL 
- ) ENGINE = InnoDB;
+CREATE TABLE `usuario_acampante` (
+  `usu_cpf` varchar(20) NOT NULL,
+  `usu_senha` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -318,8 +311,8 @@ INSERT INTO `vacina` (`vac_id`, `vac_nome`) VALUES
 --
 ALTER TABLE `acampante`
   ADD PRIMARY KEY (`aca_id`),
-  ADD KEY `aca_responsavel_res_cpf` (`aca_responsavel_res_cpf`),
-  ADD KEY `end_id` (`end_id`);
+  ADD KEY `end_id` (`end_id`),
+  ADD KEY `fk_responsavel` (`res_id`);
 
 --
 -- Índices para tabela `acampante_convenio`
@@ -358,8 +351,8 @@ ALTER TABLE `endereco`
 ALTER TABLE `inscricao`
   ADD PRIMARY KEY (`ins_id`),
   ADD KEY `temp_id` (`temp_id`),
-  ADD KEY `res_cpf` (`res_cpf`),
-  ADD KEY `aca_id` (`aca_id`);
+  ADD KEY `aca_id` (`aca_id`),
+  ADD KEY `fk_responsavel_inscricao` (`res_id`);
 
 --
 -- Índices para tabela `registro_alergia`
@@ -396,7 +389,7 @@ ALTER TABLE `registro_vacina`
 -- Índices para tabela `responsavel`
 --
 ALTER TABLE `responsavel`
-  ADD PRIMARY KEY (`res_cpf`);
+  ADD PRIMARY KEY (`res_id`);
 
 --
 -- Índices para tabela `temporada`
@@ -409,6 +402,12 @@ ALTER TABLE `temporada`
 --
 ALTER TABLE `usuario`
   ADD PRIMARY KEY (`userId`);
+
+--
+-- Índices para tabela `usuario_acampante`
+--
+ALTER TABLE `usuario_acampante`
+  ADD PRIMARY KEY (`usu_cpf`);
 
 --
 -- Índices para tabela `vacina`
@@ -481,6 +480,12 @@ ALTER TABLE `registro_vacina`
   MODIFY `rv_id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `responsavel`
+--
+ALTER TABLE `responsavel`
+  MODIFY `res_id` int NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `temporada`
 --
 ALTER TABLE `temporada`
@@ -506,8 +511,8 @@ ALTER TABLE `vacina`
 -- Limitadores para a tabela `acampante`
 --
 ALTER TABLE `acampante`
-  ADD CONSTRAINT `acampante_ibfk_1` FOREIGN KEY (`aca_responsavel_res_cpf`) REFERENCES `responsavel` (`res_cpf`),
-  ADD CONSTRAINT `acampante_ibfk_2` FOREIGN KEY (`end_id`) REFERENCES `endereco` (`end_id`);
+  ADD CONSTRAINT `acampante_ibfk_2` FOREIGN KEY (`end_id`) REFERENCES `endereco` (`end_id`),
+  ADD CONSTRAINT `fk_responsavel` FOREIGN KEY (`res_id`) REFERENCES `responsavel` (`res_id`) ON DELETE CASCADE;
 
 --
 -- Limitadores para a tabela `acampante_convenio`
@@ -520,8 +525,8 @@ ALTER TABLE `acampante_convenio`
 -- Limitadores para a tabela `inscricao`
 --
 ALTER TABLE `inscricao`
+  ADD CONSTRAINT `fk_responsavel_inscricao` FOREIGN KEY (`res_id`) REFERENCES `responsavel` (`res_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `inscricao_ibfk_1` FOREIGN KEY (`temp_id`) REFERENCES `temporada` (`temp_id`),
-  ADD CONSTRAINT `inscricao_ibfk_2` FOREIGN KEY (`res_cpf`) REFERENCES `responsavel` (`res_cpf`),
   ADD CONSTRAINT `inscricao_ibfk_3` FOREIGN KEY (`aca_id`) REFERENCES `acampante` (`aca_id`);
 
 --

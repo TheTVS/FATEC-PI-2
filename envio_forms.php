@@ -206,6 +206,7 @@ $sql = "INSERT INTO `responsavel` (`res_cpf`, `res_nome`, `res_sobrenome`, `res_
 
 // Execução
 if ($conexao->query($sql) === TRUE) {
+    $id_responsavel = $conexao->insert_id;
 } else {
     echo "Erro: ";
 }
@@ -221,7 +222,7 @@ if ($conexao->query($sql) === TRUE) {
 }
 
 // Query de inserção acampante
-$sql = "INSERT INTO `acampante` (`aca_nome`, `aca_sobrenome`, `aca_idade`, `aca_data_nasc`, `aca_sexo`, `aca_tamanho_camiseta`, `aca_tipo_sanguinio`, `aca_responsavel_res_cpf`, `end_id`) VALUES ('$aca_nome', '$aca_sobrenome', '$anos', '$aca_data_nasc', '$aca_sexo', '$aca_tamanho_camiseta', '$tipo_sanguinio_rh', '$res_cpf', '$id_endereco');";
+$sql = "INSERT INTO `acampante` (`aca_nome`, `aca_sobrenome`, `aca_idade`, `aca_data_nasc`, `aca_sexo`, `aca_tamanho_camiseta`, `aca_tipo_sanguinio`, `res_id`, `end_id`) VALUES ('$aca_nome', '$aca_sobrenome', '$anos', '$aca_data_nasc', '$aca_sexo', '$aca_tamanho_camiseta', '$tipo_sanguinio_rh', '$id_responsavel', '$id_endereco');";
 
 // Execução
 if ($conexao->query($sql) === TRUE) {
@@ -231,7 +232,7 @@ if ($conexao->query($sql) === TRUE) {
 }
 
 // Query de inserção incricao
-$sql = "INSERT INTO `inscricao` (`ins_pagamento`, `ins_data`, `temp_id`, `res_cpf`, `aca_id`, `ins_num_parcela`) VALUES ('$valorInscrição', '$data_atual', '$id_temp' , '$res_cpf' , '$id_acampante', '$ins_num_parcela');";
+$sql = "INSERT INTO `inscricao` (`ins_pagamento`, `ins_data`, `temp_id`, `res_id`, `aca_id`, `ins_num_parcela`) VALUES ('$valorInscrição', '$data_atual', '$id_temp' , '$id_responsavel' , '$id_acampante', '$ins_num_parcela');";
 
 // Execução
 if ($conexao->query($sql) === TRUE) {

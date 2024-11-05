@@ -13,11 +13,10 @@ include('../resource/database/conexao.php');
 //sql pesquisas
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $temp=$_POST['temporada'];
-    $sql = "SELECT a.aca_id, a.aca_nome, a.aca_sobrenome, b.res_cpf, b.res_nome, b.res_sobrenome FROM acampante a JOIN responsavel b ON (a.res_id = b.res_id and b.res_cpf = '$usu_cpf')
-    join inscricao i on (i.temp_id=(SELECT temp_id FROM temporada where temp_id = '$temp')) GROUP by a.aca_id ORDER by a.aca_id ASC;";
+    $sql = "SELECT a.aca_id, a.aca_nome, a.aca_sobrenome, b.res_cpf, b.res_nome, b.res_sobrenome FROM acampante a JOIN responsavel b ON a.res_id = b.res_id JOIN inscricao i ON i.aca_id = a.aca_id WHERE b.res_cpf = '$usu_cpf' AND i.temp_id = $temp GROUP BY a.aca_id ORDER BY a.aca_id ASC;";
 }
 else{
-    $sql = "SELECT a.aca_id, a.aca_nome, a.aca_sobrenome, b.res_cpf, b.res_nome, b.res_sobrenome FROM acampante a JOIN responsavel b ON (a.res_id = b.res_id and b.res_cpf = '$usu_cpf') join inscricao i on (i.temp_id=(SELECT MAX(t.temp_id) FROM temporada t JOIN inscricao i ON (t.temp_id = i.temp_id and i.res_id = b.res_id))) GROUP by a.aca_id ORDER by a.aca_id ASC;";
+    $sql = "SELECT a.aca_id, a.aca_nome, a.aca_sobrenome, b.res_cpf, b.res_nome, b.res_sobrenome FROM acampante a JOIN responsavel b ON a.res_id = b.res_id JOIN inscricao i ON i.aca_id = a.aca_id WHERE b.res_cpf = '$usu_cpf' AND i.temp_id = (SELECT MAX(temp_id) FROM temporada) GROUP BY a.aca_id ORDER BY a.aca_id ASC;";
 }
 
 $result_inscritos = $conexao->query($sql);

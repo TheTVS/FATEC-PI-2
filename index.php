@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <form id="form-principal" action="envio_forms.php" method="post">
+        <form id="form-principal" action="envio_forms.php" method="post" enctype="multipart/form-data">
             <!-- PAGINA 1 -->
             <div id="pagina-1" class="pagina">
                 <div class="container" style="text-align: center;">
@@ -772,6 +772,20 @@
                         <div class="formulario-grupo-checkbox">
                             <input type="checkbox" id="his-vac-feb" name="his-vac-feb">
                             <label for="his-vac-feb">Febre Amarela</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="formulario">
+                        <h2 class="formulario-titulo">Foto do acampante</h2>
+
+                        <div class="formulario-linha">
+                            Caso deseje enviar uma foto para facilitar o reconhecimento, fique à vontade.
+                        </div>
+                        <div class="formulario-grupo">
+                            <label for="foto">Escolha uma foto (PNG ou JPG, formato 3x4):</label><br><br>
+                            <input type="file" name="foto" id="foto" accept="image/png, image/jpeg" required><br><br>
                         </div>
                     </div>
                 </div>

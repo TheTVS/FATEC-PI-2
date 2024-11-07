@@ -39,7 +39,8 @@ $i_containsc=1;
     <button onclick="location.href='deslogaUsuario.php'" class="desloga">Sair</button>
     </div>
     <br>
-
+    <button onclick="location.href='../index.php'" class="novainsc">Nova inscricao de acampante</button>
+    <br><br>
     <!-- filtro -->
         <div class="filtro">
         <form action="" method="POST">Temporada: <select name="temporada" class='temporada'><?php

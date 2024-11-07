@@ -196,3 +196,18 @@ table.organizaFormularioModal{
     left: 0;
     width: 100%;
 }
+button.novainsc{
+    position: relative;
+    text-align: center;
+    top: auto;
+    left: 43%;
+    height: 60px;
+    width: 250px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: #FBD72B;
+}
+img.perfil{
+    width: 140px;
+    height: 160px;
+}

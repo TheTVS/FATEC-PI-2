@@ -21,9 +21,24 @@ include_once('selectIdAca.php');
                             </th>
                         </tr>
                         <tr>
-                            <td colspan='2'>
+                            <td rowspan='2' colspan='2'>
+                                <div class='bold'>Foto:<br>"; 
+                                if($row['aca_foto']==NULL){
+                                    if($row['aca_sexo']=='F'){echo"<img class='perfil' src='../imgs/icon_girl.jpeg' alt='Foto M'>";}
+                                    else{
+                                        echo"<img class='perfil' src='../imgs/icon_boy.jpeg' alt='Foto M'>";
+                                    }
+                                }
+                                else{
+                                    echo"<img class='perfil' src='../{$row['aca_foto']}' alt='{$row['aca_nome']} {$row['aca_sobrenome']}'>";
+                                }
+                            echo"
+                            </td>
+                            <td>
                                 <div class='bold'>Nome: </div>{$row['aca_nome']} {$row['aca_sobrenome']}
                             </td>
+                        </tr>
+                        <tr>
                             <td>
                                 <div class='bold'>Idade: </div>{$row['aca_idade']}
                             </td>

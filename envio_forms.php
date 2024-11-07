@@ -622,10 +622,59 @@ if ($tem_con == "sim") {
         if ($conexao->query($sql) === TRUE) {
             echo "<h4> Registro inserido com sucesso!</h4><br>"; 
         } else {
-            throw new Exception("Erro ao inserir responsável: " . $conexao->error);
+            throw new Exception("Erro ao inserir registro_medico: " . $conexao->error);
         }
-
-        $conexao->commit();
+    
+    // Verificar se o arquivo foi enviado
+    if (isset($_FILES['foto'])) {
+        $diretorio = 'uploads/';
+    
+        // Verificar se o diretório existe, se não, criar
+        if (!is_dir($diretorio)) {
+            mkdir($diretorio, 0777, true);
+        }
+    
+        // Obter detalhes do arquivo
+        $arquivo = $_FILES['foto'];
+        $nomeTemp = $arquivo['tmp_name'];
+        $extensao = pathinfo($arquivo['name'], PATHINFO_EXTENSION);
+        $tamanhoArquivo = $arquivo['size']; // Tamanho do arquivo em bytes
+    
+        // Verificar se o arquivo tem o tamanho abaixo de 2MB (2MB = 2 * 1024 * 1024 bytes)
+        $tamanhoMaximo = 2 * 1024 * 1024;
+        if ($tamanhoArquivo > $tamanhoMaximo) {
+            echo "O arquivo é muito grande. O tamanho máximo permitido é 2 MB.";
+            exit;
+        }
+    
+        // Gerar um nome único para o arquivo usando uniqid()
+        $nomeArquivo = uniqid('foto_', true) . '.' . $extensao;
+        $caminhoDestino = $diretorio . $nomeArquivo;
+    
+        // Verificar a extensão do arquivo
+        if (!in_array($extensao, ['png', 'jpg', 'jpeg'])) {
+            echo "Somente arquivos PNG ou JPG são permitidos.";
+            exit;
+        }
+    
+        // Mover o arquivo para o diretório de uploads
+        if (move_uploaded_file($nomeTemp, $caminhoDestino)) {
+    
+            // SQL de inserção, semelhante ao exemplo fornecido
+            $sql = "UPDATE `acampante` SET `aca_foto` = '$caminhoDestino' WHERE `aca_id` = $id_acampante;";
+    
+            // Execução
+            if ($conexao->query($sql) === TRUE) {
+                echo "<h4>Foto Enviada</h4><br>"; 
+            } else {
+                throw new Exception("Erro ao inserir foto: " . $conexao->error);
+            }
+        } else {
+            echo "Erro ao enviar o arquivo.";
+        }
+    }
+        
+    $conexao->commit();
     } catch (Exception $e) {
         // Se houver qualquer erro, desfaz todas as alterações
         $conexao->rollback();

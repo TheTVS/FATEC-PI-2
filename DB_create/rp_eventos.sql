@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 05-Nov-2024 às 18:46
+-- Tempo de geração: 07-Nov-2024 às 20:33
 -- Versão do servidor: 8.0.35
 -- versão do PHP: 8.1.3
 
@@ -37,7 +37,8 @@ CREATE TABLE `acampante` (
   `aca_tamanho_camiseta` varchar(3) DEFAULT NULL,
   `aca_tipo_sanguinio` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `end_id` int DEFAULT NULL,
-  `res_id` int DEFAULT NULL
+  `res_id` int DEFAULT NULL,
+  `aca_foto` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
@@ -261,6 +262,12 @@ CREATE TABLE `usuario` (
   `userSenha` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Extraindo dados da tabela `usuario`
+--
+
+INSERT INTO `usuario` (`userId`, `userNome`, `userSenha`) VALUES
+(2, 'admin', 'admin');
 
 -- --------------------------------------------------------
 
@@ -272,6 +279,7 @@ CREATE TABLE `usuario_acampante` (
   `usu_cpf` varchar(20) NOT NULL,
   `usu_senha` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- --------------------------------------------------------
 
